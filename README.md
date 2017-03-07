@@ -24,3 +24,11 @@ A simple app to track your own timeline.
 Helps you to learn:
 1. Google Maps API and its functions
 2. Fragment to display map
+
+<b> PushSimple </b> <br>
+A simple push notification app using <a href ="https://backendless.com/">Backendless Platform</a>.
+Helps you to learn:
+1. Basic of push notification
+2. Register account in Backendless Platform
+3. Register device in Backendless Platform
+4. Send and receive push notification using Backendless Platform
