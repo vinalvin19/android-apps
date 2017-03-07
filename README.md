@@ -1,5 +1,5 @@
 # android-apps
-Some of my simple android apps. Hope it helps everyone who start to learn android programming.
+Some of my simple android apps. Hope it helps everyone who start to learn android programming.<br><br>
 
 <b> LoveMeter </b> <br>
 A simple and playful android apps. Designed to calculate a love between two persons according to their names. The method is using Pytaghorean Numerology Compatible Chart. <br>
