@@ -1,0 +1,35 @@
+{
+  "project_info": {
+    "project_number": "330204278969",
+    "project_id": "firebase-pushsimple"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:330204278969:android:31c5291358f1a996",
+        "android_client_info": {
+          "package_name": "com.example.lotus.pushsimple"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCqZgaQCfXGw-l7gS2VQaeG30ZG3-U8Mc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
