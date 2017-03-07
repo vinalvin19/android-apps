@@ -11,7 +11,7 @@ Helps you to learn: <br>
 
 
 <b>MultiplayerQuiz </b> <br>
-A multiplayer-based yes-no quiz in android. Compete against your friend to answer the question quickly, served in Indonesian language.
+A multiplayer-based yes-no quiz in android. Compete against your friend to answer the question quickly, served in Indonesian language. <br>
 Helps you to learn: <br>
 1. Simple User Interface <br>
 2. Simple 2D array <br>
