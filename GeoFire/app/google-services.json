@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "736386261263",
+    "firebase_url": "https://geofire-779ff.firebaseio.com",
+    "project_id": "geofire-779ff",
+    "storage_bucket": "geofire-779ff.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:736386261263:android:ce8a4012059a8cbc",
+        "android_client_info": {
+          "package_name": "com.example.lotus.geofire"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "736386261263-i1vj00up5bfna2oocd9ui5ck3a754ku5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqhdShIQVpKa5G_Na3diiESEEsycMeFo8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
