@@ -1,15 +1,13 @@
 package com.example.lotus.geofire;
 
-import android.app.Application;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -21,6 +19,15 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Lotus on 09/03/2017.
@@ -28,13 +35,23 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 public class MapsActivity extends AppCompatActivity {
 
-    private String nama;
+    private String namaPenolong;
+    private String namaUser;
+    private String currentUser;
+    private String status;
     private Double latitude;
     private Double longitude;
     private Double latitudeUser;
     private Double longitudeUser;
     private int distance;
     private GoogleMap googleMap;
+
+    Button cancelButton;
+    Button doneButton;
+    Button intentButton;
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    final DatabaseReference myRef = database.getReference();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,17 +60,22 @@ public class MapsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         checkLocationPermission();
 
+        cancelButton = (Button) findViewById(R.id.cancelButton);
+        doneButton = (Button) findViewById(R.id.doneButton);
+        intentButton = (Button) findViewById(R.id.intentButton);
+
         Intent intent = getIntent();
         Bundle b = intent.getExtras();
 
         if (b != null) {
-            nama = (String) b.get("name");
+            namaPenolong = (String) b.get("name");
+            namaUser = (String) b.get("nameUser");
             latitude = (Double) b.get("latitude");
             longitude = (Double) b.get("longitude");
             distance = (Integer) b.get("distance");
             latitudeUser = (Double) b.get("latitudeUser");
             longitudeUser = (Double) b.get("longitudeUser");
-            Log.d("TAG", "nama= " + nama + " & distance= " + distance);
+            Log.d("TAG", "namaPenolong= " + namaPenolong + " & distance= " + distance);
 
             try{
                 initializeMap();
@@ -66,6 +88,55 @@ public class MapsActivity extends AppCompatActivity {
         else{
             Toast.makeText(this, "ga keintent", Toast.LENGTH_SHORT).show();
         }
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("TAG", "masuk ke " + namaPenolong + "dengan status " + status);
+
+                //baru bisa dicoba kalau udah ada login
+
+                //yang login itu minta tolong
+                if (currentUser == namaUser) {
+                    //database alanRef = myRef.child("alanisawesome");
+                    Log.d("TAG", "masuk ke " + namaPenolong + "dengan status " + status);
+                    Map<String, Object> cancelling = new HashMap<String, Object>();
+                    cancelling.put("status", "free");
+                    myRef.child("user").child(namaPenolong).updateChildren(cancelling);
+                    Log.d("TAG", "masuk ke " + namaPenolong + "dengan status " + status);
+                }
+
+                //yang login itu mau nolong
+                else if (currentUser==namaPenolong) {
+                    Log.d("TAG", "masuk ke " + namaPenolong + "dengan status " + status);
+
+                    //ubah icon di chat
+
+                    //back to chatActivity
+                    onBackPressed();
+                }
+            }
+        });
+
+        doneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // intent ke activity lain setelah done
+                Map<String, Object> done = new HashMap<String, Object>();
+                done.put("status", "free");
+                done.put("description", "null");
+                done.put("urgency", 0);
+                myRef.child("user").child(namaPenolong).updateChildren(done);
+            }
+        });
+
+        intentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent (MapsActivity.this, MainActivity.class);
+                startActivity(i);
+            }
+        });
     }
 
     private void initializeMap() {
@@ -79,9 +150,9 @@ public class MapsActivity extends AppCompatActivity {
                     googleMap.getUiSettings().setZoomControlsEnabled(true); // true to enable
                     googleMap.getUiSettings().setZoomGesturesEnabled(true);
 
-                    MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude)).title(nama);
+                    MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude)).title(namaPenolong);
                     googleMap.addMarker(marker);
-                    MarkerOptions markerUser = new MarkerOptions().position(new LatLng(latitudeUser, longitudeUser)).title(nama);
+                    MarkerOptions markerUser = new MarkerOptions().position(new LatLng(latitudeUser, longitudeUser)).title(namaUser);
                     googleMap.addMarker(markerUser);
 
                     CameraPosition cameraPosition = new CameraPosition.Builder().target(

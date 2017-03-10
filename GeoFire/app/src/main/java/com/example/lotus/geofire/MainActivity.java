@@ -1,12 +1,18 @@
 package com.example.lotus.geofire;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +21,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -26,6 +33,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,12 +44,18 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     final DatabaseReference myRef = database.getReference();
+
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private FirebaseUser mUser;
 
     private GoogleMap googleMap;
     LocationManager locationManager;
@@ -68,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> mAdapterKeys;
 
     ListAdapter adapter;
+    Button addHelp;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,17 +91,46 @@ public class MainActivity extends AppCompatActivity {
         //setContentView(R.layout.activity_main);
         setContentView(R.layout.activity_recview);
         final ListView listView = (ListView) findViewById(R.id.my_list_view);
+        addHelp = (Button) findViewById(R.id.fab);
 
-        //writeNewUser("Orange", 24, 12.32, 13.20);
-        checkLocationPermission();
+        //writeNewUser("Alvin", 24, 12.31, 13.21);
         initializeMap();
 
-        myRef.child("user").child(namaAccount).addValueEventListener(new ValueEventListener() {
+        addHelp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // intent ke activity lain setelah done
+                Intent intent = new Intent (MainActivity.this, HelpActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        mAuth = FirebaseAuth.getInstance();
+        mUser = mAuth.getCurrentUser();
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                if (mUser != null) {
+                    // User is signed in
+                    Log.d("TAG", "onAuthStateChanged:signed_in:" + mUser.getUid());
+
+
+                } else {
+                    // User is signed out
+                    Log.d("TAG", "onAuthStateChanged:signed_out");
+
+                    Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                // ...
+            }
+        };
+
+        myRef.child("user").child(mUser.getDisplayName()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User akun = dataSnapshot.getValue(User.class);
-                //locationUser.setLatitude(akun.getLatitude());
-                //locationUser.setLongitude(akun.getLongitude());
                 latitudeUser = akun.getLatitude();
                 longitudeUser = akun.getLongitude();
                 //Log.d("TAG", "Lokasi: " + user.getLatitude() + " ; " + user.getLongitude());
@@ -111,8 +156,8 @@ public class MainActivity extends AppCompatActivity {
 
                 Log.d("TAG", "Status: " + user.getStatus());
 
-                //if (jarakTempuh < 50 && jarakTempuh != 0.0 && user.getStatus().equals("help")) {
-                if (jarakTempuh < 50 && jarakTempuh != 0.0 ) {
+                if (jarakTempuh < 50 && jarakTempuh != 0.0 && user.getStatus().equals("needHelp")) {
+                //if (jarakTempuh < 50 && jarakTempuh != 0.0 ) {
                     latitudeSekitar = user.getLatitude();
                     longitudeSekitar = user.getLongitude();
                     //Log.d("TAG", "Lokasi User: " + latitudeUser + " ; " + longitudeUser);
@@ -138,6 +183,7 @@ public class MainActivity extends AppCompatActivity {
                             //Toast.makeText(getApplicationContext(), arrayName.get(position).toString(), Toast.LENGTH_SHORT).show();
                             Intent intent =new Intent(MainActivity.this, MapsActivity.class);
                             intent.putExtra("name", arrayName.get(position).toString());
+                            intent.putExtra("nameUser", namaAccount);
                             intent.putExtra("latitude", arrayLatitude.get(position));
                             intent.putExtra("longitude", arrayLongitude.get(position));
                             intent.putExtra("distance", jarakTempuh);
@@ -165,29 +211,39 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void initializeMap() {
+    public void initializeMap() {
+
+        String permission = "Manifest.permission.ACCESS_FINE_LOCATION";
+        String permission2 = "Manifest.permission.ACCESS_COARSE_LOCATION";
+        ActivityCompat.requestPermissions(this, new String[]{permission}, 8);
+        checkLocationPermission();
+
         if (googleMap == null) {
 
-            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 0, mLocationListener);
-            locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-            if (locationManager != null) {
-                if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-                        || ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                    return;
-                }
+            if (ActivityCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, permission2) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(MainActivity.this, new String[]{permission2, permission}, 200);
             }
-            Log.i("TAGI", "GPS dinyalakan");
-        }
-        if (googleMap == null) {
-            Toast.makeText(getApplicationContext(),
-                    "Sorry! unable to create maps", Toast.LENGTH_SHORT)
-                    .show();
+            else {
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, mLocationListener);
+            }
+
+/*
+            if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                Log.i("TAGI", "GPS dinyalakan");
+            } else {
+                showGPSDisabledAlertToUser();
+            }
+*/
+
+/*            if (googleMap == null) {
+                Toast.makeText(getApplicationContext(),
+                        "Sorry! unable to create maps", Toast.LENGTH_SHORT)
+                        .show();
+            }*/
         }
     }
 
-    private final LocationListener mLocationListener = new LocationListener() {
+    private LocationListener mLocationListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
             Log.d("TAGI", "masuk");
@@ -226,11 +282,11 @@ public class MainActivity extends AppCompatActivity {
         initializeMap();
     }
 
-    private void writeNewUser(String name, int age, double latitude, double longitude) {
+/*    private void writeNewUser(String name, int age, double latitude, double longitude) {
         User user = new User(age, latitude, longitude);
 
         myRef.child("user").child(name).setValue(user);
-    }
+    }*/
 
     private int distance(double lat1, double lon1, double lat2, double lon2) {
         double theta = lon1 - lon2;
@@ -251,5 +307,24 @@ public class MainActivity extends AppCompatActivity {
 
     private double rad2deg(double rad) {
         return (rad * 180.0 / Math.PI);
+    }
+
+    private void showGPSDisabledAlertToUser() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage("GPS is disabled in your device. Would you like to enable it?")
+                .setCancelable(false)
+                .setPositiveButton("Goto Settings Page To Enable GPS", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent callGPSSettingIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        startActivity(callGPSSettingIntent);
+                    }
+                });
+        alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+        AlertDialog alert = alertDialogBuilder.create();
+        alert.show();
     }
 }
