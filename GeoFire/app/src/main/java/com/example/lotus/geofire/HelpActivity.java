@@ -1,5 +1,6 @@
 package com.example.lotus.geofire;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -7,7 +8,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
+import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,6 +28,7 @@ import java.util.Map;
 public class HelpActivity extends AppCompatActivity{
 
     public String namaAccount = "Alvin";
+    public String currentUserEmail ="lk";
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     final DatabaseReference myRef = database.getReference();
@@ -51,12 +56,25 @@ public class HelpActivity extends AppCompatActivity{
 
         topicString = topic.getText();
         descString = description.getText();
-        urgencyString = urgency.getRating();
 
+        FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (mUser != null) {
+            // User is signed in
+            currentUserEmail = mUser.getEmail().replace(".",",");
+            Log.d("TAGES", "HelpActivity.onAuthStateChanged:signed_in:" + currentUserEmail);
+        } else {
+            // User is signed out
+        }
 
-        findHelp.setOnClickListener(new View.OnClickListener() {
+        myRef.child("user").child(currentUserEmail).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onClick(View v) {
+            public void onDataChange(DataSnapshot snapshot) {
+                User akun = snapshot.getValue(User.class);
+                Log.d("TAGES", "HelpActivity. Masuk checkCurrentUser");
+                Log.d("TAGES", akun.getEmail());
+                findHelp.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
 /*                myRef.child("user").child(namaAccount).addValueEventListener(new ValueEventListener() {
                     @Override
@@ -73,15 +91,30 @@ public class HelpActivity extends AppCompatActivity{
                     }
                 });*/
 
-                Log.d("TAG", topicString.toString()+descString.toString()+urgencyString);
-                // intent ke activity lain setelah done
-                Map<String, Object> findHelp = new HashMap<String, Object>();
-                findHelp.put("status", "needHelp");
-                findHelp.put("topic", topicString.toString());
-                findHelp.put("description", descString.toString());
-                findHelp.put("urgency", urgencyString.toString());
-                myRef.child("user").child(namaAccount).updateChildren(findHelp);
+                        Log.d("TAG", topicString.toString()+descString.toString()+urgencyString);
+                        urgencyString = urgency.getRating();
+                        // intent ke activity lain setelah done
+                        Map<String, Object> findHelp = new HashMap<String, Object>();
+                        findHelp.put("status", "needHelp");
+                        findHelp.put("topic", topicString.toString());
+                        findHelp.put("description", descString.toString());
+                        findHelp.put("urgency", urgencyString);
+                        myRef.child("user").child(currentUserEmail).updateChildren(findHelp);
+
+                        Toast.makeText(getApplicationContext(), "Mencari Bantuan untuk Anda", Toast.LENGTH_SHORT).show();
+
+                        Intent intent = new Intent (HelpActivity.this, MainActivity.class);
+                        startActivity(intent);
+
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
             }
         });
+
+
     }
 }

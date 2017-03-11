@@ -17,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -50,6 +51,8 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
+    private Toolbar toolbar;                              // Declaring the Toolbar Object
+
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     final DatabaseReference myRef = database.getReference();
 
@@ -71,16 +74,13 @@ public class MainActivity extends AppCompatActivity {
     Location locationUser = new Location ("User");
     Location locationSekitar = new Location ("Sekitar");
 
-    private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-
     private Query mQuery;
     private ArrayList<User> mAdapterItems;
     private ArrayList<String> mAdapterKeys;
 
     ListAdapter adapter;
-    Button addHelp;
+    //Button addHelp;
+    //FloatingActionButton addHelp;
     ListView listView;
 
     @Override
@@ -88,26 +88,31 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_main);
         setContentView(R.layout.activity_recview);
+
+        /*toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        setSupportActionBar(toolbar);
+*/
         listView = (ListView) findViewById(R.id.my_list_view);
-        addHelp = (Button) findViewById(R.id.fab);
+        //addHelp = (FloatingActionButton) findViewById(R.id.fab);
 
         //writeNewUser("Alvin", 24, 12.31, 13.21);
         initializePermission();
-
+/*
         addHelp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // intent ke activity lain setelah done
-                Intent intent = new Intent (getApplicationContext(), HelpActivity.class);
+                Log.d("TAGES", "udah kepencet");
+                Intent intent = new Intent (MainActivity.this, HelpActivity.class);
                 startActivity(intent);
             }
-        });
+        });*/
 
         //mAuth = FirebaseAuth.getInstance();
         FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
         if (mUser != null) {
             // User is signed in
-            currentUserEmail = mUser.getEmail();
+            currentUserEmail = mUser.getEmail().replace(".",",");
             Log.d("TAGES", "MainActivity.onAuthStateChanged:signed_in:" + currentUserEmail);
             checkCurrentUser();
 
@@ -169,9 +174,11 @@ public class MainActivity extends AppCompatActivity {
                 User user = dataSnapshot.getValue(User.class);
                 Log.d("TAGES", "Masuk childhood");
 
-                jarakTempuh = distance(latitudeUser, longitudeUser, user.getLatitude(), user.getLongitude());
-
                 Log.d("TAGES", "Status: " + user.getName() + " "+ user.getStatus());
+                Log.d("TAGES", "koordinat " + latitudeUser +" "+longitudeUser);
+                jarakTempuh = distance(latitudeUser, longitudeUser, user.getLatitude(), user.getLongitude());
+                Log.d("TAGES", "koordinat teman" + user.getLatitude()+" "+user.getLongitude());
+
 
                 if (jarakTempuh < 50 && jarakTempuh != 0.0 && user.getStatus().equals("needHelp")) {
                     //if (jarakTempuh < 50 && jarakTempuh != 0.0 ) {
@@ -189,7 +196,12 @@ public class MainActivity extends AppCompatActivity {
                     arrayName.add(user.getName());
                     arrayDistance.add(jarakTempuh);
 
-                    adapter = new ListAdapter(MainActivity.this, arrayName, arrayName);
+                    List<String> arrayDistanceBaru = new ArrayList<String>(arrayDistance.size());
+                    for (Integer myInt : arrayDistance) {
+                        arrayDistanceBaru.add(String.valueOf(myInt));
+                    }
+
+                    adapter = new ListAdapter(MainActivity.this, arrayName, arrayDistanceBaru);
                     listView.setAdapter(adapter);
 
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -230,19 +242,45 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkCurrentUser() {
 
-        myRef.child("user").addChildEventListener(new ChildEventListener() {
+        Log.d("TAGES", "current email: " + currentUserEmail);
+        myRef.child("user").child(currentUserEmail).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                User akun = snapshot.getValue(User.class);
+                Log.d("TAGES", "Masuk checkCurrentUser");
+                Log.d("TAGES", akun.getEmail());
+                latitudeUser = akun.getLatitude();
+                longitudeUser = akun.getLongitude();
+                Log.d("TAGES", "lokasimu: " + latitudeUser.toString() + " " + longitudeUser.toString());
+
+                /*if (currentUserEmail.equals(akun.getEmail())) ;
+                {
+                    Log.d("TAGES", "login akun: " + akun.getName());
+                    latitudeUser = akun.getLatitude();
+                    longitudeUser = akun.getLongitude();
+
+                    //getlala();
+                }*/
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+            }
+        });
+    }
+        /*myRef.child("user").child(currentUserEmail).addChildEventListener(new ChildEventListener() {
             //myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
 
-                User akun = dataSnapshot.getValue(User.class);
+*//*                User akun = dataSnapshot.getValue(User.class);
                 Log.d("TAGES", "Masuk checkCurrentUser");
-                /*Log.d("TAGES", "login akun: " + akun.getName());
+                Log.d("TAGES", "login akun: " + akun.getName());
                 latitudeUser = akun.getLatitude();
                 longitudeUser = akun.getLongitude();
-*/
+
                 if(currentUserEmail.equals(akun.getEmail()));
                 {
                     Log.d("TAGES", "login akun: " + akun.getName());
@@ -250,9 +288,45 @@ public class MainActivity extends AppCompatActivity {
                     longitudeUser = akun.getLongitude();
 
                     //getlala();
+                }*//*
+                Log.d("TAGES", "masuk cari email awal");
+                Log.d("TAGES", dataSnapshot.child("user").child(currentUserEmail).getKey());
+
+                *//* myRef.child("user").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                User akun = snapshot.getValue(User.class);
+                Log.d("TAGES", "Masuk checkCurrentUser");
+                Log.d("TAGES", akun.getEmail());
+
+                if (currentUserEmail.equals(akun.getEmail())) ;
+                {
+                    Log.d("TAGES", "login akun: " + akun.getName());
+                    latitudeUser = akun.getLatitude();
+                    longitudeUser = akun.getLongitude();
+
+                    //getlala();
                 }
+            }
 
+            @Override
+            public void onCancelled(DatabaseError error) {
+            }
+        });
+    }*//*
+                *//*if (dataSnapshot.child("user").child(currentUserEmail).getValue() != null) {
 
+                    Log.d("TAGES", "masuk cari email if");
+
+                Object objLatitude = dataSnapshot.child(currentUserEmail).child("latitude").getValue();
+                    //latitudeUser = Double.valueOf(objLatitude.toString());
+                    latitudeUser = dataSnapshot.child("user").child(currentUserEmail).getValue();
+
+                    Object objLongitude = dataSnapshot.child(currentUserEmail).child("longitude").getValue();
+                    longitudeUser = Double.valueOf(objLongitude.toString());
+                    Log.d("TAGES", "sekitarmu: " + latitudeUser.toString() + " " + longitudeUser.toString());
+
+                }*//*
             }
 
             @Override
@@ -272,12 +346,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
-    }
+    }*/
 
-    private void getlala()
-    {
-
-    }
     public void initializePermission() {
 
         String permission = "Manifest.permission.ACCESS_FINE_LOCATION";

@@ -43,7 +43,7 @@ public class ListAdapter extends ArrayAdapter<String> {
         ImageView imageView = (ImageView) rowView.findViewById(R.id.listview_image);
 
         txtTitle.setText(name.get(position));
-        txtDesc.setText(distance.get(position));
+        txtDesc.setText(distance.get(position)+ " km from you");
 
         /*rowView.setOnClickListener(new View.OnClickListener() {
 

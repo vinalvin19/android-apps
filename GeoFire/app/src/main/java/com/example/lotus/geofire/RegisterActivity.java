@@ -136,7 +136,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void createNewUser(String userId){
         User user = buildNewUser();
-        myRef.child("user").push().setValue(user);
+        final String encodedEmail = mEmailField.getText().toString().replace(".", ",");
+        myRef.child("user").child(encodedEmail).setValue(user);
     }
 
     /*this.name = name;
