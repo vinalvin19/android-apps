@@ -23,7 +23,43 @@
         android:layout_height="100dp"
         android:layout_alignParentBottom="true">
 
-        <Button
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="bottom"
+            android:id="@+id/linearLayoutbawah"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Done"
+                android:layout_weight="1"
+                android:id="@+id/doneButton"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:background="@android:color/holo_blue_light"
+                android:textColor="@color/bright_foreground_material_dark" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancel"
+                android:layout_weight="1"
+                android:id="@+id/cancelButton"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_toLeftOf="@+id/textView"
+                android:layout_toStartOf="@+id/textView"
+                android:background="@android:color/holo_red_light"
+                android:textColor="@color/bright_foreground_material_dark" />
+        </LinearLayout>
+        <!--<Button
             android:text="Done"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -41,9 +77,9 @@
             android:layout_marginBottom="30dp"
             android:id="@+id/cancelButton"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true" />-->
 
-        <Button
+<!--        <Button
             android:text="Intent list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -51,7 +87,7 @@
             android:layout_marginStart="19dp"
             android:layout_marginTop="21dp"
             android:layout_marginBottom="30dp"
-            android:id="@+id/intentButton" />
+            android:id="@+id/intentButton" />-->
 
     </RelativeLayout>
 

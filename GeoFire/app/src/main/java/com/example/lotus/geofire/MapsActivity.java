@@ -62,7 +62,7 @@ public class MapsActivity extends AppCompatActivity {
 
         cancelButton = (Button) findViewById(R.id.cancelButton);
         doneButton = (Button) findViewById(R.id.doneButton);
-        intentButton = (Button) findViewById(R.id.intentButton);
+        //intentButton = (Button) findViewById(R.id.intentButton);
 
         Intent intent = getIntent();
         Bundle b = intent.getExtras();
@@ -95,8 +95,16 @@ public class MapsActivity extends AppCompatActivity {
                 Log.d("TAG", "masuk ke " + namaPenolong + "dengan status " + status);
 
                 //baru bisa dicoba kalau udah ada login
+                Log.d("TAG", "masuk ke " + namaPenolong + "dengan status " + status);
+                Map<String, Object> cancelling = new HashMap<String, Object>();
+                cancelling.put("status", "free");
+                myRef.child("user").child(namaPenolong).updateChildren(cancelling);
+                Log.d("TAG", "masuk ke " + namaPenolong + "dengan status " + status);
 
-                //yang login itu minta tolong
+                Intent i = new Intent (MapsActivity.this, MainActivity.class);
+                startActivity(i);
+
+                /*//yang login itu minta tolong
                 if (currentUser == namaUser) {
                     //database alanRef = myRef.child("alanisawesome");
                     Log.d("TAG", "masuk ke " + namaPenolong + "dengan status " + status);
@@ -114,7 +122,7 @@ public class MapsActivity extends AppCompatActivity {
 
                     //back to chatActivity
                     onBackPressed();
-                }
+                }*/
             }
         });
 
@@ -122,21 +130,25 @@ public class MapsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // intent ke activity lain setelah done
+                Log.d("TAGES", "nama penolong " + namaPenolong + "dengan status " + status);
                 Map<String, Object> done = new HashMap<String, Object>();
                 done.put("status", "free");
                 done.put("description", "null");
                 done.put("urgency", 0);
                 myRef.child("user").child(namaPenolong).updateChildren(done);
+                Log.d("TAGES", "user " + namaPenolong + "dengan status " + status);
+                Intent i = new Intent (MapsActivity.this, MainActivity.class);
+                startActivity(i);
             }
         });
 
-        intentButton.setOnClickListener(new View.OnClickListener() {
+/*        intentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent (MapsActivity.this, MainActivity.class);
                 startActivity(i);
             }
-        });
+        });*/
     }
 
     private void initializeMap() {
