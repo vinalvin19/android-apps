@@ -27,18 +27,18 @@ public class User {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public User(String name, String email, int age, double latitude, double longitude, String status, int point, int rating, String topic, int urgency, String description) {
-        this.name = name;
-        this.email = email;
+    public User(int age, String description, String email, double latitude, double longitude, String name, int point, int rating, String status, String topic, int urgency) {
         this.age = age;
+        this.description = description;
+        this.email = email;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.status = status;
+        this.name = name;
         this.point = point;
         this.rating = rating;
+        this.status = status;
         this.topic = topic;
         this.urgency = urgency;
-        this.description = description;
     }
 
     public Double getLatitude() {
@@ -51,6 +51,9 @@ public class User {
 
     public String getName() {
         return name;
+    }
+    public String getEmail() {
+        return email;
     }
 
     public String getStatus() {

@@ -72,7 +72,7 @@ public class RegisterActivity extends AppCompatActivity {
         mButtonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createAccount(mEmailField.getText().toString(), mPassField.getText().toString());
+                createAccount(mNameField.getText().toString(), mEmailField.getText().toString(), mPassField.getText().toString());
             }
         });
     }
@@ -91,8 +91,8 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-    private void createAccount(String email, String password) {
-        Log.d(TAG, "createAccount:" + email);
+    private void createAccount(String name, String email, String password) {
+        Log.d(TAG, "createAccount:" + name+ " " + email);
         if (!validateForm()) {
             return;
         }
@@ -139,11 +139,21 @@ public class RegisterActivity extends AppCompatActivity {
         myRef.child("user").push().setValue(user);
     }
 
+    /*this.name = name;
+    this.email = email;
+    this.age = age;
+    this.latitude = latitude;
+    this.longitude = longitude;
+    this.status = status;
+    this.point = point;
+    this.rating = rating;
+    this.topic = topic;
+    this.urgency = urgency;
+    this.description = description;*/
+
     private User buildNewUser() {
-        return new User(
-                mNameField.getText().toString(),
-                mEmailField.getText().toString(),
-                0, 0.0, 0.0, "free", 100, 0, "free", 0, "free"
+        return new User( 1, "free", mEmailField.getText().toString(), 12.33, 13.23,
+                mNameField.getText().toString(), 100, 2, "free", "free", 2
         );
     }
 

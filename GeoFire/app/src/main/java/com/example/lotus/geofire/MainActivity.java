@@ -53,10 +53,6 @@ public class MainActivity extends AppCompatActivity {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     final DatabaseReference myRef = database.getReference();
 
-    private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
-    private FirebaseUser mUser;
-
     private GoogleMap googleMap;
     LocationManager locationManager;
 
@@ -71,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
     public Double longitudeSekitar = 0.0;
     public int jarakTempuh = 0;
     public String namaAccount = "Alvin";
+    public String currentUserEmail ="lk";
     Location locationUser = new Location ("User");
     Location locationSekitar = new Location ("Sekitar");
 
@@ -84,40 +81,56 @@ public class MainActivity extends AppCompatActivity {
 
     ListAdapter adapter;
     Button addHelp;
+    ListView listView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_main);
         setContentView(R.layout.activity_recview);
-        final ListView listView = (ListView) findViewById(R.id.my_list_view);
+        listView = (ListView) findViewById(R.id.my_list_view);
         addHelp = (Button) findViewById(R.id.fab);
 
         //writeNewUser("Alvin", 24, 12.31, 13.21);
-        initializeMap();
+        initializePermission();
 
         addHelp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // intent ke activity lain setelah done
-                Intent intent = new Intent (MainActivity.this, HelpActivity.class);
+                Intent intent = new Intent (getApplicationContext(), HelpActivity.class);
                 startActivity(intent);
             }
         });
 
-        mAuth = FirebaseAuth.getInstance();
-        mUser = mAuth.getCurrentUser();
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
+        //mAuth = FirebaseAuth.getInstance();
+        FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (mUser != null) {
+            // User is signed in
+            currentUserEmail = mUser.getEmail();
+            Log.d("TAGES", "MainActivity.onAuthStateChanged:signed_in:" + currentUserEmail);
+            checkCurrentUser();
+
+        } else {
+            // User is signed out
+            Log.d("TAGES", "onAuthStateChanged:signed_out");
+
+            Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        /*mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+            public void onAuthStateChanged(FirebaseAuth firebaseAuth) {
                 if (mUser != null) {
                     // User is signed in
-                    Log.d("TAG", "onAuthStateChanged:signed_in:" + mUser.getUid());
-
+                    Log.d("TAGES", "MainActivity.onAuthStateChanged:signed_in:" + mUser.getEmail());
+                    currentUserEmail = mUser.getEmail();
+                    checkCurrentUser();
 
                 } else {
                     // User is signed out
-                    Log.d("TAG", "onAuthStateChanged:signed_out");
+                    Log.d("TAGES", "onAuthStateChanged:signed_out");
 
                     Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
                     startActivity(intent);
@@ -125,47 +138,51 @@ public class MainActivity extends AppCompatActivity {
                 }
                 // ...
             }
-        };
+        };*/
 
-        myRef.child("user").child(mUser.getDisplayName()).addValueEventListener(new ValueEventListener() {
+        Log.d("TAGES", "coba");
+        Log.d("TAGES", currentUserEmail);
+        //Log.d("TAGES", mUser.getDisplayName());
+
+        /*myRef.child("user").child(mUser.getDisplayName()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User akun = dataSnapshot.getValue(User.class);
                 latitudeUser = akun.getLatitude();
                 longitudeUser = akun.getLongitude();
-                //Log.d("TAG", "Lokasi: " + user.getLatitude() + " ; " + user.getLongitude());
+                //Log.d("TAGES", "Lokasi: " + user.getLatitude() + " ; " + user.getLongitude());
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });
+        });*/
 
         myRef.child("user").orderByChild("latitude").addChildEventListener(new ChildEventListener(){
-        //myRef.addValueEventListener(new ValueEventListener() {
+            //myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
 
                 User user = dataSnapshot.getValue(User.class);
-                Log.d("TAG", "Masuk childhood");
+                Log.d("TAGES", "Masuk childhood");
 
                 jarakTempuh = distance(latitudeUser, longitudeUser, user.getLatitude(), user.getLongitude());
 
-                Log.d("TAG", "Status: " + user.getStatus());
+                Log.d("TAGES", "Status: " + user.getName() + " "+ user.getStatus());
 
                 if (jarakTempuh < 50 && jarakTempuh != 0.0 && user.getStatus().equals("needHelp")) {
-                //if (jarakTempuh < 50 && jarakTempuh != 0.0 ) {
+                    //if (jarakTempuh < 50 && jarakTempuh != 0.0 ) {
                     latitudeSekitar = user.getLatitude();
                     longitudeSekitar = user.getLongitude();
-                    //Log.d("TAG", "Lokasi User: " + latitudeUser + " ; " + longitudeUser);
-                    //Log.d("TAG", "Lokasi Database: " + user.getLatitude() + " ; " + user.getLongitude());
-                    Log.d("TAG", user.getName() + " ada di dekatmu! minta bantuan dari dia");
-                    Log.d("TAGI", "Latitude:" + latitudeUser + " Longitude:" + longitudeUser);
-                    Log.d("TAGI", "LatitudeSekitar:" + latitudeSekitar + " LongitudeSekitar:" + longitudeSekitar);
-                    Log.d("TAG", "Distance: " + jarakTempuh);
+                    //Log.d("TAGES", "Lokasi User: " + latitudeUser + " ; " + longitudeUser);
+                    //Log.d("TAGES", "Lokasi Database: " + user.getLatitude() + " ; " + user.getLongitude());
+                    Log.d("TAGES", user.getName() + " ada di dekatmu! minta bantuan dari dia");
+                    Log.d("TAGESI", "Latitude:" + latitudeUser + " Longitude:" + longitudeUser);
+                    Log.d("TAGESI", "LatitudeSekitar:" + latitudeSekitar + " LongitudeSekitar:" + longitudeSekitar);
+                    Log.d("TAGES", "Distance: " + jarakTempuh);
 
                     arrayLatitude.add(latitudeSekitar);
                     arrayLongitude.add(longitudeSekitar);
@@ -208,10 +225,60 @@ public class MainActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {}
 
         });
+
     }
 
+    private void checkCurrentUser() {
 
-    public void initializeMap() {
+        myRef.child("user").addChildEventListener(new ChildEventListener() {
+            //myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+
+                User akun = dataSnapshot.getValue(User.class);
+                Log.d("TAGES", "Masuk checkCurrentUser");
+                /*Log.d("TAGES", "login akun: " + akun.getName());
+                latitudeUser = akun.getLatitude();
+                longitudeUser = akun.getLongitude();
+*/
+                if(currentUserEmail.equals(akun.getEmail()));
+                {
+                    Log.d("TAGES", "login akun: " + akun.getName());
+                    latitudeUser = akun.getLatitude();
+                    longitudeUser = akun.getLongitude();
+
+                    //getlala();
+                }
+
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String prevChildKey) {
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+
+        });
+    }
+
+    private void getlala()
+    {
+
+    }
+    public void initializePermission() {
 
         String permission = "Manifest.permission.ACCESS_FINE_LOCATION";
         String permission2 = "Manifest.permission.ACCESS_COARSE_LOCATION";
@@ -229,7 +296,7 @@ public class MainActivity extends AppCompatActivity {
 
 /*
             if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                Log.i("TAGI", "GPS dinyalakan");
+                Log.i("TAGESI", "GPS dinyalakan");
             } else {
                 showGPSDisabledAlertToUser();
             }
@@ -246,8 +313,8 @@ public class MainActivity extends AppCompatActivity {
     private LocationListener mLocationListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
-            Log.d("TAGI", "masuk");
-            Log.d("TAGI", "Latitude saya:" + location.getLatitude() + " Longitude:" + location.getLongitude());
+            Log.d("TAGESI", "masuk");
+            Log.d("TAGESI", "Latitude saya:" + location.getLatitude() + " Longitude:" + location.getLongitude());
 
             //latitudeUser=location.getLatitude();
             //longitudeUser=location.getLongitude();
@@ -279,7 +346,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        initializeMap();
+        initializePermission();
     }
 
 /*    private void writeNewUser(String name, int age, double latitude, double longitude) {
