@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "881391333447",
+    "firebase_url": "https://gorobak-a5a3c.firebaseio.com",
+    "project_id": "gorobak-a5a3c",
+    "storage_bucket": "gorobak-a5a3c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:881391333447:android:de71c45b96edfc24",
+        "android_client_info": {
+          "package_name": "com.example.lotus.gorobak"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "881391333447-sg7bv8rrrepl1k5dav8rfevl113hh9t8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqHQXJLccmCyyvYFHZ1pGG2BwiUPtLj7M"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
