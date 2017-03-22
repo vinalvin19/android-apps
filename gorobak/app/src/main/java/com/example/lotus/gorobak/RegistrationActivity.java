@@ -1,5 +1,6 @@
 package com.example.lotus.gorobak;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -27,6 +28,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private TextInputEditText mNameField, mEmailField, mPassField, mConfPassField;
     private Button mButtonRegister;
+    public ProgressDialog mProgressDialog;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     final DatabaseReference myRef = database.getReference();
@@ -91,7 +93,7 @@ public class RegistrationActivity extends AppCompatActivity {
             return;
         }
 
-        //showProgressDialog();
+        showProgressDialog();
 
         // [START create_user_with_email]
         mAuth.createUserWithEmailAndPassword(email, password)
@@ -116,7 +118,7 @@ public class RegistrationActivity extends AppCompatActivity {
                         }
 
                         // [START_EXCLUDE]
-                        //hideProgressDialog();
+                        hideProgressDialog();
                         // [END_EXCLUDE]
                     }
                 });
@@ -182,6 +184,22 @@ public class RegistrationActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    public void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage("Loading...");
+            mProgressDialog.setIndeterminate(true);
+        }
+
+        mProgressDialog.show();
+    }
+
+    public void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
     }
 
 }

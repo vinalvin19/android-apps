@@ -1,5 +1,6 @@
 package com.example.lotus.gorobak;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -28,6 +29,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private TextInputEditText mEmailField, mPassField;
     private Button mButtonLogin;
+    public ProgressDialog mProgressDialog;
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -107,7 +109,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-//        showProgressDialog();
+        showProgressDialog();
 
         // [START sign_in_with_email]
         mAuth.signInWithEmailAndPassword(email, password)
@@ -131,6 +133,8 @@ public class LoginActivity extends AppCompatActivity {
                             startActivity(intent);
                             finish();
                         }
+
+                        hideProgressDialog();
                     }
                 });
     }
@@ -162,5 +166,21 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(this, RegistrationActivity.class);
         startActivity(intent);
 
+    }
+
+    public void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage("Loging in...");
+            mProgressDialog.setIndeterminate(true);
+        }
+
+        mProgressDialog.show();
+    }
+
+    public void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
     }
 }

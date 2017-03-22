@@ -1,5 +1,7 @@
 package com.example.lotus.gorobak;
 
+import android.*;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -7,10 +9,13 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -18,6 +23,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.GoogleMap;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -40,7 +46,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     private Toolbar toolbar;                              // Declaring the Toolbar Object
     private AccountHeader accountHeader;
@@ -49,12 +55,13 @@ public class MainActivity extends AppCompatActivity {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     final DatabaseReference myRef = database.getReference();
 
-    //private GoogleMap googleMap;
-    LocationManager locationManager;
+    //LocationManager locationManager;
+    private GoogleMap googleMap;
 
     List<Double> arrayLatitude = new ArrayList<>();
     List<Double> arrayLongitude = new ArrayList<>();
     List<String> arrayName = new ArrayList<>();
+    List<String> arrayEmail = new ArrayList<>();
     List<Integer> arrayDistance = new ArrayList<>();
 
     public Double latitudeUser = 0.0;
@@ -98,19 +105,10 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
 
-        /*logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signOut();
-            }
-        });*/
-
         FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
         if (mUser != null) {
-            // User is signed in
             currentUserEmail = mUser.getEmail().replace(".",",");
             Log.d("TAGES", "MainActivity.onAuthStateChanged:signed_in:" + currentUserEmail);
-            //checkCurrentUser();
 
             myRef.child("user").child(currentUserEmail).addValueEventListener(new ValueEventListener() {
                 @Override
@@ -118,12 +116,12 @@ public class MainActivity extends AppCompatActivity {
                     User akun = dataSnapshot.getValue(User.class);
                     latitudeUser = akun.getLatitude();
                     longitudeUser = akun.getLongitude();
-                    //Log.d("TAGES", "Lokasi: " + user.getLatitude() + " ; " + user.getLongitude());
+
+                    //initializePermission();
                 }
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-
                 }
             });
         } else {
@@ -135,67 +133,17 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
-        myRef.child("pedagang").orderByChild("latitude").addChildEventListener(new ChildEventListener(){
-            //myRef.addValueEventListener(new ValueEventListener() {
+
+        /*myRef.child("user").orderByChild("panggil").addChildEventListener(new ChildEventListener(){
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
 
-                Pedagang pedagang = dataSnapshot.getValue(Pedagang.class);
-                Log.d("TAGES", "Masuk childhood");
-
-                Log.d("TAGES", "Status: " + pedagang.getName() + " "+ pedagang.getName());
-                Log.d("TAGES", "koordinat " + latitudeUser +" "+longitudeUser);
-                jarakTempuh = distance(latitudeUser, longitudeUser, pedagang.getLatitude(), pedagang.getLongitude());
-                Log.d("TAGES", "koordinat teman" + pedagang.getLatitude()+" "+pedagang.getLongitude());
-
-
-                //if (jarakTempuh < 50 && jarakTempuh != 0.0 && pedagang.getStatus().equals("needHelp")) {
-                if (jarakTempuh < 50 && jarakTempuh != 0.0 ) {
-                    latitudeSekitar = pedagang.getLatitude();
-                    longitudeSekitar = pedagang.getLongitude();
-
-                    Log.d("TAGES", pedagang.getName() + " ada di dekatmu!");
-                    Log.d("TAGESI", "Latitude:" + latitudeUser + " Longitude:" + longitudeUser);
-                    Log.d("TAGESI", "LatitudeSekitar:" + latitudeSekitar + " LongitudeSekitar:" + longitudeSekitar);
-                    Log.d("TAGES", "Distance: " + jarakTempuh);
-
-                    arrayLatitude.add(latitudeSekitar);
-                    arrayLongitude.add(longitudeSekitar);
-                    arrayName.add(pedagang.getName());
-                    arrayDistance.add(jarakTempuh);
-
-                    List<String> arrayDistanceBaru = new ArrayList<String>(arrayDistance.size());
-                    for (Integer myInt : arrayDistance) {
-                        arrayDistanceBaru.add(String.valueOf(myInt));
-                    }
-
-                    adapter = new CustomListAdapter(MainActivity.this, arrayName, arrayDistanceBaru);
-                    listView.setAdapter(adapter);
-
-                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                        @Override
-                        public void onItemClick(AdapterView<?> arg0, View arg1,int position, long arg3)
-                        {
-                            Toast.makeText(getApplicationContext(), arrayName.get(position).toString(), Toast.LENGTH_SHORT).show();
-                            /*Intent intent =new Intent(MainActivity.this, MapsActivity.class);
-                            intent.putExtra("name", arrayName.get(position).toString());
-                            intent.putExtra("nameUser", namaAccount);
-                            intent.putExtra("latitude", arrayLatitude.get(position));
-                            intent.putExtra("longitude", arrayLongitude.get(position));
-                            intent.putExtra("distance", jarakTempuh);
-                            intent.putExtra("latitudeUser", latitudeUser);
-                            intent.putExtra("longitudeUser", longitudeUser);
-                            startActivity(intent);*/
-                        }
-                    });
-                }
             }
 
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {}
+            public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {
+                Toast.makeText(getApplicationContext(), "berubah", Toast.LENGTH_SHORT).show();
+            }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {}
@@ -205,159 +153,79 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {}
-        });
+        });*/
 
+        /*checkLocationPermission();
+        String permission = "Manifest.permission.ACCESS_FINE_LOCATION";
+        String permission2 = "Manifest.permission.ACCESS_COARSE_LOCATION";
+        ActivityCompat.requestPermissions(this, new String[]{permission}, 8);
+        if (ActivityCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, permission2) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{permission2, permission}, 200);
+            Log.d("TAGESI", "cek if awal");
+        }
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 20000, 0, mLocationListener);
+        locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+        if (locationManager != null) {
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                    || ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+        }*/
+
+        /*checkLocationPermission();
+        String permission = "Manifest.permission.ACCESS_FINE_LOCATION";
+        String permission2 = "Manifest.permission.ACCESS_COARSE_LOCATION";
+        ActivityCompat.requestPermissions(this, new String[]{permission}, 8);
+
+        if (ActivityCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, permission2) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{permission2, permission}, 2000);
+            Log.d("TAGESI", "cek if awal");
+        } else {
+            Log.d("TAGESI", "cek else");
+            LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0, this);
+        }*/
     }
 
+    public void initializePermission() {
 
-    /*private void checkCurrentUser() {
+        Log.d("TAGESI", "masuk permission");
 
-        Log.d("TAGES", "current email: " + currentUserEmail);
-        myRef.child("user").child(currentUserEmail).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                User akun = snapshot.getValue(User.class);
-                Log.d("TAGES", "Masuk checkCurrentUser");
-                Log.d("TAGES", akun.getEmail());
-                latitudeUser = akun.getLatitude();
-                longitudeUser = akun.getLongitude();
-                Log.d("TAGES", "lokasimu: " + latitudeUser.toString() + " " + longitudeUser.toString());
-
-                *//*if (currentUserEmail.equals(akun.getEmail())) ;
-                {
-                    Log.d("TAGES", "login akun: " + akun.getName());
-                    latitudeUser = akun.getLatitude();
-                    longitudeUser = akun.getLongitude();
-
-                    //getlala();
-                }*//*
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-            }
-        });
-    }*/
-        /*myRef.child("user").child(currentUserEmail).addChildEventListener(new ChildEventListener() {
-            //myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-
-*//*                User akun = dataSnapshot.getValue(User.class);
-                Log.d("TAGES", "Masuk checkCurrentUser");
-                Log.d("TAGES", "login akun: " + akun.getName());
-                latitudeUser = akun.getLatitude();
-                longitudeUser = akun.getLongitude();
-
-                if(currentUserEmail.equals(akun.getEmail()));
-                {
-                    Log.d("TAGES", "login akun: " + akun.getName());
-                    latitudeUser = akun.getLatitude();
-                    longitudeUser = akun.getLongitude();
-
-                    //getlala();
-                }*//*
-                Log.d("TAGES", "masuk cari email awal");
-                Log.d("TAGES", dataSnapshot.child("user").child(currentUserEmail).getKey());
-
-                *//* myRef.child("user").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                User akun = snapshot.getValue(User.class);
-                Log.d("TAGES", "Masuk checkCurrentUser");
-                Log.d("TAGES", akun.getEmail());
-
-                if (currentUserEmail.equals(akun.getEmail())) ;
-                {
-                    Log.d("TAGES", "login akun: " + akun.getName());
-                    latitudeUser = akun.getLatitude();
-                    longitudeUser = akun.getLongitude();
-
-                    //getlala();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-            }
-        });
-    }*//*
-                *//*if (dataSnapshot.child("user").child(currentUserEmail).getValue() != null) {
-
-                    Log.d("TAGES", "masuk cari email if");
-
-                Object objLatitude = dataSnapshot.child(currentUserEmail).child("latitude").getValue();
-                    //latitudeUser = Double.valueOf(objLatitude.toString());
-                    latitudeUser = dataSnapshot.child("user").child(currentUserEmail).getValue();
-
-                    Object objLongitude = dataSnapshot.child(currentUserEmail).child("longitude").getValue();
-                    longitudeUser = Double.valueOf(objLongitude.toString());
-                    Log.d("TAGES", "sekitarmu: " + latitudeUser.toString() + " " + longitudeUser.toString());
-
-                }*//*
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String prevChildKey) {
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-
-        });
-    }*/
-
-    /*public void initializePermission() {
-
-        String permission = "Manifest.permission.ACCESS_FINE_LOCATION";
+        /*String permission = "Manifest.permission.ACCESS_FINE_LOCATION";
         String permission2 = "Manifest.permission.ACCESS_COARSE_LOCATION";
         ActivityCompat.requestPermissions(this, new String[]{permission}, 8);
         checkLocationPermission();
 
-        if (googleMap == null) {
+        if (ActivityCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, permission2) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{permission2, permission}, 2000);
+            Log.d("TAGESI", "cek if awal");
+        } else {
+            LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0, mLocationListener);
+            Log.d("TAGESI", "cek else");
+        }*/
 
-            if (ActivityCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, permission2) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(MainActivity.this, new String[]{permission2, permission}, 200);
-            }
-            else {
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, mLocationListener);
-            }
-
-*//*
+/*
             if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                 Log.i("TAGESI", "GPS dinyalakan");
             } else {
                 showGPSDisabledAlertToUser();
             }
-*//*
-
-*//*            if (googleMap == null) {
-                Toast.makeText(getApplicationContext(),
-                        "Sorry! unable to create maps", Toast.LENGTH_SHORT)
-                        .show();
-            }*//*
-        }
-    }*/
+*/
+    }
 
     private LocationListener mLocationListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
-            Log.d("TAGESI", "masuk");
-            Log.d("TAGESI", "Latitude saya:" + location.getLatitude() + " Longitude:" + location.getLongitude());
+            Log.d("TAGESI", "masuk location listener");
 
-            //latitudeUser=location.getLatitude();
-            //longitudeUser=location.getLongitude();
+            latitudeUser=location.getLatitude();
+            longitudeUser=location.getLongitude();
+
+            Log.d("TAGESI", "Latitude saya:" + location.getLatitude() + " Longitude:" + location.getLongitude());
+            checkPedagang();
         }
 
         @Override
@@ -375,6 +243,83 @@ public class MainActivity extends AppCompatActivity {
             Log.d("Latitude", "status");
         }
     };
+
+    public void checkPedagang()
+    {
+        myRef.child("pedagang").orderByChild("latitude").addChildEventListener(new ChildEventListener(){
+            //myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+
+                Pedagang pedagang = dataSnapshot.getValue(Pedagang.class);
+                Log.d("TAGES", "Masuk childhood");
+
+                Log.d("TAGES", "Status: " + pedagang.getName() + " "+ pedagang.getEmail());
+                Log.d("TAGES", "koordinat " + latitudeUser +" "+longitudeUser);
+                jarakTempuh = distance(latitudeUser, longitudeUser, pedagang.getLatitude(), pedagang.getLongitude());
+                Log.d("TAGES", "koordinat teman" + pedagang.getLatitude()+" "+pedagang.getLongitude());
+
+                if (jarakTempuh < 50 && jarakTempuh != 0.0 ) {
+                    latitudeSekitar = pedagang.getLatitude();
+                    longitudeSekitar = pedagang.getLongitude();
+
+                    Log.d("TAGES", pedagang.getName() + " ada di dekatmu!");
+                    Log.d("TAGESI", "Latitude:" + latitudeUser + " Longitude:" + longitudeUser);
+                    Log.d("TAGESI", "LatitudeSekitar:" + latitudeSekitar + " LongitudeSekitar:" + longitudeSekitar);
+                    Log.d("TAGES", "Distance: " + jarakTempuh);
+
+                    arrayLatitude.add(latitudeSekitar);
+                    arrayLongitude.add(longitudeSekitar);
+                    arrayName.add(pedagang.getName());
+                    arrayEmail.add(pedagang.getEmail());
+                    arrayDistance.add(jarakTempuh);
+
+                    List<String> arrayDistanceBaru = new ArrayList<String>(arrayDistance.size());
+                    for (Integer myInt : arrayDistance) {
+                        arrayDistanceBaru.add(String.valueOf(myInt));
+                    }
+
+                    adapter = new CustomListAdapter(MainActivity.this, arrayName, arrayDistanceBaru);
+                    listView.setAdapter(adapter);
+
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                        @Override
+                        public void onItemClick(AdapterView<?> arg0, View arg1,int position, long arg3)
+                        {
+                            Toast.makeText(getApplicationContext(), arrayName.get(position).toString(), Toast.LENGTH_SHORT).show();
+                            Intent intent =new Intent(MainActivity.this, MapsActivity.class);
+                            intent.putExtra("name", arrayName.get(position).toString());
+                            intent.putExtra("email", arrayEmail.get(position).toString());
+                            intent.putExtra("emailUser", currentUserEmail);
+                            intent.putExtra("nameUser", namaAccount);
+                            intent.putExtra("latitude", arrayLatitude.get(position));
+                            intent.putExtra("longitude", arrayLongitude.get(position));
+                            intent.putExtra("distance", jarakTempuh);
+                            intent.putExtra("latitudeUser", latitudeUser);
+                            intent.putExtra("longitudeUser", longitudeUser);
+                            startActivity(intent);
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {}
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String prevChildKey) {}
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+    }
 
     public boolean checkLocationPermission()
     {
@@ -486,10 +431,12 @@ public class MainActivity extends AppCompatActivity {
         alert.show();
     }
 
-    private void signOut() {
-        // Firebase sign out
-        mAuth.signOut();
-        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-        startActivity(intent);
+    @Override
+    public void onBackPressed() {
+        Intent startMain = new Intent(Intent.ACTION_MAIN);
+        startMain.addCategory(Intent.CATEGORY_HOME);
+        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(startMain);
     }
+
 }
