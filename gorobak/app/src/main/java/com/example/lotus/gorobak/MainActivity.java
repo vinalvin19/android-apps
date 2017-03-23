@@ -1,8 +1,6 @@
 package com.example.lotus.gorobak;
 
-import android.*;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -11,18 +9,17 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -32,7 +29,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -42,11 +38,12 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class MainActivity extends AppCompatActivity{
+// https://www.learn2crack.com/2015/10/android-marshmallow-permissions.html
+// http://www.mobiledev.tips/2015/11/09/android-gps-locations/
+
+public class MainActivity extends AppCompatActivity implements LocationListener{
 
     private Toolbar toolbar;                              // Declaring the Toolbar Object
     private AccountHeader accountHeader;
@@ -55,7 +52,7 @@ public class MainActivity extends AppCompatActivity{
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     final DatabaseReference myRef = database.getReference();
 
-    //LocationManager locationManager;
+    LocationManager locationManager;
     private GoogleMap googleMap;
 
     List<Double> arrayLatitude = new ArrayList<>();
@@ -84,6 +81,9 @@ public class MainActivity extends AppCompatActivity{
     ListView listView;
 
     private FirebaseAuth mAuth;
+    protected GoogleApiClient mGoogleApiClient;
+    protected Location mLastLocation;
+    private LocationRequest mLocationRequest;
 
     Button logout;
 
@@ -93,37 +93,37 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
 
         listView = (ListView) findViewById(R.id.my_list_view);
-        //logout = (Button) findViewById(R.id.logout);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         createDrawer();
         //writeNewUser("Alvin", 24, 12.31, 13.21);
-        //initializePermission();
 
         mAuth = FirebaseAuth.getInstance();
-
 
         FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
         if (mUser != null) {
             currentUserEmail = mUser.getEmail().replace(".",",");
             Log.d("TAGES", "MainActivity.onAuthStateChanged:signed_in:" + currentUserEmail);
 
-            myRef.child("user").child(currentUserEmail).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    User akun = dataSnapshot.getValue(User.class);
-                    latitudeUser = akun.getLatitude();
-                    longitudeUser = akun.getLongitude();
-
-                    //initializePermission();
+            if (checkPermission()) {
+                Toast.makeText(getApplicationContext(),"Permission already granted.",Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getApplicationContext(),"Permission not granted.",Toast.LENGTH_SHORT).show();
+                if (!checkPermission()) {
+                    requestPermission();
+                } else {
+                    Toast.makeText(getApplicationContext(),"Permission already granted.",Toast.LENGTH_SHORT).show();
                 }
+            }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                }
-            });
+            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            if (checkPermission()) {
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0, this);
+            } else {
+                requestPermission();
+            }
         } else {
             // User is signed out
             Log.d("TAGES", "onAuthStateChanged:signed_out");
@@ -154,95 +154,95 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onCancelled(DatabaseError databaseError) {}
         });*/
-
-        /*checkLocationPermission();
-        String permission = "Manifest.permission.ACCESS_FINE_LOCATION";
-        String permission2 = "Manifest.permission.ACCESS_COARSE_LOCATION";
-        ActivityCompat.requestPermissions(this, new String[]{permission}, 8);
-        if (ActivityCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, permission2) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{permission2, permission}, 200);
-            Log.d("TAGESI", "cek if awal");
-        }
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 20000, 0, mLocationListener);
-        locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-        if (locationManager != null) {
-            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-                    || ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                return;
-            }
-        }*/
-
-        /*checkLocationPermission();
-        String permission = "Manifest.permission.ACCESS_FINE_LOCATION";
-        String permission2 = "Manifest.permission.ACCESS_COARSE_LOCATION";
-        ActivityCompat.requestPermissions(this, new String[]{permission}, 8);
-
-        if (ActivityCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, permission2) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{permission2, permission}, 2000);
-            Log.d("TAGESI", "cek if awal");
-        } else {
-            Log.d("TAGESI", "cek else");
-            LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0, this);
-        }*/
     }
 
-    public void initializePermission() {
+    @Override
+    public void onLocationChanged(Location location) {
+        Log.d("TAGESI", "masuk location listener");
 
-        Log.d("TAGESI", "masuk permission");
+        latitudeUser=location.getLatitude();
+        longitudeUser=location.getLongitude();
 
-        /*String permission = "Manifest.permission.ACCESS_FINE_LOCATION";
-        String permission2 = "Manifest.permission.ACCESS_COARSE_LOCATION";
-        ActivityCompat.requestPermissions(this, new String[]{permission}, 8);
-        checkLocationPermission();
-
-        if (ActivityCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, permission2) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{permission2, permission}, 2000);
-            Log.d("TAGESI", "cek if awal");
-        } else {
-            LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0, mLocationListener);
-            Log.d("TAGESI", "cek else");
-        }*/
-
-/*
-            if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                Log.i("TAGESI", "GPS dinyalakan");
-            } else {
-                showGPSDisabledAlertToUser();
-            }
-*/
+        Log.d("TAGESI", "Latitude saya:" + location.getLatitude() + " Longitude:" + location.getLongitude());
+        checkPedagang();
     }
 
-    private LocationListener mLocationListener = new LocationListener() {
-        @Override
-        public void onLocationChanged(Location location) {
-            Log.d("TAGESI", "masuk location listener");
-
-            latitudeUser=location.getLatitude();
-            longitudeUser=location.getLongitude();
-
-            Log.d("TAGESI", "Latitude saya:" + location.getLatitude() + " Longitude:" + location.getLongitude());
+    /**
+     * GPS turned off, stop watching for updates.
+     * @param provider contains data on which provider was disabled
+     */
+    @Override
+    public void onProviderDisabled(String provider) {
+        if (checkPermission()) {
+            locationManager.removeUpdates(this);
             checkPedagang();
+        } else {
+            requestPermission();
         }
+    }
 
-        @Override
-        public void onProviderDisabled(String provider) {
-            Log.d("Latitude", "disable");
+    /**
+     * GPS turned back on, re-enable monitoring
+     * @param provider contains data on which provider was enabled
+     */
+    @Override
+    public void onProviderEnabled(String provider) {
+        if (checkPermission()) {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0, this);
+            checkPedagang();
+        } else {
+            requestPermission();
         }
+    }
 
-        @Override
-        public void onProviderEnabled(String provider) {
-            Log.d("Latitude", "enable");
-        }
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+        // TODO Auto-generated method stub
 
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-            Log.d("Latitude", "status");
+    }
+
+    private boolean checkPermission(){
+        String permission = "android.permission.ACCESS_FINE_LOCATION";
+        int result = ContextCompat.checkSelfPermission(getApplicationContext(), permission);
+        if (result == PackageManager.PERMISSION_GRANTED){
+
+            return true;
+
+        } else {
+
+            return false;
+
         }
-    };
+    }
+
+    private void requestPermission(){
+        String permission = "android.permission.ACCESS_FINE_LOCATION";
+        if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,permission)){
+
+            Toast.makeText(getApplicationContext(),"GPS permission allows us to access location data. Please allow in App Settings for additional functionality.",Toast.LENGTH_LONG).show();
+
+        } else {
+
+            ActivityCompat.requestPermissions(MainActivity.this,new String[]{permission},1);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 1:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(getApplicationContext(),"Permission Granted, Now you can access location data.",Toast.LENGTH_SHORT).show();
+                    if (checkPermission()) {
+                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0, this);
+                    } else {
+                        requestPermission();
+                    }} else {
+                    Toast.makeText(getApplicationContext(),"Permission Denied, You cannot access location data.",Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
+    }
 
     public void checkPedagang()
     {
@@ -256,25 +256,22 @@ public class MainActivity extends AppCompatActivity{
                 Pedagang pedagang = dataSnapshot.getValue(Pedagang.class);
                 Log.d("TAGES", "Masuk childhood");
 
-                Log.d("TAGES", "Status: " + pedagang.getName() + " "+ pedagang.getEmail());
-                Log.d("TAGES", "koordinat " + latitudeUser +" "+longitudeUser);
                 jarakTempuh = distance(latitudeUser, longitudeUser, pedagang.getLatitude(), pedagang.getLongitude());
-                Log.d("TAGES", "koordinat teman" + pedagang.getLatitude()+" "+pedagang.getLongitude());
+                Log.d("TAGES", "ada " + pedagang.getName() + " dengan jarak " + jarakTempuh);
 
                 if (jarakTempuh < 50 && jarakTempuh != 0.0 ) {
                     latitudeSekitar = pedagang.getLatitude();
                     longitudeSekitar = pedagang.getLongitude();
 
-                    Log.d("TAGES", pedagang.getName() + " ada di dekatmu!");
-                    Log.d("TAGESI", "Latitude:" + latitudeUser + " Longitude:" + longitudeUser);
-                    Log.d("TAGESI", "LatitudeSekitar:" + latitudeSekitar + " LongitudeSekitar:" + longitudeSekitar);
-                    Log.d("TAGES", "Distance: " + jarakTempuh);
+                    Log.d("TAGES", "(geofence) ada " + pedagang.getName() + " dengan jarak " + jarakTempuh);
 
-                    arrayLatitude.add(latitudeSekitar);
-                    arrayLongitude.add(longitudeSekitar);
-                    arrayName.add(pedagang.getName());
-                    arrayEmail.add(pedagang.getEmail());
-                    arrayDistance.add(jarakTempuh);
+                    if (!arrayName.contains(pedagang.getName())) {
+                        arrayLatitude.add(latitudeSekitar);
+                        arrayLongitude.add(longitudeSekitar);
+                        arrayName.add(pedagang.getName());
+                        arrayEmail.add(pedagang.getEmail());
+                        arrayDistance.add(jarakTempuh);
+                    }
 
                     List<String> arrayDistanceBaru = new ArrayList<String>(arrayDistance.size());
                     for (Integer myInt : arrayDistance) {
@@ -304,6 +301,23 @@ public class MainActivity extends AppCompatActivity{
                         }
                     });
                 }
+
+                else{
+                    arrayLatitude.clear();
+                    arrayLongitude.clear();
+                    arrayName.clear();
+                    arrayDistance.clear();
+                    arrayEmail.clear();
+
+                    List<String> arrayDistanceBaru = new ArrayList<String>(arrayDistance.size());
+                    for (Integer myInt : arrayDistance) {
+                        arrayDistanceBaru.add(String.valueOf(myInt));
+                    }
+
+                    adapter = new CustomListAdapter(MainActivity.this, arrayName, arrayDistanceBaru);
+                    listView.setAdapter(adapter);
+                }
+
             }
 
             @Override
@@ -331,7 +345,14 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onResume() {
         super.onResume();
-        //initializePermission();
+    }
+
+    protected void onStart() {
+        super.onStart();
+    }
+
+    protected void onStop() {
+        super.onStop();
     }
 
     private void createDrawer() {
@@ -412,25 +433,6 @@ public class MainActivity extends AppCompatActivity{
         return (rad * 180.0 / Math.PI);
     }
 
-    private void showGPSDisabledAlertToUser() {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setMessage("GPS is disabled in your device. Would you like to enable it?")
-                .setCancelable(false)
-                .setPositiveButton("Goto Settings Page To Enable GPS", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        Intent callGPSSettingIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                        startActivity(callGPSSettingIntent);
-                    }
-                });
-        alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-            }
-        });
-        AlertDialog alert = alertDialogBuilder.create();
-        alert.show();
-    }
-
     @Override
     public void onBackPressed() {
         Intent startMain = new Intent(Intent.ACTION_MAIN);
@@ -438,5 +440,4 @@ public class MainActivity extends AppCompatActivity{
         startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(startMain);
     }
-
 }
