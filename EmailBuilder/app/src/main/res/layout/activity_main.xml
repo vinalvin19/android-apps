@@ -9,7 +9,75 @@
         android:id="@+id/send"
         android:layout_width="150dp"
         android:layout_height="70dp"
-        android:layout_centerInParent="true"
-        android:text="Send Mail" />
+        android:text="Send Mail"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="55dp" />
+
+    <TextView
+        android:text="Isi Email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:id="@+id/isiEmail"
+        android:layout_below="@+id/editTextJudul"
+        android:layout_alignStart="@+id/editTextJudul" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:hint="Name"
+        android:lines="2"
+        android:ems="10"
+        android:layout_marginTop="10dp"
+        android:id="@+id/editTextJudul"
+        android:layout_below="@+id/judulEmail"
+        android:layout_alignStart="@+id/judulEmail"
+        android:layout_alignEnd="@+id/editTextTujuan" />
+
+    <TextView
+        android:text="Judul Email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="20dp"
+        android:id="@+id/judulEmail"
+        android:layout_below="@+id/editTextTujuan"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="Email Penerima"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/judulEmail"
+        android:layout_marginTop="20dp"
+        android:id="@+id/tujuanEmail" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="Tujuan"
+        android:ems="10"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/tujuanEmail"
+        android:layout_marginRight="30dp"
+        android:layout_alignStart="@+id/tujuanEmail"
+        android:id="@+id/editTextTujuan"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:lines="10"
+        android:hint="isi Email"
+        android:ems="10"
+        android:id="@+id/editTextIsiEmail"
+        android:layout_below="@+id/isiEmail"
+        android:layout_alignStart="@+id/isiEmail"
+        android:layout_alignEnd="@+id/editTextJudul" />
 
 </RelativeLayout>

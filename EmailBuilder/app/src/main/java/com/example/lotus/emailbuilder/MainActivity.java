@@ -1,10 +1,17 @@
 package com.example.lotus.emailbuilder;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 
 // source:
@@ -14,36 +21,96 @@ import android.widget.Button;
 // http://www.edumobile.org/android/send-email-on-button-click-without-email-chooser/
 // https://www.mindstick.com/Articles/1673/sending-mail-without-user-interaction-in-android
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
 
     /** Called when the activity is first created. */
+
+    Button send;
+    EditText tujuanEmail;
+    EditText judulEmail;
+    EditText isiEmail;
+
+    String judulEmailFull;
+    String isiEmailFull;
+    String namaSite;
+    String emailSite;
+    String alamatSite;
+
+    ProgressDialog progress;
+    Handler handler;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final Button send = (Button) this.findViewById(R.id.send);
+        Template template = new Template();
+
+        send = (Button) this.findViewById(R.id.send);
+        tujuanEmail= (EditText) findViewById(R.id.editTextTujuan);
+        judulEmail = (EditText) findViewById(R.id.editTextJudul);
+        isiEmail = (EditText) findViewById(R.id.editTextIsiEmail);
 
         Log.d("TAGES", "ini run loohh");
+
+        Intent intent = getIntent();
+        Bundle b = intent.getExtras();
+
+        if (b != null) {
+            namaSite = (String) b.get("name");
+            alamatSite = (String) b.get("alamat");
+            emailSite = (String) b.get("email");
+            Log.d("TAGES", "ada " + namaSite + " dengan alamat " + alamatSite + " dan email " + emailSite);
+
+            judulEmailFull = template.judulEmail + namaSite;
+            isiEmailFull = template.isiEmail + namaSite + template.isiEmailTengah + alamatSite + template.isiEmailBawah;
+
+            judulEmail.setText(judulEmailFull);
+            isiEmail.setText(isiEmailFull);
+            tujuanEmail.setText(emailSite);
+
+        }
+        else{
+            Toast.makeText(this, "ga keintent", Toast.LENGTH_SHORT).show();
+        }
 
         send.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                // TODO Auto-generated method stub
-                new Thread(new Runnable() {
-                    public void run() {
 
+                progress = ProgressDialog.show(MainActivity.this, "Sending email",
+                        "Sending a report about " + namaSite, true);
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run()
+                    {
+                        // do the thing that takes a long time
                         Log.d("TAGES", "kepencet sih");
+                        Log.d("TAGES", "ini judul: " + judulEmailFull);
+                        Log.d("TAGES", "ini isi: " + isiEmailFull);
+                        Log.d("TAGES", "ini email: " + emailSite);
 
                         try {
                             GMailSender sender = new GMailSender("alvinalbuquerque@gmail.com", "sayamaumakan");
-                            sender.sendMail("This is Subject",
-                                    "This is Body",
+                            sender.sendMail(judulEmailFull,
+                                    isiEmailFull,
                                     "alvinalbuquerque@gmail.com",
-                                    "alvinmsf94@gmail.com");
+                                    emailSite);
                         } catch (Exception e) {
                             Log.e("SendMail", e.getMessage(), e);
+                            Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
                         }
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run()
+                            {
+                                progress.dismiss();
+                                Toast.makeText(getApplicationContext(), "Success sending your email", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                        });
                     }
                 }).start();
             }
