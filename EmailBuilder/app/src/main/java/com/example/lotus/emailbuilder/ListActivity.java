@@ -4,11 +4,16 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
@@ -24,25 +29,32 @@ import java.util.List;
  * Created by Lotus on 25/03/2017.
  */
 
-public class ListActivity extends AppCompatActivity {
+public class ListActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     final DatabaseReference myRef = database.getReference();
 
+    SearchView mSearchView;
     ListView listView;
-    CustomListAdapter adapter;
+    CustomListAdapter employeeAdapter;
 
     List<String> arrayName = new ArrayList<>();
     List<String> arrayEmail = new ArrayList<>();
     List<String> arrayAlamat = new ArrayList<>();
+
+    public ArrayList<Site> employeeArrayList;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
+        mSearchView=(SearchView) findViewById(R.id.searchView1);
         listView = (ListView) findViewById(R.id.my_list_view);
         Log.d("TAGES", "Masuk onCreate");
+
+        employeeArrayList=new ArrayList<Site>();
 
         myRef.addChildEventListener(new ChildEventListener() {
             //myRef.addValueEventListener(new ValueEventListener() {
@@ -57,7 +69,7 @@ public class ListActivity extends AppCompatActivity {
                 Log.d("TAGES", "ada " + site.getNama() + " dengan email " + site.getAlamat());
 
 
-                if (!arrayName.contains(site.getNama())) {
+                /*if (!arrayName.contains(site.getNama())) {
                     arrayName.add(site.getNama());
                     arrayAlamat.add(site.getAlamat());
                     arrayEmail.add(site.getEmail());
@@ -66,18 +78,36 @@ public class ListActivity extends AppCompatActivity {
 
                 adapter = new CustomListAdapter(ListActivity.this, arrayName, arrayAlamat);
                 listView.setAdapter(adapter);
+                listView.setTextFilterEnabled(true);*/
+
+                employeeArrayList.add(new Site(site.getNama(), site.getAlamat(), site.getEmail()));
+
+                employeeAdapter=new CustomListAdapter(ListActivity.this, employeeArrayList);
+                listView.setAdapter(employeeAdapter);
+                listView.setTextFilterEnabled(true);
+
+                setupSearchView();
 
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
                     @Override
                     public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-                        /*Toast.makeText(getApplicationContext(), arrayName.get(position).toString() + "\n" +
-                                arrayAlamat.get(position).toString() + "\n" +
-                                arrayEmail.get(position).toString(), Toast.LENGTH_SHORT).show();*/
                         Intent intent = new Intent(ListActivity.this, MainActivity.class);
-                        intent.putExtra("name", arrayName.get(position).toString());
+                        /*intent.putExtra("name", arrayName.get(position).toString());
                         intent.putExtra("alamat", arrayAlamat.get(position).toString());
-                        intent.putExtra("email", arrayEmail.get(position).toString());
+                        intent.putExtra("email", arrayEmail.get(position).toString());*/
+                        /*Bundle bundle = new Bundle();
+                        bundle.putParcelableArrayList("arraylist", employeeArrayList);
+                        intent.putExtra("result.content", bundle);
+                        */
+                        /*intent.putExtra("student", employeeArrayList);
+                        Log.d("TAGES", "sebelum intent" + employeeArrayList);*/
+                        /*Bundle bundle = new Bundle();
+                        bundle.putParcelableArrayList("mylist", employeeArrayList);
+                        intent.putExtras(bundle);*/
+                        //bundle.putParcelableArrayList("arraylist", employeeArrayList);
+                        intent.putParcelableArrayListExtra("cars", employeeArrayList);
+                        Log.d("TAGES", "sebelum intent " + employeeArrayList);
                         startActivity(intent);
                     }
                 });
@@ -102,4 +132,29 @@ public class ListActivity extends AppCompatActivity {
 
         });
     }
+    private void setupSearchView()
+    {
+        mSearchView.setIconifiedByDefault(false);
+        mSearchView.setOnQueryTextListener(this);
+        mSearchView.setSubmitButtonEnabled(true);
+        mSearchView.setQueryHint("Search Here");
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText)
+    {
+        if (TextUtils.isEmpty(newText)) {
+            listView.clearTextFilter();
+        } else {
+            listView.setFilterText(newText);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query)
+    {
+        return false;
+    }
+
 }
