@@ -138,7 +138,7 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     private User buildNewUser() {
-        return new User( mNameField.getText().toString(), mEmailField.getText().toString(), "cisitu lama", "siomay", 0.0, 0.0);
+        return new User( mNameField.getText().toString(), mEmailField.getText().toString(), "cisitu lama", "siomay", 0.0, 0.0, "https://firebasestorage.googleapis.com/v0/b/gorobak-a5a3c.appspot.com/o/steve.png?alt=media&token=0efd3531-e8e0-4de9-87c6-b164de2b3fda");
         //return new Pedagang( mNameField.getText().toString(), mEmailField.getText().toString(), "siomay", 0.0, 0.0);
     }
 

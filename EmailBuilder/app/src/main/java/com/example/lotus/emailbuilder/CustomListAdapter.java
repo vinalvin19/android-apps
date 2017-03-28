@@ -1,24 +1,18 @@
 package com.example.lotus.emailbuilder;
 
 import android.app.Activity;
-import android.graphics.BitmapFactory;
-import android.os.StrictMode;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Lotus on 09/03/2017.
@@ -27,7 +21,7 @@ import java.util.List;
 //public class CustomListAdapter extends ArrayAdapter<String> implements Filterable{
 public class CustomListAdapter extends BaseAdapter implements Filterable{
 
-    private final Activity context;
+    private Activity context;
     //List<String> name;
     //List<String> alamat;
     //public ArrayList<Site> name;
@@ -84,8 +78,24 @@ public class CustomListAdapter extends BaseAdapter implements Filterable{
         holder.name.setText(employeeArrayList.get(position).getNama());
         holder.alamat.setText(employeeArrayList.get(position).getAlamat());
 
+        view.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                Log.d("TAGES", employeeArrayList.get(position).getNama());
+                Intent intent = new Intent(context, MainActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("name", employeeArrayList.get(position).getNama());
+                bundle.putString("alamat", employeeArrayList.get(position).getAlamat());
+                bundle.putString("email", employeeArrayList.get(position).getEmail());
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+            }
+        });
+
         return view;
     }
+
 
     public Filter getFilter() {
         return new Filter() {
@@ -130,8 +140,18 @@ public class CustomListAdapter extends BaseAdapter implements Filterable{
 
     @Override
     public Object getItem(int position) {
-        return employeeArrayList.get(position);
-    }
+        int itemID;
+
+        // orig will be null only if we haven't filtered yet:
+        if (orig == null)
+        {
+            itemID = position;
+        }
+        else
+        {
+            itemID = orig.indexOf(employeeArrayList.get(position));
+        }
+        return itemID;    }
 
     @Override
     public long getItemId(int position) {

@@ -39,9 +39,6 @@ public class MainActivity extends AppCompatActivity {
     String alamatSite;
 
     ProgressDialog progress;
-    Handler handler;
-
-    public ArrayList<Site> arrayList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,35 +54,13 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("TAGES", "ini run loohh");
 
-        //ArrayList<Site> myList = (ArrayList<Site>) getIntent().getSerializableExtra("email");
-        //Intent intent = getIntent();
-        //Bundle extras = intent.getExtras();
-        //ArrayList<Site> arraylist  = extras.getParcelableArrayList("arraylist");
-        //ArrayList<Site> testing = this.getIntent().getParcelableArrayListExtra("arraylist");
-        //ObjectName object1 = arrayList[0];
-
-        //Bundle data = this.getIntent().getBundleExtra("result.content");
-        //Site site= data.getParcelableArrayList("arraylist");
-        //Site site = getIntent().getParcelableExtra("student");
-        //Bundle extras = getIntent().getExtras();
-
-        //arrayList = this.getIntent().getExtras().getParcelableArrayList("arraylist");
-        //Site namaa = arraylist[0];
-        /*Bundle bundle = getIntent().getExtras();
-        ArrayList<Site> arraylist = bundle.getParcelableArrayList("mylist");
-        */
-        Intent i = this.getIntent();
-        ArrayList<Site> site = getIntent().getParcelableArrayListExtra("key");
-
-        Log.d("TAGES", site.toString());
-
-        /*Intent intent = getIntent();
+        Intent intent = getIntent();
         Bundle b = intent.getExtras();
 
         if (b != null) {
-            *//*namaSite = (String) b.get("name");
+            namaSite = (String) b.get("name");
             alamatSite = (String) b.get("alamat");
-            *//*emailSite = (String) b.get("email");
+            emailSite = (String) b.get("email");
             Log.d("TAGES", "ada " + namaSite + " dengan alamat " + alamatSite + " dan email " + emailSite);
 
             judulEmailFull = template.judulEmail + namaSite;
@@ -98,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else{
             Toast.makeText(this, "ga keintent", Toast.LENGTH_SHORT).show();
-        }*/
+        }
 
         send.setOnClickListener(new View.OnClickListener() {
 

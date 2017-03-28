@@ -18,14 +18,15 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:background="@color/md_yellow_500">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:src="@drawable/gorobak"
             android:layout_marginBottom="40dp"
-            android:text="The App"
-            android:textSize="48sp"/>
+            android:id="@+id/imageView" />
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -85,9 +86,9 @@
             android:layout_marginTop="40dp"
             android:layout_marginRight="40dp"
             android:layout_marginLeft="40dp"
-            android:background="@color/colorAccent"
+            android:background="@color/md_yellow_800"
             android:text="Register"
-            android:textColor="@android:color/white"
+            android:textColor="?attr/colorAccent"
             android:id="@+id/button_register"/>
 
         <TextView

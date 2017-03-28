@@ -164,7 +164,7 @@ public class MapsActivity extends AppCompatActivity {
         pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 
         // Set the progress dialog title and message
-        pd.setTitle("Title of progress dialog.");
+        pd.setTitle("Memanggil Pedagang Gorobak");
         pd.setMessage("Loading.........");
 
         // Set the progress dialog background color

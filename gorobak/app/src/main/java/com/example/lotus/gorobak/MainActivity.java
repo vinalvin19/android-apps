@@ -29,6 +29,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -38,7 +39,9 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 // https://www.learn2crack.com/2015/10/android-marshmallow-permissions.html
 // http://www.mobiledev.tips/2015/11/09/android-gps-locations/
@@ -59,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
     List<Double> arrayLongitude = new ArrayList<>();
     List<String> arrayName = new ArrayList<>();
     List<String> arrayEmail = new ArrayList<>();
+    List<String> arrayImage = new ArrayList<>();
     List<Integer> arrayDistance = new ArrayList<>();
 
     public Double latitudeUser = 0.0;
@@ -66,24 +70,14 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
     public Double latitudeSekitar = 0.0;
     public Double longitudeSekitar = 0.0;
     public int jarakTempuh = 0;
-    public String namaAccount = "Alvin";
-    public String currentUserEmail ="lk";
-    Location locationUser = new Location ("User");
-    Location locationSekitar = new Location ("Sekitar");
-
-    private Query mQuery;
-    //private ArrayList<User> mAdapterItems;
-    private ArrayList<String> mAdapterKeys;
+    public String namaAccount = "null";
+    public String imageAccount = "null";
+    public String currentUserEmail ="null";
 
     CustomListAdapter adapter;
-    //Button addHelp;
-    //FloatingActionButton addHelp;
     ListView listView;
 
     private FirebaseAuth mAuth;
-    protected GoogleApiClient mGoogleApiClient;
-    protected Location mLastLocation;
-    private LocationRequest mLocationRequest;
 
     Button logout;
 
@@ -97,7 +91,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        createDrawer();
         //writeNewUser("Alvin", 24, 12.31, 13.21);
 
         mAuth = FirebaseAuth.getInstance();
@@ -106,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
         if (mUser != null) {
             currentUserEmail = mUser.getEmail().replace(".",",");
             Log.d("TAGES", "MainActivity.onAuthStateChanged:signed_in:" + currentUserEmail);
+            checkUser();
 
             if (checkPermission()) {
                 Toast.makeText(getApplicationContext(),"Permission already granted.",Toast.LENGTH_SHORT).show();
@@ -120,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
 
             locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             if (checkPermission()) {
+                Log.d("TAGES", "minta koordinat harusnya");
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0, this);
             } else {
                 requestPermission();
@@ -165,6 +160,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
 
         Log.d("TAGESI", "Latitude saya:" + location.getLatitude() + " Longitude:" + location.getLongitude());
         checkPedagang();
+
+        Map<String, Object> done = new HashMap<String, Object>();
+        done.put("latitude", latitudeUser);
+        done.put("longitude", longitudeUser);
+        myRef.child("user").child(currentUserEmail).updateChildren(done);
     }
 
     /**
@@ -231,13 +231,14 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case 1:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(getApplicationContext(),"Permission Granted, Now you can access location data.",Toast.LENGTH_SHORT).show();
                     if (checkPermission()) {
-                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0, this);
+                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 0, this);
                     } else {
                         requestPermission();
-                    }} else {
+                    }}
+                else {
                     Toast.makeText(getApplicationContext(),"Permission Denied, You cannot access location data.",Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -270,6 +271,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
                         arrayLongitude.add(longitudeSekitar);
                         arrayName.add(pedagang.getName());
                         arrayEmail.add(pedagang.getEmail());
+                        arrayImage.add(pedagang.getImage());
                         arrayDistance.add(jarakTempuh);
                     }
 
@@ -278,7 +280,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
                         arrayDistanceBaru.add(String.valueOf(myInt));
                     }
 
-                    adapter = new CustomListAdapter(MainActivity.this, arrayName, arrayDistanceBaru);
+                    adapter = new CustomListAdapter(MainActivity.this, arrayName, arrayDistanceBaru, arrayImage);
+                    adapter.notifyDataSetChanged();
                     listView.setAdapter(adapter);
 
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -314,7 +317,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
                         arrayDistanceBaru.add(String.valueOf(myInt));
                     }
 
-                    adapter = new CustomListAdapter(MainActivity.this, arrayName, arrayDistanceBaru);
+                    adapter = new CustomListAdapter(MainActivity.this, arrayName, arrayDistanceBaru, arrayImage);
+                    adapter.notifyDataSetChanged();
                     listView.setAdapter(adapter);
                 }
 
@@ -332,6 +336,22 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
 
             @Override
             public void onCancelled(DatabaseError databaseError) {}
+        });
+    }
+
+    public void checkUser(){
+        myRef.child("user").child(currentUserEmail).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                User user = snapshot.getValue(User.class);
+                Log.d("TAGES", "nama user= "+user.getName());
+                namaAccount = user.getName();
+                imageAccount = user.getImage();
+                /*snapshot.getKey(user.getName());*/
+                createDrawer();
+
+            }
+            @Override public void onCancelled(DatabaseError error) { }
         });
     }
 
@@ -361,8 +381,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
                 .withActivity(this)
                 .withHeaderBackground(R.drawable.header)
                 .addProfiles(
-                        new ProfileDrawerItem().withName("Mike Penz").withEmail("mikepenz@gmail.com")
-                                .withIcon(getResources().getDrawable(R.mipmap.ic_launcher))
+                        new ProfileDrawerItem().withName(namaAccount).withEmail(currentUserEmail.replace(",","."))
+                                .withIcon(getResources().getDrawable(R.drawable.profile6))
                 )
                 .withSelectionListEnabledForSingleProfile(false)
                 .build();

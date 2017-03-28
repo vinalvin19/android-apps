@@ -11,6 +11,7 @@
     android:contentInsetRight="0dp"
     android:contentInsetEnd="0dp"
     app:contentInsetRight="0dp"
+    app:theme="@style/ToolBarStyle"
     app:contentInsetEnd="0dp">
 
     <TextView
@@ -20,6 +21,6 @@
         android:layout_gravity="center"
         android:textAllCaps="false"
         android:textSize="@dimen/h1"
-        android:textColor="@color/md_white_1000" />
+        android:textColor="@color/md_green_700" />
 
 </android.support.v7.widget.Toolbar>

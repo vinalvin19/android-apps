@@ -9,6 +9,7 @@ public class Pedagang {
     public String name;
     public String email;
     public String dagangan;
+    public String image;
     public double latitude;
     public double longitude;
 
@@ -20,6 +21,7 @@ public class Pedagang {
         this.name = name;
         this.email = email;
         this.dagangan = dagangan;
+        this.image = image;
         this.latitude = latitude;
         this.longitude = longitude;
     }
@@ -33,6 +35,9 @@ public class Pedagang {
     }
     public String getEmail() {
         return email;
+    }
+    public String getImage() {
+        return image;
     }
     public double getLatitude() {
         return latitude;

@@ -19,14 +19,15 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:background="@color/md_yellow_500">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="48sp"
-            android:text="The App"
-            android:layout_marginBottom="40dp"/>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:src="@drawable/gorobak"
+            android:layout_marginBottom="60dp"
+            android:id="@+id/imageView" />
 
         <android.support.design.widget.TextInputLayout
             android:layout_height="wrap_content"
@@ -55,15 +56,15 @@
         </android.support.design.widget.TextInputLayout>
 
         <Button
-            android:layout_width="match_parent"
+            android:layout_width="302dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:layout_marginRight="40dp"
             android:layout_marginLeft="40dp"
             android:text="Log In"
             android:id="@+id/button_login"
-            android:background="@color/colorAccent"
-            android:textColor="@android:color/white"/>
+            android:background="@color/md_yellow_800"
+            android:textColor="?attr/colorAccent"/>
 
         <TextView
             android:layout_width="wrap_content"

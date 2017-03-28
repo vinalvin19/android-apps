@@ -1,20 +1,12 @@
 package com.example.lotus.emailbuilder;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -27,6 +19,7 @@ import java.util.List;
 
 /**
  * Created by Lotus on 25/03/2017.
+ http://www.androidbegin.com/tutorial/android-search-filter-listview-images-and-texts-tutorial/
  */
 
 public class ListActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
@@ -87,30 +80,6 @@ public class ListActivity extends AppCompatActivity implements SearchView.OnQuer
                 listView.setTextFilterEnabled(true);
 
                 setupSearchView();
-
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                    @Override
-                    public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-                        Intent intent = new Intent(ListActivity.this, MainActivity.class);
-                        /*intent.putExtra("name", arrayName.get(position).toString());
-                        intent.putExtra("alamat", arrayAlamat.get(position).toString());
-                        intent.putExtra("email", arrayEmail.get(position).toString());*/
-                        /*Bundle bundle = new Bundle();
-                        bundle.putParcelableArrayList("arraylist", employeeArrayList);
-                        intent.putExtra("result.content", bundle);
-                        */
-                        /*intent.putExtra("student", employeeArrayList);
-                        Log.d("TAGES", "sebelum intent" + employeeArrayList);*/
-                        /*Bundle bundle = new Bundle();
-                        bundle.putParcelableArrayList("mylist", employeeArrayList);
-                        intent.putExtras(bundle);*/
-                        //bundle.putParcelableArrayList("arraylist", employeeArrayList);
-                        intent.putParcelableArrayListExtra("cars", employeeArrayList);
-                        Log.d("TAGES", "sebelum intent " + employeeArrayList);
-                        startActivity(intent);
-                    }
-                });
             }
 
             @Override
@@ -132,11 +101,12 @@ public class ListActivity extends AppCompatActivity implements SearchView.OnQuer
 
         });
     }
+
     private void setupSearchView()
     {
         mSearchView.setIconifiedByDefault(false);
         mSearchView.setOnQueryTextListener(this);
-        mSearchView.setSubmitButtonEnabled(true);
+        //mSearchView.setSubmitButtonEnabled(true);
         mSearchView.setQueryHint("Search Here");
     }
 
@@ -146,7 +116,9 @@ public class ListActivity extends AppCompatActivity implements SearchView.OnQuer
         if (TextUtils.isEmpty(newText)) {
             listView.clearTextFilter();
         } else {
-            listView.setFilterText(newText);
+            CustomListAdapter ca = (CustomListAdapter) listView.getAdapter();
+            ca.getFilter().filter(newText);
+            //listView.setFilterText(newText);
         }
         return true;
     }
@@ -156,5 +128,6 @@ public class ListActivity extends AppCompatActivity implements SearchView.OnQuer
     {
         return false;
     }
+
 
 }
