@@ -1,18 +1,43 @@
 package com.example.lotus.emailbuilder;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Properties;
+
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.mail.Authenticator;
+import javax.mail.BodyPart;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 /**
  * Created by Lotus on 09/03/2017.
@@ -28,6 +53,16 @@ public class CustomListAdapter extends BaseAdapter implements Filterable{
     //public ArrayList<Site> alamat;
     public ArrayList<Site> employeeArrayList;
     public ArrayList<Site> orig;
+    private Multipart _multipart = new MimeMultipart();
+
+    Session session = null;
+    ProgressDialog pdialog = null;
+
+    String alamatEmail="";
+    String judulEmail="";
+    String isiEmail="";
+
+    Template template = new Template();
 
     /*public CustomListAdapter(Activity context, List<String> name, List<String> alamat) {
         super(context, R.layout.activity_listview, name);
@@ -78,6 +113,8 @@ public class CustomListAdapter extends BaseAdapter implements Filterable{
         holder.name.setText(employeeArrayList.get(position).getNama());
         holder.alamat.setText(employeeArrayList.get(position).getAlamat());
 
+        Log.d("TAGES", employeeArrayList.get(position).getNama()+" "+ employeeArrayList.get(position).getEmail());
+
         view.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -93,9 +130,72 @@ public class CustomListAdapter extends BaseAdapter implements Filterable{
             }
         });
 
+        view.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View arg0) {
+                // TODO Auto-generated method stub
+
+                alamatEmail = employeeArrayList.get(position).getEmail();
+                judulEmail = template.judulEmail + employeeArrayList.get(position).getNama();
+                isiEmail = template.isiEmail + employeeArrayList.get(position).getNama() + template.isiEmailTengah + employeeArrayList.get(position).getAlamat() + template.isiEmailBawah;
+                Log.v("TAGES","pos: " + employeeArrayList.get(position).getNama());
+
+                Properties props = new Properties();
+                props.put("mail.smtp.host", "smtp.gmail.com");
+                props.put("mail.smtp.socketFactory.port", "465");
+                props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+                props.put("mail.smtp.auth", "true");
+                props.put("mail.smtp.port", "465");
+
+                session = Session.getDefaultInstance(props, new Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication("alvinalbuquerque@gmail.com", "sayamaumakan");
+                    }
+                });
+
+                pdialog = ProgressDialog.show(context, "", "Sending Mail...", true);
+
+                SendingEmail task = new SendingEmail();
+                task.execute();
+
+                return true;
+            }
+        });
+
         return view;
     }
 
+    class SendingEmail extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            try{
+                Message message = new MimeMessage(session);
+                message.setFrom(new InternetAddress("alvinalbuquerque@gmail.com"));
+                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(alamatEmail));
+                message.setSubject(judulEmail);
+
+                BodyPart messageBodyPart = new MimeBodyPart();
+                messageBodyPart.setText(isiEmail);
+                _multipart.addBodyPart(messageBodyPart);
+                message.setContent(_multipart);
+
+                Transport.send(message);
+            } catch(MessagingException e) {
+                e.printStackTrace();
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            pdialog.dismiss();
+            Toast.makeText(context, "Message sent", Toast.LENGTH_LONG).show();
+        }
+    }
 
     public Filter getFilter() {
         return new Filter() {

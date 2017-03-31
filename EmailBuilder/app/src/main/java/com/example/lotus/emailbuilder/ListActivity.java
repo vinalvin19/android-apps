@@ -1,5 +1,6 @@
 package com.example.lotus.emailbuilder;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -7,15 +8,22 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.mikepenz.materialdrawer.AccountHeader;
+import com.mikepenz.materialdrawer.AccountHeaderBuilder;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Lotus on 25/03/2017.
@@ -31,9 +39,8 @@ public class ListActivity extends AppCompatActivity implements SearchView.OnQuer
     ListView listView;
     CustomListAdapter employeeAdapter;
 
-    List<String> arrayName = new ArrayList<>();
-    List<String> arrayEmail = new ArrayList<>();
-    List<String> arrayAlamat = new ArrayList<>();
+    private AccountHeader accountHeader;
+    private Drawer drawer = null;
 
     public ArrayList<Site> employeeArrayList;
 
@@ -47,31 +54,18 @@ public class ListActivity extends AppCompatActivity implements SearchView.OnQuer
         listView = (ListView) findViewById(R.id.my_list_view);
         Log.d("TAGES", "Masuk onCreate");
 
+        createDrawer();
+
         employeeArrayList=new ArrayList<Site>();
 
         myRef.addChildEventListener(new ChildEventListener() {
-            //myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
 
                 Site site = dataSnapshot.getValue(Site.class);
                 Log.d("TAGES", "Masuk childhood");
 
                 Log.d("TAGES", "ada " + site.getNama() + " dengan email " + site.getAlamat());
-
-
-                /*if (!arrayName.contains(site.getNama())) {
-                    arrayName.add(site.getNama());
-                    arrayAlamat.add(site.getAlamat());
-                    arrayEmail.add(site.getEmail());
-                }
-
-
-                adapter = new CustomListAdapter(ListActivity.this, arrayName, arrayAlamat);
-                listView.setAdapter(adapter);
-                listView.setTextFilterEnabled(true);*/
 
                 employeeArrayList.add(new Site(site.getNama(), site.getAlamat(), site.getEmail()));
 
@@ -129,5 +123,50 @@ public class ListActivity extends AppCompatActivity implements SearchView.OnQuer
         return false;
     }
 
+    private void createDrawer() {
+
+        accountHeader = new AccountHeaderBuilder()
+                .withActivity(this)
+                .withHeaderBackground(R.drawable.header)
+                .addProfiles(
+                        new ProfileDrawerItem().withName("Telkomsel")
+                                .withIcon(getResources().getDrawable(R.drawable.header))
+                )
+                .withSelectionListEnabledForSingleProfile(false)
+                .build();
+
+        drawer = new DrawerBuilder()
+                .withActivity(this)
+                .withAccountHeader(accountHeader)
+                .addDrawerItems(
+                        new PrimaryDrawerItem().withName("Tambah Site"),
+                        new PrimaryDrawerItem().withName("Settings")
+                )
+                .withOnDrawerItemClickListener(
+                        new Drawer.OnDrawerItemClickListener() {
+                            @Override
+                            public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+
+                                Intent intent;
+
+                                switch (position) {
+                                    case 1:
+                                        intent = new Intent(ListActivity.this, AddSite.class);
+                                        startActivity(intent);
+                                        break;
+                                    case 2:
+                                        Toast.makeText(getApplicationContext(), "Setting", Toast.LENGTH_SHORT).show();
+                                        break;
+                                    default:
+                                        break;
+                                }
+
+                                return false;
+                            }
+                        }
+                )
+                .build();
+
+    }
 
 }

@@ -2,7 +2,9 @@ package com.example.lotus.emailbuilder;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +16,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Properties;
+
+import javax.mail.Authenticator;
+import javax.mail.BodyPart;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 
 // source:
@@ -27,6 +43,10 @@ public class MainActivity extends AppCompatActivity {
 
     /** Called when the activity is first created. */
 
+    Session session = null;
+    ProgressDialog pdialog = null;
+    Context context = null;
+
     Button send;
     EditText tujuanEmail;
     EditText judulEmail;
@@ -39,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     String alamatSite;
 
     ProgressDialog progress;
+    private Multipart _multipart = new MimeMultipart();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -79,43 +100,63 @@ public class MainActivity extends AppCompatActivity {
 
             public void onClick(View v) {
 
-                progress = ProgressDialog.show(MainActivity.this, "Sending email",
-                        "Sending a report about " + namaSite, true);
+                sendingEmail();
+            }
+        });
+    }
 
-                new Thread(new Runnable() {
-                    @Override
-                    public void run()
-                    {
-                        // do the thing that takes a long time
-                        Log.d("TAGES", "kepencet sih");
-                        Log.d("TAGES", "ini judul: " + judulEmailFull);
-                        Log.d("TAGES", "ini isi: " + isiEmailFull);
-                        Log.d("TAGES", "ini email: " + emailSite);
+    public void sendingEmail()
+    {
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.socketFactory.port", "465");
+        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.port", "465");
 
-                        try {
-                            GMailSender sender = new GMailSender("alvinalbuquerque@gmail.com", "sayamaumakan");
-                            sender.sendMail(judulEmailFull,
-                                    isiEmailFull,
-                                    "alvinalbuquerque@gmail.com",
-                                    emailSite);
-                        } catch (Exception e) {
-                            Log.e("SendMail", e.getMessage(), e);
-                            Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
-                        }
-
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run()
-                            {
-                                progress.dismiss();
-                                Toast.makeText(getApplicationContext(), "Success sending your email", Toast.LENGTH_SHORT).show();
-                                finish();
-                            }
-                        });
-                    }
-                }).start();
+        session = Session.getDefaultInstance(props, new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication("alvinalbuquerque@gmail.com", "sayamaumakan");
             }
         });
 
+        pdialog = ProgressDialog.show(MainActivity.this, "", "Sending Mail...", true);
+
+        RetreiveFeedTask task = new RetreiveFeedTask();
+        task.execute();
+    }
+
+    class RetreiveFeedTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            try{
+                Message message = new MimeMessage(session);
+                message.setFrom(new InternetAddress("alvinalbuquerque@gmail.com"));
+                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(emailSite));
+                message.setSubject(judulEmailFull);
+
+                BodyPart messageBodyPart = new MimeBodyPart();
+                messageBodyPart.setText(isiEmailFull);
+                _multipart.addBodyPart(messageBodyPart);
+                message.setContent(_multipart);
+
+                Transport.send(message);
+
+            } catch(MessagingException e) {
+                e.printStackTrace();
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            pdialog.dismiss();
+            finish();
+            Toast.makeText(context, "Message sent", Toast.LENGTH_LONG).show();
+        }
     }
 }

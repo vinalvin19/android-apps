@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddSite" >
+
+    <TextView
+        android:id="@+id/idSite"
+        android:text="ID Site"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/namaSite"
+        android:layout_marginTop="20dp" />
+
+    <EditText
+        android:id="@+id/idSiteEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="ID Site"
+        android:ems="10"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/idSite"
+        android:layout_marginRight="30dp"
+        android:layout_alignStart="@+id/idSite"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:id="@+id/namaSite"
+        android:text="Nama Site"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/idSiteEdit"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:id="@+id/namaSiteEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="Nama Site"
+        android:ems="10"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/namaSite"
+        android:layout_alignStart="@+id/namaSite"
+        android:layout_alignEnd="@+id/idSiteEdit" />
+
+    <TextView
+        android:id="@+id/alamatSite"
+        android:text="Alamat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/namaSiteEdit"
+        android:layout_alignStart="@+id/namaSiteEdit" />
+
+    <EditText
+        android:id="@+id/alamatSiteEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="Alamat Site"
+        android:ems="10"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/alamatSite"
+        android:layout_alignStart="@+id/alamatSite"
+        android:layout_alignEnd="@+id/namaSiteEdit" />
+
+    <TextView
+        android:id="@+id/daftarEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/alamatSiteEdit"
+        android:layout_below="@+id/alamatSiteEdit"
+        android:layout_marginTop="20dp"
+        android:text="Daftar Email" />
+
+    <EditText
+        android:id="@+id/emailEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_alignStart="@+id/daftarEmail"
+        android:layout_below="@+id/daftarEmail"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="..@gmail.com , ..@gmail.com"
+        android:layout_alignEnd="@+id/alamatSiteEdit" />
+
+    <Button
+        android:id="@+id/send"
+        android:layout_width="140dp"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp"
+        android:background="@color/colorPrimary"
+        android:text="Simpan"
+        android:textSize="16dp"
+        android:textColor="#FFFFFF" />
+
+</RelativeLayout>
