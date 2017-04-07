@@ -7,9 +7,12 @@
 
     <Button
         android:id="@+id/send"
+        android:text="Send Mail"
         android:layout_width="140dp"
         android:layout_height="60dp"
-        android:text="Send Mail"
+        android:background="@color/colorPrimary"
+        android:textSize="16dp"
+        android:textColor="#FFFFFF"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="40dp" />

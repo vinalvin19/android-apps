@@ -1,11 +1,17 @@
 package com.example.lotus.emailbuilder;
 
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +21,8 @@ import java.util.Map;
  */
 
 public class AddSite extends AppCompatActivity{
+
+    ProgressDialog addSiteDialog = null;
 
     EditText _idSite;
     EditText _namaSite;
@@ -26,6 +34,9 @@ public class AddSite extends AppCompatActivity{
     String namaSite;
     String alamatSite;
     String emailSite;
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    final DatabaseReference myRef = database.getReference();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,7 +53,6 @@ public class AddSite extends AppCompatActivity{
             @Override
             public void onClick(View v) {
 
-
                 idSite = _idSite.getText().toString();
                 namaSite= _namaSite.getText().toString();
                 alamatSite = _alamatSite.getText().toString();
@@ -50,12 +60,39 @@ public class AddSite extends AppCompatActivity{
 
                 Log.d("TAGES", idSite+" "+ namaSite+" "+alamatSite+" "+emailSite);
 
-                /*Map<String, Object> done = new HashMap<String, Object>();
-                done.put("panggil", emailPedagangUpdate);
-                myRef.child("user").child(emailUser).updateChildren(done);
+                addSiteDialog = ProgressDialog.show(AddSite.this, "", "Adding Site...", true);
 
-                showProgressDialog();*/
+                AddSite.addSiteTask task = new AddSite.addSiteTask();
+                task.execute();
             }
         });
+    }
+
+    class addSiteTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            try{
+
+                Map<String, Object> site = new HashMap<String, Object>();
+                site.put("siteid", idSite.toUpperCase());
+                site.put("nama", namaSite.toUpperCase());
+                site.put("alamat", alamatSite.toUpperCase());
+                site.put("email", emailSite.toLowerCase());
+                myRef.child(namaSite.toUpperCase()).setValue(site);
+
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            addSiteDialog.dismiss();
+            finish();
+            Toast.makeText(getApplicationContext(), "Site Added", Toast.LENGTH_LONG).show();
+        }
     }
 }

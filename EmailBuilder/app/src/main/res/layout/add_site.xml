@@ -93,13 +93,13 @@
 
     <Button
         android:id="@+id/send"
-        android:layout_width="140dp"
-        android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="40dp"
-        android:background="@color/colorPrimary"
         android:text="Simpan"
+        android:layout_width="140dp"
+        android:layout_height="60dp"
+        android:background="@color/colorPrimary"
         android:textSize="16dp"
         android:textColor="#FFFFFF" />
 

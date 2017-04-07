@@ -44,7 +44,6 @@ public class ListActivity extends AppCompatActivity implements SearchView.OnQuer
 
     public ArrayList<Site> employeeArrayList;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

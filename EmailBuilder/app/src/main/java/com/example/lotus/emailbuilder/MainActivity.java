@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
             pdialog.dismiss();
             finish();
-            Toast.makeText(context, "Message sent", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Message sent", Toast.LENGTH_LONG).show();
         }
     }
 }
