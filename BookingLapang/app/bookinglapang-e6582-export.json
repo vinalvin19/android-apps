@@ -1,0 +1,35 @@
+{
+	"users":{
+		"alvinmsf94@gmail,com":{
+			"fullName": "Alvin",
+			"emailAddress": "alvinmsf94@gmail.com",
+			"userName": "alvin",
+			"avatarLink": " ",
+			"createdAt": "11111"
+			}
+		},
+	"lapangan":{
+		"Futsal":{
+			"saraga":{
+				"nama": "saraga",
+				"alamat": "baksil",
+				"latitude": -6.88,
+				"longitude": 107.61
+			},
+			"saragab":{
+				"nama": "saragab",
+				"alamat": "baksil2",
+				"latitude": -6.89,
+				"longitude": 107.62
+			}
+		},
+		"Bulutangkis":{
+			"cisitu":{
+				"nama": "cisitu",
+				"alamat": "cisitu indah",
+				"latitude": -6.87,
+				"longitude": 107.61
+			}
+		}
+	}
+}
