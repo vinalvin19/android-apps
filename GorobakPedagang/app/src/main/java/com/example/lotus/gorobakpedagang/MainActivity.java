@@ -1,6 +1,10 @@
 package com.example.lotus.gorobakpedagang;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -34,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        textNama = (TextView) findViewById(R.id.textNama);
+        //textNama = (TextView) findViewById(R.id.textNama);
 
         myRef.child("pedagang").child(emailPedagang).addValueEventListener(new ValueEventListener() {
             @Override
@@ -61,9 +66,18 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 User user = dataSnapshot.getValue(User.class);
-                textNama.setText("dipanggil sama "+ user.getName()+ " berjarak "+String.valueOf(user.getLatitude()));
+                //textNama.setText("dipanggil sama "+ user.getName()+ " berjarak "+String.valueOf(user.getLatitude()));
                 Log.d("TAGES", "dipanggil sama "+ user.getName()+ " berjarak "+String.valueOf(user.getLatitude()));
 
+                NotificationManager notif=(NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+                Notification notify=new Notification.Builder
+                        (getApplicationContext()).setContentTitle("gorobak").setContentText(user.getName()+ " di "+user.getLokasi()).
+                        setContentTitle("Kamu mendapat pesanan").setSmallIcon(R.drawable.white)
+                        .setAutoCancel(true)
+                        .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                        .build();
+
+                notif.notify((int)Calendar.getInstance().getTimeInMillis(), notify);
             }
 
             @Override
