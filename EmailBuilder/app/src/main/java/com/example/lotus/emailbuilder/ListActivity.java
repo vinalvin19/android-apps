@@ -66,7 +66,7 @@ public class ListActivity extends AppCompatActivity implements SearchView.OnQuer
 
                 Log.d("TAGES", "ada " + site.getNama() + " dengan email " + site.getAlamat());
 
-                employeeArrayList.add(new Site(site.getNama(), site.getAlamat(), site.getEmail()));
+                employeeArrayList.add(new Site(site.getNama(), site.getAlamat(), site.getEmail(), site.getSiteid()));
 
                 employeeAdapter=new CustomListAdapter(ListActivity.this, employeeArrayList);
                 listView.setAdapter(employeeAdapter);

@@ -5,17 +5,39 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity" >
 
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="140dp"
+    android:layout_below="@+id/editTextIsiEmail">
+
     <Button
-        android:id="@+id/send"
-        android:text="Send Mail"
+        android:id="@+id/editSite"
         android:layout_width="140dp"
         android:layout_height="60dp"
+        android:text="Edit Site"
         android:background="@color/colorPrimary"
         android:textSize="16dp"
         android:textColor="#FFFFFF"
+        android:layout_weight="1"
+        android:layout_marginStart="35dp"
+        android:layout_alignBaseline="@+id/send"
+        android:layout_alignBottom="@+id/send"
+        android:layout_alignStart="@+id/editTextIsiEmail" />
+
+    <Button
+        android:id="@+id/send"
+        android:layout_width="140dp"
+        android:layout_height="60dp"
+        android:layout_alignEnd="@+id/editTextIsiEmail"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="40dp" />
+        android:layout_marginBottom="38dp"
+        android:layout_marginEnd="35dp"
+        android:layout_weight="1"
+        android:background="@color/colorPrimary"
+        android:text="Send Mail"
+        android:textColor="#FFFFFF"
+        android:textSize="16dp" />
+</LinearLayout>
 
     <TextView
         android:text="Isi Email"
@@ -82,5 +104,6 @@
         android:layout_below="@+id/isiEmail"
         android:layout_alignStart="@+id/isiEmail"
         android:layout_alignEnd="@+id/editTextJudul" />
+
 
 </RelativeLayout>

@@ -122,11 +122,14 @@ public class CustomListAdapter extends BaseAdapter implements Filterable{
                 Log.d("TAGES", employeeArrayList.get(position).getNama());
                 Intent intent = new Intent(context, MainActivity.class);
                 Bundle bundle = new Bundle();
+                bundle.putString("idsite", employeeArrayList.get(position).getSiteid());
                 bundle.putString("name", employeeArrayList.get(position).getNama());
                 bundle.putString("alamat", employeeArrayList.get(position).getAlamat());
                 bundle.putString("email", employeeArrayList.get(position).getEmail());
                 intent.putExtras(bundle);
                 context.startActivity(intent);
+                Log.d("TAGES", employeeArrayList.get(position).getSiteid()+" "+ employeeArrayList.get(position).getNama());
+
             }
         });
 

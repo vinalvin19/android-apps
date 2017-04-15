@@ -45,15 +45,16 @@ public class MainActivity extends AppCompatActivity {
 
     Session session = null;
     ProgressDialog pdialog = null;
-    Context context = null;
 
     Button send;
+    Button editSite;
     EditText tujuanEmail;
     EditText judulEmail;
     EditText isiEmail;
 
     String judulEmailFull;
     String isiEmailFull;
+    String idSite;
     String namaSite;
     String emailSite;
     String alamatSite;
@@ -69,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         Template template = new Template();
 
         send = (Button) this.findViewById(R.id.send);
+        editSite = (Button) this.findViewById(R.id.editSite);
         tujuanEmail= (EditText) findViewById(R.id.editTextTujuan);
         judulEmail = (EditText) findViewById(R.id.editTextJudul);
         isiEmail = (EditText) findViewById(R.id.editTextIsiEmail);
@@ -79,10 +81,11 @@ public class MainActivity extends AppCompatActivity {
         Bundle b = intent.getExtras();
 
         if (b != null) {
+            idSite = (String) b.get("idsite");
             namaSite = (String) b.get("name");
             alamatSite = (String) b.get("alamat");
             emailSite = (String) b.get("email");
-            Log.d("TAGES", "ada " + namaSite + " dengan alamat " + alamatSite + " dan email " + emailSite);
+            Log.d("TAGES", "ada " + idSite+" "+namaSite + " dengan alamat " + alamatSite + " dan email " + emailSite);
 
             judulEmailFull = template.judulEmail + namaSite;
             isiEmailFull = template.isiEmail + namaSite + template.isiEmailTengah + alamatSite + template.isiEmailBawah;
@@ -95,6 +98,22 @@ public class MainActivity extends AppCompatActivity {
         else{
             Toast.makeText(this, "ga keintent", Toast.LENGTH_SHORT).show();
         }
+
+        editSite.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+
+            Intent intent = new Intent(getApplicationContext(), EditSite.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("idSite", idSite );
+            bundle.putString("namaSite", namaSite);
+            bundle.putString("alamatSite", alamatSite);
+            bundle.putString("emailSite", emailSite);
+            intent.putExtras(bundle);
+            startActivity(intent);
+
+            }
+        });
 
         send.setOnClickListener(new View.OnClickListener() {
 
