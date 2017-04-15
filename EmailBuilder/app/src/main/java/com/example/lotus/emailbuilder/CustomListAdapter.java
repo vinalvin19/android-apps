@@ -21,7 +21,9 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Properties;
 
 import javax.activation.DataHandler;
@@ -61,6 +63,7 @@ public class CustomListAdapter extends BaseAdapter implements Filterable{
     String alamatEmail="";
     String judulEmail="";
     String isiEmail="";
+    private String namaSite;
 
     Template template = new Template();
 
@@ -138,6 +141,8 @@ public class CustomListAdapter extends BaseAdapter implements Filterable{
             public boolean onLongClick(View arg0) {
                 // TODO Auto-generated method stub
 
+                namaSite = employeeArrayList.get(position).getNama();
+
                 alamatEmail = employeeArrayList.get(position).getEmail();
                 judulEmail = template.judulEmail + employeeArrayList.get(position).getNama();
                 isiEmail = template.isiEmail + employeeArrayList.get(position).getNama() + template.isiEmailTengah + employeeArrayList.get(position).getAlamat() + template.isiEmailBawah;
@@ -185,11 +190,27 @@ public class CustomListAdapter extends BaseAdapter implements Filterable{
                 message.setContent(_multipart);
 
                 Transport.send(message);
+
+                DatabaseHandler db = new DatabaseHandler(context);
+                Calendar c = Calendar.getInstance();
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String formattedDate = df.format(c.getTime());
+
+                db.addSite(new Site(namaSite, "Success", formattedDate));
+
             } catch(MessagingException e) {
                 e.printStackTrace();
+
+                DatabaseHandler db = new DatabaseHandler(context);
+                Calendar c = Calendar.getInstance();
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String formattedDate = df.format(c.getTime());
+                db.addSite(new Site(namaSite, "Failed", formattedDate));
+
             } catch(Exception e) {
                 e.printStackTrace();
             }
+
             return null;
         }
 
@@ -259,5 +280,7 @@ public class CustomListAdapter extends BaseAdapter implements Filterable{
     @Override
     public long getItemId(int position) {
         return position;
-    }
+}
+
+
 }

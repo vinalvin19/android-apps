@@ -23,7 +23,11 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Lotus on 25/03/2017.
@@ -139,7 +143,8 @@ public class ListActivity extends AppCompatActivity implements SearchView.OnQuer
                 .withAccountHeader(accountHeader)
                 .addDrawerItems(
                         new PrimaryDrawerItem().withName("Tambah Site"),
-                        new PrimaryDrawerItem().withName("Settings")
+                        new PrimaryDrawerItem().withName("Settings"),
+                        new PrimaryDrawerItem().withName("History")
                 )
                 .withOnDrawerItemClickListener(
                         new Drawer.OnDrawerItemClickListener() {
@@ -154,8 +159,12 @@ public class ListActivity extends AppCompatActivity implements SearchView.OnQuer
                                         startActivity(intent);
                                         break;
                                     case 2:
-                                        Toast.makeText(getApplicationContext(), "Setting", Toast.LENGTH_SHORT).show();
+                                        intent = new Intent(ListActivity.this, SettingActivity.class);
+                                        startActivity(intent);
                                         break;
+                                    case 3:
+                                        intent = new Intent(ListActivity.this, HistorySite.class);
+                                        startActivity(intent);
                                     default:
                                         break;
                                 }

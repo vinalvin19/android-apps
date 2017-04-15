@@ -23,6 +23,8 @@
         <activity android:name=".MainActivity"></activity>
         <activity android:name=".AddSite"></activity>
         <activity android:name=".EditSite"></activity>
+        <activity android:name=".HistorySite"></activity>
+        <activity android:name=".SettingActivity"></activity>
     </application>
 
 </manifest>

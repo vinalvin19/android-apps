@@ -20,6 +20,7 @@ public class Site {
     public String alamat;
     public String siteid;
     public String status;
+    public String date;
     public ArrayList<Site> siteArrayList;
     public ArrayList<Site> orig;
 
@@ -34,9 +35,10 @@ public class Site {
         this.siteid = siteid;
     }
 
-    public Site(String nama, String status) {
+    public Site(String nama, String status, String date) {
         this.nama = nama;
         this.status = status;
+        this.date = date;
     }
 
     public String getNama() {
@@ -50,5 +52,21 @@ public class Site {
     }
     public String getSiteid() {
         return siteid;
+    }
+    public String getStatus() {
+        return status;
+    }
+    public String getDate() {
+        return date;
+    }
+
+    public void setNama(String nama){
+        this.nama = nama;
+    }
+    public void setStatus(String status){
+        this.status = status;
+    }
+    public void setDate(String date){
+        this.date = date;
     }
 }

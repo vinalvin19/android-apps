@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,7 +16,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Properties;
 
 import javax.mail.Authenticator;
@@ -58,9 +61,16 @@ public class MainActivity extends AppCompatActivity {
     String namaSite;
     String emailSite;
     String alamatSite;
+    String formattedDate;
+    String emailSender;
+    String passwordSender;
+
+    DatabaseHandler db;
 
     ProgressDialog progress;
     private Multipart _multipart = new MimeMultipart();
+
+    SharedPreferences sharedpreferences;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,8 +87,15 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("TAGES", "ini run loohh");
 
+        sharedpreferences = getSharedPreferences("mypref", Context.MODE_PRIVATE);
+
         Intent intent = getIntent();
         Bundle b = intent.getExtras();
+
+        db = new DatabaseHandler(getApplicationContext());
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        formattedDate = df.format(c.getTime());
 
         if (b != null) {
             idSite = (String) b.get("idsite");
@@ -87,8 +104,20 @@ public class MainActivity extends AppCompatActivity {
             emailSite = (String) b.get("email");
             Log.d("TAGES", "ada " + idSite+" "+namaSite + " dengan alamat " + alamatSite + " dan email " + emailSite);
 
-            judulEmailFull = template.judulEmail + namaSite;
+            //judulEmailFull = template.judulEmail + namaSite;
             isiEmailFull = template.isiEmail + namaSite + template.isiEmailTengah + alamatSite + template.isiEmailBawah;
+
+            if (sharedpreferences.contains("email")) {
+                Log.d("TAGES", "shared: "+sharedpreferences.getString("email", "null"));
+                emailSender = sharedpreferences.getString("email", "null");
+            }
+            if (sharedpreferences.contains("password")) {
+                Log.d("TAGES", "shared: "+sharedpreferences.getString("password", "null"));
+                passwordSender = sharedpreferences.getString("password", "null");
+            }
+            if (sharedpreferences.contains("judul")) {
+                judulEmailFull = sharedpreferences.getString("judul", "")+namaSite;
+            }
 
             judulEmail.setText(judulEmailFull);
             isiEmail.setText(isiEmailFull);
@@ -135,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
 
         session = Session.getDefaultInstance(props, new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("alvinalbuquerque@gmail.com", "sayamaumakan");
+                return new PasswordAuthentication(emailSender, passwordSender);
             }
         });
 
@@ -163,7 +192,12 @@ public class MainActivity extends AppCompatActivity {
 
                 Transport.send(message);
 
+                db.addSite(new Site(namaSite, "Success", formattedDate));
+                Toast.makeText(MainActivity.this, "Message sent", Toast.LENGTH_LONG).show();
+
             } catch(MessagingException e) {
+                Log.d("TAGES", e.toString());
+                db.addSite(new Site(namaSite, "Failed", formattedDate));
                 e.printStackTrace();
             } catch(Exception e) {
                 e.printStackTrace();
@@ -174,8 +208,9 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             pdialog.dismiss();
+            Toast.makeText(MainActivity.this, "Message sent", Toast.LENGTH_LONG).show();
             finish();
-            Toast.makeText(getApplicationContext(), "Message sent", Toast.LENGTH_LONG).show();
         }
     }
+
 }
