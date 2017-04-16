@@ -34,6 +34,7 @@
         <activity android:name=".ui.MainActivity"
             android:noHistory="true"/>
         <activity android:name=".ui.MapsActivity"/>
+        <activity android:name=".ui.DialogActivity"/>
     </application>
 
 </manifest>

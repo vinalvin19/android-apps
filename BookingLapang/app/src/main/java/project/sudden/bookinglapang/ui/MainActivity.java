@@ -137,12 +137,9 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
 
         sportsSpinner.setOnItemSelectedListener(this);
 
-        // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.sports_array, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
         sportsSpinner.setAdapter(adapter);
 
         searchEachSpinner.setOnClickListener(new View.OnClickListener(){
@@ -180,15 +177,15 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
             public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
 
                 Lapangan lapangan= dataSnapshot.getValue(Lapangan.class);
-                Log.d("TAGES", "(geofence) ada " + lapangan.getNamaLapangan() + " dengan jarak " + jarakTempuh);
 
                 jarakTempuh = distance(latitudeUser, longitudeUser, lapangan.getLatitude(), lapangan.getLongitude());
+                Log.d("TAGES", "(geofence) ada " + lapangan.getNamaLapangan() + " dengan jarak " + jarakTempuh);
                 if (jarakTempuh < 100) {
 
                     if (!arrayName.contains(lapangan.getNamaLapangan())) {
                         arrayLatitude.add(lapangan.getLatitude());
                         arrayLongitude.add(lapangan.getLongitude());
-                        arrayName.add(lapangan.getNamaLapangan());
+                        arrayName.add(dataSnapshot.getKey());
                         //arrayDistance.add(jarakTempuh);
                     }
 
@@ -198,6 +195,7 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
                     intent.putExtra("longitudeLapangan", arrayLongitude);
                     intent.putExtra("latitudeUser", latitudeUser);
                     intent.putExtra("longitudeUser", longitudeUser);
+                    intent.putExtra("cabangOlahraga", onSelected);
                     startActivity(intent);
                 }
             }
@@ -419,9 +417,11 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
 
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
         Intent startMain = new Intent(Intent.ACTION_MAIN);
         startMain.addCategory(Intent.CATEGORY_HOME);
         startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(startMain);
+        finish();
     }
 }
