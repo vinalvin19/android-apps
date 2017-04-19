@@ -19,6 +19,11 @@ public class SettingActivity extends AppCompatActivity{
     EditText emailEdit;
     EditText passwordEdit;
     EditText judulEmailEdit;
+    EditText pembukaEdit;
+    EditText siteIdEdit;
+    EditText alamatIdEdit;
+    EditText caseEdit;
+    EditText penutupEdit;
     Button saveButton;
 
     SharedPreferences sharedpreferences;
@@ -31,8 +36,37 @@ public class SettingActivity extends AppCompatActivity{
         emailEdit = (EditText) findViewById(R.id.emailEdit);
         passwordEdit = (EditText) findViewById(R.id.passwordEdit);
         judulEmailEdit = (EditText) findViewById(R.id.judulEmailEdit);
+        pembukaEdit = (EditText) findViewById(R.id.pembukaEdit);
+        siteIdEdit = (EditText) findViewById(R.id.siteIdEdit);
+        alamatIdEdit = (EditText) findViewById(R.id.alamatIdEdit);
+        caseEdit = (EditText) findViewById(R.id.caseEdit);
+        penutupEdit = (EditText) findViewById(R.id.penutupEdit);
         saveButton = (Button) findViewById(R.id.saveButton);
 
+        getSharedPreference();
+
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+
+                editor.putString("email", emailEdit.getText().toString());
+                editor.putString("password", passwordEdit.getText().toString());
+                editor.putString("judul", judulEmailEdit.getText().toString());
+                editor.putString("pembuka", pembukaEdit.getText().toString());
+                editor.putString("siteId", siteIdEdit.getText().toString());
+                editor.putString("alamatId", alamatIdEdit.getText().toString());
+                editor.putString("case", caseEdit.getText().toString());
+                editor.putString("penutup", penutupEdit.getText().toString());
+                editor.commit();
+
+                finish();
+                Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void getSharedPreference(){
         sharedpreferences = getSharedPreferences("mypref", Context.MODE_PRIVATE);
 
         if (sharedpreferences.contains("email")) {
@@ -45,20 +79,20 @@ public class SettingActivity extends AppCompatActivity{
         if (sharedpreferences.contains("judul")) {
             judulEmailEdit.setText(sharedpreferences.getString("judul", ""));
         }
-
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SharedPreferences.Editor editor = sharedpreferences.edit();
-
-                editor.putString("email", emailEdit.getText().toString());
-                editor.putString("password", passwordEdit.getText().toString());
-                editor.putString("judul", judulEmailEdit.getText().toString());
-                editor.commit();
-
-                finish();
-                Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
-            }
-        });
+        if (sharedpreferences.contains("pembuka")) {
+            pembukaEdit.setText(sharedpreferences.getString("pembuka", ""));
+        }
+        if (sharedpreferences.contains("siteId")) {
+            siteIdEdit.setText(sharedpreferences.getString("siteId", ""));
+        }
+        if (sharedpreferences.contains("alamatId")) {
+            alamatIdEdit.setText(sharedpreferences.getString("alamatId", ""));
+        }
+        if (sharedpreferences.contains("case")) {
+            caseEdit.setText(sharedpreferences.getString("case", ""));
+        }
+        if (sharedpreferences.contains("penutup")) {
+            penutupEdit.setText(sharedpreferences.getString("penutup", ""));
+        }
     }
 }

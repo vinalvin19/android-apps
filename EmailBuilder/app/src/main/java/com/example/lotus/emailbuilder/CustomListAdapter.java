@@ -2,7 +2,9 @@ package com.example.lotus.emailbuilder;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -59,10 +61,20 @@ public class CustomListAdapter extends BaseAdapter implements Filterable{
 
     Session session = null;
     ProgressDialog pdialog = null;
+    SharedPreferences sharedpreferences;
 
     String alamatEmail="";
     String judulEmail="";
     String isiEmail="";
+    String idSite="";
+    String alamatSite="";
+    String emailSender;
+    String passwordSender;
+    String pembuka;
+    String siteid;
+    String alamatid;
+    String caseSite;
+    String penutup;
     private String namaSite;
 
     Template template = new Template();
@@ -142,10 +154,44 @@ public class CustomListAdapter extends BaseAdapter implements Filterable{
                 // TODO Auto-generated method stub
 
                 namaSite = employeeArrayList.get(position).getNama();
-
                 alamatEmail = employeeArrayList.get(position).getEmail();
-                judulEmail = template.judulEmail + employeeArrayList.get(position).getNama();
-                isiEmail = template.isiEmail + employeeArrayList.get(position).getNama() + template.isiEmailTengah + employeeArrayList.get(position).getAlamat() + template.isiEmailBawah;
+                idSite = employeeArrayList.get(position).getSiteid();
+                alamatSite = employeeArrayList.get(position).getAlamat();
+
+                sharedpreferences = context.getSharedPreferences("mypref", context.MODE_PRIVATE);
+
+                if (sharedpreferences.contains("email")) {
+                    Log.d("TAGES", "shared: "+sharedpreferences.getString("email", "null"));
+                    emailSender = sharedpreferences.getString("email", "null");
+                }
+                if (sharedpreferences.contains("password")) {
+                    Log.d("TAGES", "shared: "+sharedpreferences.getString("password", "null"));
+                    passwordSender = sharedpreferences.getString("password", "null");
+                }
+                if (sharedpreferences.contains("judul")) {
+                    judulEmail = sharedpreferences.getString("judul", "")+namaSite;
+                }
+                if (sharedpreferences.contains("pembuka")) {
+                    pembuka = sharedpreferences.getString("pembuka", "");
+                }
+                if (sharedpreferences.contains("siteId")) {
+                    siteid = sharedpreferences.getString("siteId", "");
+                }
+                if (sharedpreferences.contains("alamatId")) {
+                    alamatid = sharedpreferences.getString("alamatId", "");
+                }
+                if (sharedpreferences.contains("case")) {
+                    caseSite = sharedpreferences.getString("case", "");
+                }
+                if (sharedpreferences.contains("penutup")) {
+                    penutup = sharedpreferences.getString("penutup", "");
+                }
+
+                //judulEmail = template.judulEmail + employeeArrayList.get(position).getNama();
+                //isiEmail = template.isiEmail + employeeArrayList.get(position).getNama() + template.isiEmailTengah + employeeArrayList.get(position).getAlamat() + template.isiEmailBawah;
+
+                isiEmail = pembuka + "\n\n" + siteid + idSite + "    /   " + namaSite + "\n" + alamatid + alamatSite + "\n"
+                        + caseSite + "\n\n" + penutup;
                 Log.v("TAGES","pos: " + employeeArrayList.get(position).getNama());
 
                 Properties props = new Properties();
@@ -157,7 +203,7 @@ public class CustomListAdapter extends BaseAdapter implements Filterable{
 
                 session = Session.getDefaultInstance(props, new Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication("alvinalbuquerque@gmail.com", "sayamaumakan");
+                        return new PasswordAuthentication(emailSender, passwordSender);
                     }
                 });
 
@@ -174,6 +220,9 @@ public class CustomListAdapter extends BaseAdapter implements Filterable{
     }
 
     class SendingEmail extends AsyncTask<String, Void, String> {
+
+        boolean status = true;
+        String failed;
 
         @Override
         protected String doInBackground(String... params) {
@@ -206,6 +255,8 @@ public class CustomListAdapter extends BaseAdapter implements Filterable{
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 String formattedDate = df.format(c.getTime());
                 db.addSite(new Site(namaSite, "Failed", formattedDate));
+                status = false;
+                failed = e.toString();
 
             } catch(Exception e) {
                 e.printStackTrace();
@@ -217,7 +268,10 @@ public class CustomListAdapter extends BaseAdapter implements Filterable{
         @Override
         protected void onPostExecute(String result) {
             pdialog.dismiss();
-            Toast.makeText(context, "Message sent", Toast.LENGTH_LONG).show();
+            if (status)
+                Toast.makeText(context, "message sent", Toast.LENGTH_LONG).show();
+            else
+                Toast.makeText(context, failed, Toast.LENGTH_LONG).show();
         }
     }
 

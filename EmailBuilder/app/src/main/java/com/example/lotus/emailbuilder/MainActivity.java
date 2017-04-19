@@ -57,12 +57,17 @@ public class MainActivity extends AppCompatActivity {
 
     String judulEmailFull;
     String isiEmailFull;
+    String pembuka;
+    String siteid;
+    String alamatid;
+    String caseSite;
+    String penutup;
     String idSite;
+    String emailSender;
     String namaSite;
     String emailSite;
     String alamatSite;
     String formattedDate;
-    String emailSender;
     String passwordSender;
 
     DatabaseHandler db;
@@ -105,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
             Log.d("TAGES", "ada " + idSite+" "+namaSite + " dengan alamat " + alamatSite + " dan email " + emailSite);
 
             //judulEmailFull = template.judulEmail + namaSite;
-            isiEmailFull = template.isiEmail + namaSite + template.isiEmailTengah + alamatSite + template.isiEmailBawah;
+            //isiEmailFull = template.isiEmail + namaSite + template.isiEmailTengah + alamatSite + template.isiEmailBawah;
 
             if (sharedpreferences.contains("email")) {
                 Log.d("TAGES", "shared: "+sharedpreferences.getString("email", "null"));
@@ -118,6 +123,24 @@ public class MainActivity extends AppCompatActivity {
             if (sharedpreferences.contains("judul")) {
                 judulEmailFull = sharedpreferences.getString("judul", "")+namaSite;
             }
+            if (sharedpreferences.contains("pembuka")) {
+                pembuka = sharedpreferences.getString("pembuka", "");
+            }
+            if (sharedpreferences.contains("siteId")) {
+                siteid = sharedpreferences.getString("siteId", "");
+            }
+            if (sharedpreferences.contains("alamatId")) {
+                alamatid = sharedpreferences.getString("alamatId", "");
+            }
+            if (sharedpreferences.contains("case")) {
+                caseSite = sharedpreferences.getString("case", "");
+            }
+            if (sharedpreferences.contains("penutup")) {
+                penutup = sharedpreferences.getString("penutup", "");
+            }
+
+            isiEmailFull = pembuka + "\n\n" + siteid + idSite+ "    /   " + namaSite + "\n" + alamatid + alamatSite + "\n"
+                    + caseSite + "\n\n" + penutup;
 
             judulEmail.setText(judulEmailFull);
             isiEmail.setText(isiEmailFull);
@@ -176,8 +199,12 @@ public class MainActivity extends AppCompatActivity {
 
     class RetreiveFeedTask extends AsyncTask<String, Void, String> {
 
+        boolean status = true;
+        String failed;
+
         @Override
         protected String doInBackground(String... params) {
+
 
             try{
                 Message message = new MimeMessage(session);
@@ -198,6 +225,8 @@ public class MainActivity extends AppCompatActivity {
             } catch(MessagingException e) {
                 Log.d("TAGES", e.toString());
                 db.addSite(new Site(namaSite, "Failed", formattedDate));
+                status = false;
+                failed = e.toString();
                 e.printStackTrace();
             } catch(Exception e) {
                 e.printStackTrace();
@@ -208,7 +237,11 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             pdialog.dismiss();
-            Toast.makeText(MainActivity.this, "Message sent", Toast.LENGTH_LONG).show();
+            if (status)
+                Toast.makeText(MainActivity.this, "message sent", Toast.LENGTH_LONG).show();
+            else
+                Toast.makeText(MainActivity.this, failed, Toast.LENGTH_LONG).show();
+
             finish();
         }
     }

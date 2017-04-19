@@ -110,12 +110,12 @@ public class ListActivity extends AppCompatActivity implements SearchView.OnQuer
     @Override
     public boolean onQueryTextChange(String newText)
     {
+        CustomListAdapter ca = (CustomListAdapter) listView.getAdapter();
         if (TextUtils.isEmpty(newText)) {
-            listView.clearTextFilter();
+            ca.getFilter().filter("");
+            //listView.clearTextFilter();
         } else {
-            CustomListAdapter ca = (CustomListAdapter) listView.getAdapter();
             ca.getFilter().filter(newText);
-            //listView.setFilterText(newText);
         }
         return true;
     }
