@@ -70,12 +70,18 @@ public class MainActivity extends AppCompatActivity {
     String formattedDate;
     String passwordSender;
 
+    String judulEmailFinal;
+    String tujuanEmailFinal;
+    String isiEmailFinal;
+
     DatabaseHandler db;
 
     ProgressDialog progress;
     private Multipart _multipart = new MimeMultipart();
 
     SharedPreferences sharedpreferences;
+
+    Template template = new Template();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -139,8 +145,9 @@ public class MainActivity extends AppCompatActivity {
                 penutup = sharedpreferences.getString("penutup", "");
             }
 
-            isiEmailFull = pembuka + "\n\n" + siteid + idSite+ "    /   " + namaSite + "\n" + alamatid + alamatSite + "\n"
-                    + caseSite + "\n\n" + penutup;
+            isiEmailFull = "<p style=\"color:black;line-height:1.5;\">\n\n" + pembuka + "<br><br>\n\n"
+                    + siteid + idSite+ "    /   " + namaSite + "<br>\n" + alamatid + alamatSite + "<br>\n"
+                    + caseSite + "<br><br>\n\n" + penutup + "</p>\n\n" + template.footer;
 
             judulEmail.setText(judulEmailFull);
             isiEmail.setText(isiEmailFull);
@@ -191,6 +198,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        judulEmailFinal = judulEmail.getText().toString();
+        tujuanEmailFinal = tujuanEmail.getText().toString();
+        isiEmailFinal = isiEmail.getText().toString();
+
+
         pdialog = ProgressDialog.show(MainActivity.this, "", "Sending Mail...", true);
 
         RetreiveFeedTask task = new RetreiveFeedTask();
@@ -208,14 +220,14 @@ public class MainActivity extends AppCompatActivity {
 
             try{
                 Message message = new MimeMessage(session);
-                message.setFrom(new InternetAddress("alvinalbuquerque@gmail.com"));
-                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(emailSite));
-                message.setSubject(judulEmailFull);
+                message.setFrom(new InternetAddress(emailSender));
+                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(tujuanEmailFinal));
+                message.setSubject(judulEmailFinal);
 
-                BodyPart messageBodyPart = new MimeBodyPart();
+                /*BodyPart messageBodyPart = new MimeBodyPart();
                 messageBodyPart.setText(isiEmailFull);
-                _multipart.addBodyPart(messageBodyPart);
-                message.setContent(_multipart);
+                _multipart.addBodyPart(messageBodyPart);*/
+                message.setContent(isiEmailFinal, "text/html");
 
                 Transport.send(message);
 

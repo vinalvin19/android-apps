@@ -190,8 +190,10 @@ public class CustomListAdapter extends BaseAdapter implements Filterable{
                 //judulEmail = template.judulEmail + employeeArrayList.get(position).getNama();
                 //isiEmail = template.isiEmail + employeeArrayList.get(position).getNama() + template.isiEmailTengah + employeeArrayList.get(position).getAlamat() + template.isiEmailBawah;
 
-                isiEmail = pembuka + "\n\n" + siteid + idSite + "    /   " + namaSite + "\n" + alamatid + alamatSite + "\n"
-                        + caseSite + "\n\n" + penutup;
+                isiEmail = "<p style=\"color:black;line-height:1.5;\">\n\n" + pembuka + "<br><br>\n\n"
+                        + siteid + idSite+ "    /   " + namaSite + "<br>\n" + alamatid + alamatSite + "<br>\n"
+                        + caseSite + "<br><br>\n\n" + penutup + "</p>\n\n" + template.footer;
+
                 Log.v("TAGES","pos: " + employeeArrayList.get(position).getNama());
 
                 Properties props = new Properties();
@@ -229,14 +231,14 @@ public class CustomListAdapter extends BaseAdapter implements Filterable{
 
             try{
                 Message message = new MimeMessage(session);
-                message.setFrom(new InternetAddress("alvinalbuquerque@gmail.com"));
+                message.setFrom(new InternetAddress(emailSender));
                 message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(alamatEmail));
                 message.setSubject(judulEmail);
 
-                BodyPart messageBodyPart = new MimeBodyPart();
+                /*BodyPart messageBodyPart = new MimeBodyPart();
                 messageBodyPart.setText(isiEmail);
-                _multipart.addBodyPart(messageBodyPart);
-                message.setContent(_multipart);
+                _multipart.addBodyPart(messageBodyPart);*/
+                message.setContent(isiEmail, "text/html");
 
                 Transport.send(message);
 

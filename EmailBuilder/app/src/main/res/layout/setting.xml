@@ -110,18 +110,6 @@
         android:text="Site ID            : "
         android:layout_alignEnd="@+id/pembukaEdit" />
 
-    <Button
-        android:id="@+id/saveButton"
-        android:layout_marginTop="20dp"
-        android:text="Simpan"
-        android:layout_width="140dp"
-        android:layout_height="60dp"
-        android:background="@color/colorPrimary"
-        android:textSize="16dp"
-        android:textColor="#FFFFFF"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
-
     <EditText
         android:id="@+id/alamatIdEdit"
         android:layout_width="wrap_content"
@@ -167,4 +155,15 @@
         android:text="Terima kasih atas perhatian Bapak/Ibu."
         android:layout_alignEnd="@+id/caseEdit" />
 
+    <Button
+        android:id="@+id/saveButton"
+        android:text="Simpan"
+        android:layout_width="140dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="2dp"
+        android:layout_below="@+id/penutupEdit"
+        android:background="@color/colorPrimary"
+        android:textSize="16dp"
+        android:textColor="#FFFFFF"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

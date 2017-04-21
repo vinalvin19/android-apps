@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "974302976054",
-    "firebase_url": "https://btsmail-7a0ee.firebaseio.com",
-    "project_id": "btsmail-7a0ee",
-    "storage_bucket": "btsmail-7a0ee.appspot.com"
+    "project_number": "817083867396",
+    "firebase_url": "https://emailbuilder-87f23.firebaseio.com",
+    "project_id": "emailbuilder-87f23",
+    "storage_bucket": "emailbuilder-87f23.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:974302976054:android:b82924c31e617ca3",
+        "mobilesdk_app_id": "1:817083867396:android:b82924c31e617ca3",
         "android_client_info": {
           "package_name": "com.example.lotus.emailbuilder"
         }
       },
       "oauth_client": [
         {
-          "client_id": "974302976054-28a9j024o74uq03niefjdlhi3vlegn8k.apps.googleusercontent.com",
+          "client_id": "817083867396-jfgfds3hnaecfb1oa701iid5la7vh28l.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCoOkaRL-YJCO4s3D6U73MrfuEtZy6yeVw"
+          "current_key": "AIzaSyB1BHZW2NaAu_prsn3gqxDRFjbqHV7WV74"
         }
       ],
       "services": {
