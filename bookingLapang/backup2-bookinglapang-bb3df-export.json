@@ -1,0 +1,206 @@
+{
+  "lapangan" : {
+    "Bulutangkis" : {
+      "Cisitu" : {
+        "latitude" : -6.87,
+        "longitude" : 107.61,
+        "nama" : "cisitu",
+        "sublapangan" : {
+          "LapanganA" : {
+            "6" : "open",
+            "7" : "open",
+            "8" : "open",
+            "9" : "booked",
+            "10" : "booked",
+            "11" : "process",
+            "12" : "process",
+            "13" : "open",
+            "14" : "open",
+            "15" : "booked",
+            "16" : "booked",
+            "17" : "process",
+            "18" : "open",
+            "19" : "open",
+            "20" : "open",
+            "21" : "open",
+            "22" : "open",
+            "description" : "gratis kok",
+            "harga" : 50000
+          },
+          "LapanganB" : {
+            "6" : "open",
+            "7" : "open",
+            "8" : "open",
+            "9" : "open",
+            "10" : "open",
+            "11" : "process",
+            "12" : "process",
+            "13" : "open",
+            "14" : "open",
+            "15" : "open",
+            "16" : "open",
+            "17" : "open",
+            "18" : "open",
+            "19" : "open",
+            "20" : "open",
+            "21" : "open",
+            "22" : "open",
+            "description" : "gratis makan",
+            "harga" : 50000
+          }
+        }
+      }
+    },
+    "Futsal" : {
+      "Dipati Ukur" : {
+        "latitude" : -6.883,
+        "longitude" : 107.621,
+        "nama" : "DU",
+        "sublapangan" : {
+          "LapanganA" : {
+            "6" : "booked",
+            "7" : "booked",
+            "8" : "booked",
+            "9" : "booked",
+            "10" : "booked",
+            "11" : "booked",
+            "12" : "booked",
+            "13" : "booked",
+            "14" : "open",
+            "15" : "booked",
+            "16" : "booked",
+            "17" : "booked",
+            "18" : "booked",
+            "19" : "booked",
+            "20" : "booked",
+            "21" : "open",
+            "22" : "open",
+            "description" : "rumput hijau",
+            "harga" : 120000
+          },
+          "LapanganB" : {
+            "6" : "open",
+            "7" : "process",
+            "8" : "process",
+            "9" : "open",
+            "10" : "process",
+            "11" : "open",
+            "12" : "open",
+            "13" : "open",
+            "14" : "process",
+            "15" : "open",
+            "16" : "open",
+            "17" : "process",
+            "18" : "process",
+            "19" : "open",
+            "20" : "open",
+            "21" : "process",
+            "22" : "open",
+            "description" : "rumput kuning",
+            "harga" : 150000
+          }
+        }
+      },
+      "Saraga" : {
+        "latitude" : -6.886,
+        "longitude" : 107.609,
+        "nama" : "saraga",
+        "sublapangan" : {
+          "LapanganA" : {
+            "6" : "open",
+            "7" : "open",
+            "8" : "open",
+            "9" : "booked",
+            "10" : "booked",
+            "11" : "process",
+            "12" : "process",
+            "13" : "open",
+            "14" : "open",
+            "15" : "booked",
+            "16" : "booked",
+            "17" : "process",
+            "18" : "open",
+            "19" : "open",
+            "20" : "open",
+            "21" : "open",
+            "22" : "open",
+            "description" : "rumput sintetis",
+            "harga" : 120000
+          },
+          "LapanganB" : {
+            "6" : "open",
+            "7" : "open",
+            "8" : "open",
+            "9" : "open",
+            "10" : "open",
+            "11" : "open",
+            "12" : "open",
+            "13" : "open",
+            "14" : "open",
+            "15" : "open",
+            "16" : "open",
+            "17" : "process",
+            "18" : "open",
+            "19" : "open",
+            "20" : "open",
+            "21" : "open",
+            "22" : "open",
+            "description" : "rumput keras",
+            "harga" : 150000
+          },
+          "LapanganC" : {
+            "6" : "open",
+            "7" : "open",
+            "8" : "open",
+            "9" : "open",
+            "10" : "open",
+            "11" : "open",
+            "12" : "open",
+            "13" : "open",
+            "14" : "open",
+            "15" : "booked",
+            "16" : "booked",
+            "17" : "process",
+            "18" : "open",
+            "19" : "open",
+            "20" : "open",
+            "21" : "open",
+            "22" : "open",
+            "description" : "rumput lembut",
+            "harga" : 100000
+          }
+        }
+      }
+    }
+  },
+  "users" : {
+    "abc@gmail,com" : {
+      "avatarLink" : "",
+      "createdAt" : 1492500981272,
+      "emailAddress" : "abc@gmail.com",
+      "fullName" : "abc",
+      "userName" : "abc"
+    },
+    "alvinmsf94@gmail,com" : {
+      "avatarLink" : " ",
+      "createdAt" : "11111",
+      "emailAddress" : "alvinmsf94@gmail.com",
+      "fullName" : "Alvin",
+      "userName" : "alvin"
+    },
+    "blabla@gmail,com" : {
+      "avatarLink" : "",
+      "createdAt" : 1492500625941,
+      "emailAddress" : "blabla@gmail.com",
+      "fullName" : "randi",
+      "userName" : "randi"
+    },
+    "booking@gmail,com" : {
+      "avatarLink" : "",
+      "createdAt" : 1492314208770,
+      "emailAddress" : "booking@gmail.com",
+      "fullName" : "bookinglapang",
+      "userName" : "booking"
+    }
+  }
+}

@@ -1,0 +1,136 @@
+{
+  "lapangan" : {
+    "Bulutangkis" : {
+      "Cisitu" : {
+        "latitude" : -6.87,
+        "longitude" : 107.61,
+        "nama" : "cisitu",
+        "sublapangan" : {
+          "LapanganA" : {
+            "Friday" : [ null, null, null, null, null, null, "open", "open", "open", "booked", "booked", "booked", "booked", "booked", "booked", "booked", "booked", "booked", "open", "open", "open", "open" ],
+            "Monday" : [ null, null, null, null, null, null, "open", "open", "open", "booked", "booked", "process", "process", "open", "open", "booked", "booked", "process", "open", "open", "open", "open" ],
+            "Saturday" : [ null, null, null, null, null, null, "process", "process", "process", "process", "booked", "process", "process", "open", "open", "booked", "booked", "process", "open", "open", "open", "open" ],
+            "Sunday" : [ null, null, null, null, null, null, "booked", "booked", "booked", "booked", "booked", "booked", "process", "open", "open", "booked", "booked", "process", "open", "open", "open", "open" ],
+            "Thursday" : [ null, null, null, null, null, null, "open", "open", "open", "open", "process", "process", "process", "process", "process", "process", "booked", "process", "open", "open", "open", "open" ],
+            "Tuesday" : [ null, null, null, null, null, null, "open", "open", "open", "open", "open", "open", "open", "open", "open", "open", "booked", "process", "open", "open", "open", "open" ],
+            "Wednesday" : [ null, null, null, null, null, null, "open", "open", "open", "booked", "booked", "process", "process", "open", "open", "open", "open", "open", "open", "open", "open", "open" ],
+            "description" : "gratis kok",
+            "harga" : 50000
+          },
+          "LapanganB" : {
+            "Friday" : [ null, null, null, null, null, null, "open", "open", "open", "booked", "booked", "booked", "booked", "booked", "booked", "booked", "booked", "booked", "open", "open", "open", "open" ],
+            "Monday" : [ null, null, null, null, null, null, "open", "open", "open", "open", "open", "process", "process", "open", "open", "open", "open", "open", "open", "open", "open", "open" ],
+            "Saturday" : [ null, null, null, null, null, null, "process", "process", "process", "process", "booked", "process", "process", "open", "open", "booked", "booked", "process", "open", "open", "open", "open" ],
+            "Sunday" : [ null, null, null, null, null, null, "booked", "booked", "booked", "booked", "booked", "booked", "process", "open", "open", "booked", "booked", "process", "open", "open", "open", "open" ],
+            "Thursday" : [ null, null, null, null, null, null, "open", "open", "open", "open", "process", "process", "process", "process", "process", "process", "booked", "process", "open", "open", "open", "open" ],
+            "Tuesday" : [ null, null, null, null, null, null, "open", "open", "open", "open", "open", "open", "open", "open", "open", "open", "booked", "process", "open", "open", "open", "open" ],
+            "Wednesday" : [ null, null, null, null, null, null, "open", "open", "open", "booked", "booked", "process", "process", "open", "open", "open", "open", "open", "open", "open", "open", "open" ],
+            "description" : "gratis makan",
+            "harga" : 50000
+          }
+        }
+      }
+    },
+    "Futsal" : {
+      "Dipati Ukur" : {
+        "latitude" : -6.883,
+        "longitude" : 107.621,
+        "nama" : "DU",
+        "sublapangan" : {
+          "LapanganA" : {
+            "Friday" : [ null, null, null, null, null, null, "open", "open", "open", "booked", "booked", "booked", "booked", "booked", "booked", "booked", "booked", "booked", "open", "open", "open", "open" ],
+            "Monday" : [ null, null, null, null, null, null, "booked", "booked", "booked", "booked", "booked", "booked", "booked", "booked", "open", "booked", "booked", "booked", "booked", "booked", "booked", "open" ],
+            "Saturday" : [ null, null, null, null, null, null, "process", "process", "process", "process", "booked", "process", "process", "open", "open", "booked", "booked", "process", "open", "open", "open", "open" ],
+            "Sunday" : [ null, null, null, null, null, null, "booked", "booked", "booked", "booked", "booked", "booked", "process", "open", "open", "booked", "booked", "process", "open", "open", "open", "open" ],
+            "Thursday" : [ null, null, null, null, null, null, "open", "open", "open", "open", "process", "process", "process", "process", "process", "process", "booked", "process", "open", "open", "open", "open" ],
+            "Tuesday" : [ null, null, null, null, null, null, "open", "open", "open", "open", "open", "open", "open", "open", "open", "open", "booked", "process", "open", "open", "open", "open" ],
+            "Wednesday" : [ null, null, null, null, null, null, "open", "open", "open", "booked", "booked", "process", "process", "open", "open", "open", "open", "open", "open", "open", "open", "open" ],
+            "description" : "rumput hijau",
+            "harga" : 120000
+          },
+          "LapanganB" : {
+            "Friday" : [ null, null, null, null, null, null, "open", "open", "open", "booked", "booked", "booked", "booked", "booked", "booked", "booked", "booked", "booked", "open", "open", "open", "open" ],
+            "Monday" : [ null, null, null, null, null, null, "open", "process", "process", "open", "process", "open", "open", "open", "process", "open", "open", "process", "process", "open", "open", "process" ],
+            "Saturday" : [ null, null, null, null, null, null, "process", "process", "process", "process", "booked", "process", "process", "open", "open", "booked", "booked", "process", "open", "open", "open", "open" ],
+            "Sunday" : [ null, null, null, null, null, null, "booked", "booked", "booked", "booked", "booked", "booked", "process", "open", "open", "booked", "booked", "process", "open", "open", "open", "open" ],
+            "Thursday" : [ null, null, null, null, null, null, "open", "open", "open", "open", "process", "process", "process", "process", "process", "process", "booked", "process", "open", "open", "open", "open" ],
+            "Tuesday" : [ null, null, null, null, null, null, "open", "open", "open", "open", "open", "open", "open", "open", "open", "open", "booked", "process", "open", "open", "open", "open" ],
+            "Wednesday" : [ null, null, null, null, null, null, "open", "open", "open", "booked", "booked", "process", "process", "open", "open", "open", "open", "open", "open", "open", "open", "open" ],
+            "description" : "rumput kuning",
+            "harga" : 150000
+          }
+        }
+      },
+      "Saraga" : {
+        "latitude" : -6.886,
+        "longitude" : 107.609,
+        "nama" : "saraga",
+        "sublapangan" : {
+          "LapanganA" : {
+            "Friday" : [ null, null, null, null, null, null, "open", "open", "open", "booked", "booked", "booked", "booked", "booked", "booked", "booked", "booked", "booked", "open", "open", "open", "open" ],
+            "Monday" : [ null, null, null, null, null, null, "open", "open", "open", "booked", "booked", "process", "process", "open", "open", "booked", "booked", "process", "open", "open", "open", "open" ],
+            "Saturday" : [ null, null, null, null, null, null, "process", "process", "process", "process", "booked", "process", "process", "open", "open", "booked", "booked", "process", "open", "open", "open", "open" ],
+            "Sunday" : [ null, null, null, null, null, null, "booked", "booked", "booked", "booked", "booked", "booked", "process", "open", "open", "booked", "booked", "process", "open", "open", "open", "open" ],
+            "Thursday" : [ null, null, null, null, null, null, "open", "open", "open", "open", "process", "process", "process", "process", "process", "process", "booked", "process", "open", "open", "open", "open" ],
+            "Tuesday" : [ null, null, null, null, null, null, "open", "open", "open", "open", "open", "open", "open", "open", "open", "open", "booked", "process", "open", "open", "open", "open" ],
+            "Wednesday" : [ null, null, null, null, null, null, "open", "open", "open", "booked", "booked", "process", "process", "open", "open", "open", "open", "open", "open", "open", "open", "open" ],
+            "description" : "rumput sintetis",
+            "harga" : 120000
+          },
+          "LapanganB" : {
+            "Friday" : [ null, null, null, null, null, null, "open", "open", "open", "booked", "booked", "booked", "booked", "booked", "booked", "booked", "booked", "booked", "open", "open", "open", "open" ],
+            "Monday" : [ null, null, null, null, null, null, "open", "open", "open", "open", "open", "open", "open", "open", "open", "open", "open", "process", "open", "open", "open", "open" ],
+            "Saturday" : [ null, null, null, null, null, null, "process", "process", "process", "process", "booked", "process", "process", "open", "open", "booked", "booked", "process", "open", "open", "open", "open" ],
+            "Sunday" : [ null, null, null, null, null, null, "booked", "booked", "booked", "booked", "booked", "booked", "process", "open", "open", "booked", "booked", "process", "open", "open", "open", "open" ],
+            "Thursday" : [ null, null, null, null, null, null, "open", "open", "open", "open", "process", "process", "process", "process", "process", "process", "booked", "process", "open", "open", "open", "open" ],
+            "Tuesday" : [ null, null, null, null, null, null, "open", "open", "open", "open", "open", "open", "open", "open", "open", "open", "booked", "process", "open", "open", "open", "open" ],
+            "Wednesday" : [ null, null, null, null, null, null, "open", "open", "open", "booked", "booked", "process", "process", "open", "open", "open", "open", "open", "open", "open", "open", "open" ],
+            "description" : "rumput keras",
+            "harga" : 150000
+          },
+          "LapanganC" : {
+            "Friday" : [ null, null, null, null, null, null, "open", "open", "open", "booked", "booked", "booked", "booked", "booked", "booked", "booked", "booked", "booked", "open", "open", "open", "open" ],
+            "Monday" : [ null, null, null, null, null, null, "open", "open", "open", "open", "open", "open", "open", "open", "open", "booked", "booked", "process", "open", "open", "open", "open" ],
+            "Saturday" : [ null, null, null, null, null, null, "process", "process", "process", "process", "booked", "process", "process", "open", "open", "booked", "booked", "process", "open", "open", "open", "open" ],
+            "Sunday" : [ null, null, null, null, null, null, "booked", "booked", "booked", "booked", "booked", "booked", "process", "open", "open", "booked", "booked", "process", "open", "open", "open", "open" ],
+            "Thursday" : [ null, null, null, null, null, null, "open", "open", "open", "open", "process", "process", "process", "process", "process", "process", "booked", "process", "open", "open", "open", "open" ],
+            "Tuesday" : [ null, null, null, null, null, null, "open", "open", "open", "open", "open", "open", "open", "open", "open", "open", "booked", "process", "open", "open", "open", "open" ],
+            "Wednesday" : [ null, null, null, null, null, null, "open", "open", "open", "booked", "booked", "process", "process", "open", "open", "open", "open", "open", "open", "open", "open", "open" ],
+            "description" : "rumput lembut",
+            "harga" : 100000
+          }
+        }
+      }
+    }
+  },
+  "users" : {
+    "abc@gmail,com" : {
+      "avatarLink" : "",
+      "createdAt" : 1492500981272,
+      "emailAddress" : "abc@gmail.com",
+      "fullName" : "abc",
+      "userName" : "abc"
+    },
+    "alvinmsf94@gmail,com" : {
+      "avatarLink" : " ",
+      "createdAt" : "11111",
+      "emailAddress" : "alvinmsf94@gmail.com",
+      "fullName" : "Alvin",
+      "userName" : "alvin"
+    },
+    "blabla@gmail,com" : {
+      "avatarLink" : "",
+      "createdAt" : 1492500625941,
+      "emailAddress" : "blabla@gmail.com",
+      "fullName" : "randi",
+      "userName" : "randi"
+    },
+    "booking@gmail,com" : {
+      "avatarLink" : "",
+      "createdAt" : 1492314208770,
+      "emailAddress" : "booking@gmail.com",
+      "fullName" : "bookinglapang",
+      "userName" : "booking"
+    }
+  }
+}
