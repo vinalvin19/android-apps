@@ -25,4 +25,15 @@
         tools:layout_editor_absoluteY="223dp"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="130dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="41dp"
+        android:background="@layout/round_button"
+        android:text="Log Out" />
+
 </RelativeLayout>
