@@ -35,6 +35,7 @@
             android:noHistory="true"/>
         <activity android:name=".ui.MapsActivity"/>
         <activity android:name=".ui.DialogActivity"/>
+        <activity android:name=".ui.ConfirmBooking"/>
     </application>
 
 </manifest>

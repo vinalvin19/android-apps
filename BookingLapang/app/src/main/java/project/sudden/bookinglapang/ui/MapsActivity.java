@@ -65,6 +65,7 @@ public class MapsActivity extends BaseActivity {
     Button processBook;
     String tempatPilihan;
     String cabangOlahraga;
+    String namaPemesan;
 
     SupportMapFragment supportMapFragment;
     public FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -77,8 +78,6 @@ public class MapsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        setSupportActionBar(toolbar);
-
         processBook = (Button) findViewById(R.id.processBook);
         processBook.setEnabled(false);
 
@@ -89,6 +88,7 @@ public class MapsActivity extends BaseActivity {
         latitudeUser = intent.getDoubleExtra("latitudeUser", latitudeUser);
         longitudeUser = intent.getDoubleExtra("longitudeUser", longitudeUser);
         cabangOlahraga = intent.getStringExtra("cabangOlahraga");
+        namaPemesan = intent.getStringExtra("namaPemesan");
 
         Log.d(TAG, String.valueOf(arrayLatitude.size()));
         Log.d(TAG, String.valueOf(latitudeUser));
@@ -161,7 +161,6 @@ public class MapsActivity extends BaseActivity {
                         for (int i = 0; i<subLapangan.size();i++)
                             Log.d("TAGES", "sub: "+subLapangan.get(i));
 
-                        Log.d("TAGES", "nama lapangan= "+ lapangan.getNamaLapangan());
                         Log.d("TAGES", "nama lapangan= "+ snapshot.getChildrenCount());
 
                         //da.spinnerArrayAdapter.clear();
@@ -172,6 +171,7 @@ public class MapsActivity extends BaseActivity {
                         intent.putStringArrayListExtra("subLapangan", subLapangan);
                         intent.putExtra("cabangOlahraga", cabangOlahraga);
                         intent.putExtra("tempatPilihan", tempatPilihan);
+                        intent.putExtra("namaPemesan", namaPemesan);
                         startActivity(intent);
 
                     }

@@ -196,6 +196,7 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
                     intent.putExtra("latitudeUser", latitudeUser);
                     intent.putExtra("longitudeUser", longitudeUser);
                     intent.putExtra("cabangOlahraga", onSelected);
+                    intent.putExtra("namaPemesan", namaUser);
                     startActivity(intent);
                 }
             }
