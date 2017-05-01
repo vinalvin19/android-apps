@@ -36,6 +36,7 @@
         <activity android:name=".ui.MapsActivity"/>
         <activity android:name=".ui.DialogActivity"/>
         <activity android:name=".ui.ConfirmBooking"/>
+        <activity android:name=".ui.HistoryLapangan"/>
     </application>
 
 </manifest>

@@ -191,6 +191,8 @@ public class DialogActivity extends BaseActivity {
                 intent.putExtra("hariDipesan", hari);
                 intent.putExtra("cabangOlahraga", cabangOlahraga);
                 startActivity(intent);
+
+                finish();
             }
         });
     }

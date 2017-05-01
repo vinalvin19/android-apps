@@ -391,7 +391,8 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
                                         break;
                                     case 2:
                                         //handle transaction
-                                        Toast.makeText(getApplicationContext(), "Transaction History", Toast.LENGTH_SHORT).show();
+                                        intent = new Intent(MainActivity.this, HistoryLapangan.class);
+                                        startActivity(intent);
                                         break;
                                     case 3:
                                         //handle booking

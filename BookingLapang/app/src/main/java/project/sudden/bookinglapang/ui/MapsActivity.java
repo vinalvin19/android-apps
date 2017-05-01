@@ -144,12 +144,10 @@ public class MapsActivity extends BaseActivity {
         processBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                subLapangan.clear();
                 myRef.child("lapangan").child(cabangOlahraga).child(tempatPilihan).child("sublapangan").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
-
-                        Lapangan lapangan = snapshot.getValue(Lapangan.class);
+                        subLapangan.clear();
 
                         for (DataSnapshot eventSnapshot : snapshot.getChildren()) {
                             for (DataSnapshot childEventSnapshot : eventSnapshot.getChildren()) {

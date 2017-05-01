@@ -14,6 +14,8 @@ public class Lapangan {
     public Double longitude;
     private HashMap<String, Object> subLapangan;
     public String harga;
+    public String pilihanLapangan;
+    public String date;
 
     public Lapangan() {}
 
@@ -22,6 +24,12 @@ public class Lapangan {
         this.alamat = alamatLapangan;
         this.latitude= latitude;
         this.longitude = longitude;
+    }
+
+    public Lapangan(String nama, String pilihanLapangan, String date) {
+        this.nama = nama;
+        this.pilihanLapangan= pilihanLapangan;
+        this.date = date;
     }
 
     public String getNamaLapangan() {
@@ -41,10 +49,6 @@ public class Lapangan {
         return longitude;
     }
 
-    public void setNamaLapangan(String namaLapangan) {
-        this.nama = namaLapangan;
-    }
-
     public HashMap<String, Object> getSubLapangan() {
         return subLapangan;
     }
@@ -52,4 +56,21 @@ public class Lapangan {
     public String getHarga() {
         return harga;
     }
+    public String getPilihanLapangan() {
+        return pilihanLapangan;
+    }
+    public String getDate() {
+        return date;
+    }
+
+    public void setNamaLapangan(String namaLapangan) {
+        this.nama = namaLapangan;
+    }
+    public void setPilihanLapangan(String pilihanLapangan){
+        this.pilihanLapangan= pilihanLapangan;
+    }
+    public void setDate(String date){
+        this.date= date;
+    }
+
 }

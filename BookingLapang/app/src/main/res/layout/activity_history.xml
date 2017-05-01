@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:padding="10dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/historyOrder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="Jadwal Booking"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:layout_marginStart="11dp"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/historyDateLapangan"
+        android:layout_width="90dp"
+        android:scrollHorizontally="false"
+        android:layout_height="wrap_content"
+        android:text="Status"
+        android:textSize="15dp"
+        android:layout_alignParentEnd="true"
+        android:textAlignment="textEnd"
+        android:lines="2"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="11dp" />
+
+    <TextView
+        android:id="@+id/historyLapangan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/historyOrder"
+        android:layout_below="@+id/historyOrder"
+        android:text="Lapangan" />
+
+</RelativeLayout>
