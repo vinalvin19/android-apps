@@ -43,6 +43,10 @@ public class SettingActivity extends AppCompatActivity{
         penutupEdit = (EditText) findViewById(R.id.penutupEdit);
         saveButton = (Button) findViewById(R.id.saveButton);
 
+        /*judulEmailEdit.setText("BACKUP ");
+        pembukaEdit.setText("Dear rekans,<br> Mohon bantuannya untuk backup dan open ticket site sbb:");
+        siteIdEdit*/
+
         getSharedPreference();
 
         saveButton.setOnClickListener(new View.OnClickListener() {

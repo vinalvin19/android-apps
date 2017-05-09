@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">BTS Fast</string>
+    <string name="html"> <![CDATA[Dear rekans, <br> Mohon bantuannya untuk backup dan open ticket sbb:]]></string>
 </resources>

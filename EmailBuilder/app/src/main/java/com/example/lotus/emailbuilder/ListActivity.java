@@ -143,7 +143,7 @@ public class ListActivity extends AppCompatActivity implements SearchView.OnQuer
                 .withAccountHeader(accountHeader)
                 .addDrawerItems(
                         new PrimaryDrawerItem().withName("Tambah Site"),
-                        new PrimaryDrawerItem().withName("Settings"),
+                        new PrimaryDrawerItem().withName("Ubah Template & Email"),
                         new PrimaryDrawerItem().withName("History")
                 )
                 .withOnDrawerItemClickListener(
