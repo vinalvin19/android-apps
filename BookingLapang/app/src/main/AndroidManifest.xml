@@ -37,6 +37,7 @@
         <activity android:name=".ui.DialogActivity"/>
         <activity android:name=".ui.ConfirmBooking"/>
         <activity android:name=".ui.HistoryLapangan"/>
+        <activity android:name=".ui.ResetPassword"/>
     </application>
 
 </manifest>

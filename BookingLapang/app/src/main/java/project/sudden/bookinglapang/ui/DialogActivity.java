@@ -115,11 +115,13 @@ public class DialogActivity extends BaseActivity {
         processBook = (Button) findViewById(R.id.processbook);
         processBook.setEnabled(false);
 
+        // get intent information and assign it to array
         subLapangan = this.getIntent().getStringArrayListExtra("subLapangan");
         cabangOlahraga = this.getIntent().getStringExtra("cabangOlahraga");
         tempatPilihan = this.getIntent().getStringExtra("tempatPilihan");
         namaPemesan = this.getIntent().getStringExtra("namaPemesan");
 
+        // displaying spinner for subLapangan
         spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, subLapangan);
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerArrayAdapter);
@@ -127,6 +129,7 @@ public class DialogActivity extends BaseActivity {
 
         tambahHari = 0;
 
+        // get current day and time for hour booking
         calendar = Calendar.getInstance();
         today = calendar.getTime();
         dateFormat = new SimpleDateFormat("EEEE");
@@ -136,6 +139,7 @@ public class DialogActivity extends BaseActivity {
 
         checkHarga();
 
+        // when subLapangan spinner being selected
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
@@ -148,6 +152,7 @@ public class DialogActivity extends BaseActivity {
                 press1 = 0; press2 = 0; press3 = 0; press4 = 0; press5 = 0; press6 = 0; press7 = 0; press8 = 0;
                 press9 = 0; press10 = 0; press11 = 0; press12 = 0; press13 = 0; press14 = 0; press15 = 0; press16 = 0;
 
+                // to show jadwal besok located on right side
                 besok.setOnClickListener(new View.OnClickListener() {
                      @Override
                      public void onClick(View arg0) {
@@ -160,7 +165,7 @@ public class DialogActivity extends BaseActivity {
                          calendar.add(Calendar.DAY_OF_YEAR, 1);
                          tomorrow = calendar.getTime();
                          hari = dateFormat.format(tomorrow);
-                         Log.d("TAGES", hari + " " + dateFormat2.format(tomorrow));
+                         Log.d(TAG, hari + " " + dateFormat2.format(tomorrow));
                          tanggal.setText(hari + " " + dateFormat2.format(tomorrow));
 
                          checkDatabase(item, hari);
@@ -178,6 +183,7 @@ public class DialogActivity extends BaseActivity {
 
         });
 
+        // sending information to confirmBooking class
         processBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
@@ -197,8 +203,10 @@ public class DialogActivity extends BaseActivity {
         });
     }
 
+    // huge function to check database based on selected item in spinner and current day
     public void checkDatabase(String sublapangan, String hari) {
 
+        // looping database to get lapangan description
         searchDescription = new ValueEventListener() {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot eventSnapshot : dataSnapshot.getChildren()) {
@@ -213,6 +221,7 @@ public class DialogActivity extends BaseActivity {
             }
         };
 
+        // looping database to get price of lapangan
         searchPrice = new ValueEventListener() {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 hargaLapangan.clear();
@@ -231,10 +240,11 @@ public class DialogActivity extends BaseActivity {
         subLapanganFix = sublapangan;
         hariJadwal = hari;
 
+        // looping database to get status lapangan
         searchSubLapangan = new ValueEventListener() {
             public void onDataChange(DataSnapshot snapshot) {
                 statusLapangan.clear();
-                Log.d("TAGES", snapshot.toString());
+                Log.d(TAG, snapshot.toString());
                 for (DataSnapshot eventSnapshot : snapshot.getChildren()) {
                     //Log.d("TAGES", "GetChildren: "+ eventSnapshot.getKey() +" "+ eventSnapshot.getValue());
                     if (eventSnapshot.getValue() instanceof String) {
@@ -242,10 +252,12 @@ public class DialogActivity extends BaseActivity {
                     }
                 }
 
+                // for debugging only
                 for (int i = 0; i < statusLapangan.size(); i++)
-                    Log.d("TAGES", "status: " + i + " " + item + " " + statusLapangan.get(i));
+                    Log.d(TAG, "status: " + i + " " + item + " " + statusLapangan.get(i));
 
 
+                // check status lapangan form statusLapangan array
                 for (int j = 0; j <= 15; j++) {
                     if (j == 0)
                         checkStatus(data1, statusLapangan.get(j).toString());
@@ -288,6 +300,7 @@ public class DialogActivity extends BaseActivity {
             public void onCancelled(DatabaseError error) {
             }
         };
+        // getting database information
         myRef.child("lapangan").child(cabangOlahraga).child(tempatPilihan).child("sublapangan").child(sublapangan).child(hariJadwal).addValueEventListener(searchSubLapangan);
         myRef.child("lapangan").child(cabangOlahraga).child(tempatPilihan).child("sublapangan").child(sublapangan).orderByKey().
                 startAt("description").endAt("description").limitToLast(1).addValueEventListener(searchDescription);
@@ -296,6 +309,7 @@ public class DialogActivity extends BaseActivity {
         //myRef.removeEventListener(aaa);
     }
 
+    // checking status lapangan and coloring the table
     public void checkStatus(TextView tv, String status){
         if (status.equals("open")) {
             tv.setBackgroundColor(Color.parseColor("#FFFFFF"));
@@ -315,6 +329,7 @@ public class DialogActivity extends BaseActivity {
         }
     }
 
+    // checking total harga for every element in table being pressed
     public void hitungHarga(int press, String harga, String jam, TextView tv){
         if (press%2 == 1){
             totalHarga += Integer.parseInt(harga);
@@ -337,6 +352,7 @@ public class DialogActivity extends BaseActivity {
         }
     }
 
+    // getting harga in every hour
     public void checkHarga(){
         data1.setOnClickListener(new View.OnClickListener() {
             @Override

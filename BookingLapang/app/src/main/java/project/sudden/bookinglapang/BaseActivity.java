@@ -24,7 +24,7 @@ import project.sudden.bookinglapang.ui.RegisterActivity;
 
 public class BaseActivity extends AppCompatActivity {
 
-    private String TAG = getClass().getSimpleName();
+    public String TAG = getClass().getSimpleName()+" BookingLapang ";
     public FirebaseAuth mAuth;
     public FirebaseAuth.AuthStateListener mAuthListener;
     public FirebaseUser currentUser;

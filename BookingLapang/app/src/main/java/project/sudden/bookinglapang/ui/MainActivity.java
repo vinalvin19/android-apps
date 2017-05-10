@@ -46,7 +46,6 @@ import project.sudden.bookinglapang.model.User;
 
 public class MainActivity extends BaseActivity implements AdapterView.OnItemSelectedListener, LocationListener{
 
-    private String TAG = getClass().getSimpleName()+"TAGES";
     LocationManager locationManager;
 
     String onSelected;
@@ -83,10 +82,11 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
 
         mAuth = FirebaseAuth.getInstance();
 
+        // checking current user and ask for GPS permission
         FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
         if (mUser != null) {
             currentUserEmail = mUser.getEmail().replace(".",",");
-            Log.d("TAGES", "MainActivity.onAuthStateChanged:signed_in: " + currentUserEmail);
+            Log.d(TAG, "MainActivity.onAuthStateChanged:signed_in: " + currentUserEmail);
             myRef.child("users").child(currentUserEmail).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
@@ -99,6 +99,7 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
 
             createDrawer();
 
+            // checking GPS permission
             if (checkPermission()) {
                 //Toast.makeText(getApplicationContext(),"Permission already granted.",Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "Permission already granted.");
@@ -111,16 +112,17 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
                 }
             }
 
+            // get GPS location in every 10 seconds
             locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             if (checkPermission()) {
-                Log.d("TAGES", "minta koordinat harusnya");
+                Log.d(TAG, "minta koordinat harusnya");
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 0, this);
             } else {
                 requestPermission();
             }
         } else {
             // User is signed out
-            Log.d("TAGES", "onAuthStateChanged:signed_out");
+            Log.d(TAG, "onAuthStateChanged:signed_out");
             Toast.makeText(this, "silahkan login", Toast.LENGTH_SHORT).show();
 
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
@@ -137,11 +139,13 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
 
         sportsSpinner.setOnItemSelectedListener(this);
 
+        // set spinner from sports_array adapter
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.sports_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sportsSpinner.setAdapter(adapter);
 
+        // button search atas onclick
         searchEachSpinner.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick (View view){
@@ -149,6 +153,7 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
             }
         });
 
+        // button search bawah onclick
         searchOnMapsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -158,6 +163,7 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
         });
     }
 
+    // template dari sananya
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String item = parent.getItemAtPosition(position).toString();
@@ -168,20 +174,24 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
         // TODO Auto-generated method stub
     }
 
+    // when search button pressed, start to check lapangan based on spinner item
     public void checkLapangan()
     {
         Log.d(TAG, "masuk cek lapangan");
 
+        // get lapangan from firebase
         myRef.child("lapangan").child(onSelected).addChildEventListener(new ChildEventListener(){
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
 
                 Lapangan lapangan= dataSnapshot.getValue(Lapangan.class);
 
+                // counting the nearest lapangan
                 jarakTempuh = distance(latitudeUser, longitudeUser, lapangan.getLatitude(), lapangan.getLongitude());
-                Log.d("TAGES", "(geofence) ada " + lapangan.getNamaLapangan() + " dengan jarak " + jarakTempuh);
+                Log.d(TAG, "(geofence) ada " + lapangan.getNamaLapangan() + " dengan jarak " + jarakTempuh);
                 if (jarakTempuh < 100) {
 
+                    // set every lapangan information to arrayLatitude, arrayLongitude, arrayName for future use
                     if (!arrayName.contains(lapangan.getNamaLapangan())) {
                         arrayLatitude.add(lapangan.getLatitude());
                         arrayLongitude.add(lapangan.getLongitude());
@@ -189,6 +199,7 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
                         //arrayDistance.add(jarakTempuh);
                     }
 
+                    // sending the information to MapsActivity
                     Intent intent =new Intent(MainActivity.this, MapsActivity.class);
                     intent.putStringArrayListExtra("namaLapangan", arrayName);
                     intent.putExtra("latitudeLapangan", arrayLatitude);
@@ -216,6 +227,7 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
         });
     }
 
+    // when search button bawah pressed (masih belom)
     public void checkLapanganSemua() {
         Log.d(TAG, "masuk cek lapangan semua");
 
@@ -263,14 +275,15 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
         });
     }
 
+    // every 10 seconds, onLocationChanged will be called to updating user's location
     @Override
     public void onLocationChanged(Location location) {
-        Log.d("TAGESI", "masuk location listener");
+        Log.d(TAG, "masuk location listener");
 
         latitudeUser=location.getLatitude();
         longitudeUser=location.getLongitude();
 
-        Log.d("TAGESI", "Latitude saya:" + location.getLatitude() + " Longitude:" + location.getLongitude());
+        Log.d(TAG, "Latitude saya:" + location.getLatitude() + " Longitude:" + location.getLongitude());
     }
 
     /**
@@ -333,6 +346,7 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
         arrayLongitude.clear();
     }
 
+    // to calculating distance between user and lapangan
     private int distance(double lat1, double lon1, double lat2, double lon2) {
         double theta = lon1 - lon2;
         double dist = Math.sin(deg2rad(lat1))
@@ -400,7 +414,8 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
                                         break;
                                     case 4:
                                         //handle setting
-                                        Toast.makeText(getApplicationContext(), "Setting", Toast.LENGTH_SHORT).show();
+                                        intent = new Intent(MainActivity.this, ResetPassword.class);
+                                        startActivity(intent);
                                         break;
                                     case 5:
                                         //handle sign out

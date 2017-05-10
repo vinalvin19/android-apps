@@ -72,6 +72,7 @@ public class ConfirmBooking extends BaseActivity {
         totalHargaTv = (TextView) findViewById(R.id.totalHarga);
         finalProcess = (Button) findViewById(R.id.finalProcess);
 
+        // get information in intent from dialogActivity
         Intent intent = getIntent();
         namaUserPesan = intent.getStringExtra("namaPemesan");
         subLapangan = intent.getStringExtra("subLapangan");
@@ -90,16 +91,21 @@ public class ConfirmBooking extends BaseActivity {
         totalHargaTv.setText(":        " + totalHarga);
 
         db = new DatabaseHandler(getApplicationContext());
+
+        // get current time to set the confirmation time
         Calendar c = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         formattedDate = df.format(c.getTime());
 
         jamLapanganTotal = TextUtils.join(", ", jamLapanganPesanan);
 
+        // last step to processing the booking
         finalProcess.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
 
                 done = new HashMap<String, Object>();
+
+                // to set database child, need to replace the "."
                 for (int i = 0; i<jamLapanganPesanan.size(); i++) {
                     if (jamLapanganPesanan.get(i).equals("06.00") || jamLapanganPesanan.get(i).equals("07.00")
                             ||jamLapanganPesanan.get(i).equals("08.00") || jamLapanganPesanan.get(i).equals("09.00")){
@@ -115,6 +121,7 @@ public class ConfirmBooking extends BaseActivity {
                 // Show DialogFragment
                 dFragment.show(fm, "Dialog Fragment");
 
+                // Asynctask method to process booking
                 RetreiveFeedTask task = new RetreiveFeedTask();
                 task.execute();
             }
@@ -128,12 +135,15 @@ public class ConfirmBooking extends BaseActivity {
 
             try{
 
+                // updating firebase database
                 myRef.child("lapangan").child(cabangOlahraga).child(lapangan).child("sublapangan")
                         .child(subLapangan).child(hariDipesan).updateChildren(done);
+
+                // updating local database
                 db.addLapangan(new Lapangan(hariDipesan +", "+ jamLapanganTotal, formattedDate, lapangan + " - " + subLapangan));
 
             } catch(Exception e) {
-                Log.d("TAGES", e.toString());
+                Log.d(TAG, e.toString());
                 e.printStackTrace();
             }
             return null;

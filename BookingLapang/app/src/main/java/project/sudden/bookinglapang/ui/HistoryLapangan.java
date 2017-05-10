@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import project.sudden.bookinglapang.BaseActivity;
 import project.sudden.bookinglapang.R;
 import project.sudden.bookinglapang.model.CustomListAdapterHistory;
 import project.sudden.bookinglapang.model.DatabaseHandler;
@@ -24,7 +25,7 @@ import project.sudden.bookinglapang.model.Lapangan;
  * Created by Lotus on 01/05/2017.
  */
 
-public class HistoryLapangan extends AppCompatActivity {
+public class HistoryLapangan extends BaseActivity {
 
     ArrayList<Lapangan> sites = new ArrayList<Lapangan>();
     ListView listView;
@@ -40,13 +41,14 @@ public class HistoryLapangan extends AppCompatActivity {
 
         listView = (ListView) findViewById(R.id.list_view_history);
 
+        // getting data from local database (sqLite_
         DatabaseHandler db = new DatabaseHandler(this);
 
         List<Lapangan> contacts = db.getAllSite();
 
         for (Lapangan cn : contacts) {
             String log = " ,Name: " + cn.getNamaLapangan() + " ,status: " + cn.getPilihanLapangan();
-            Log.d("TAGES ", log);
+            Log.d(TAG, log);
             sites.add(new Lapangan(cn.getNamaLapangan(), cn.getPilihanLapangan(), cn.getDate()));
         }
 

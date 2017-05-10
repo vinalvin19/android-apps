@@ -47,8 +47,6 @@ import project.sudden.bookinglapang.model.User;
 
 public class MapsActivity extends BaseActivity {
 
-    private String TAG = getClass().getSimpleName()+"TAGES";
-
     ArrayList<Double> arrayLatitude = new ArrayList<>();
     ArrayList<Double> arrayLongitude = new ArrayList<>();
     ArrayList<String> arrayName = new ArrayList<>();
@@ -81,6 +79,7 @@ public class MapsActivity extends BaseActivity {
         processBook = (Button) findViewById(R.id.processBook);
         processBook.setEnabled(false);
 
+        // get information in intent from MainActivity
         Intent intent = getIntent();
         arrayName = this.getIntent().getStringArrayListExtra("namaLapangan");
         arrayLatitude = (ArrayList<Double>) getIntent().getSerializableExtra("latitudeLapangan");
@@ -93,6 +92,7 @@ public class MapsActivity extends BaseActivity {
         Log.d(TAG, String.valueOf(arrayLatitude.size()));
         Log.d(TAG, String.valueOf(latitudeUser));
 
+        // set latitude and longitude into latlngs array to create marker
         for (int i = 0; i<arrayLatitude.size(); i++)
         {
             latitude = arrayLatitude.get(i);
@@ -109,7 +109,7 @@ public class MapsActivity extends BaseActivity {
                     @Override
                     public void onMapReady(GoogleMap googleMap) {
 
-                        //for (LatLng point : latlngs) {
+                        // add marker in googlemaps
                         for (int z = 0; z<arrayName.size(); z++) {
                             options.position(latlngs.get(z));
                             options.title(arrayName.get(z));
@@ -117,6 +117,7 @@ public class MapsActivity extends BaseActivity {
                             googleMap.addMarker(options);
                         }
 
+                        // when marker being clicked
                         googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener()
                         {
                             @Override
@@ -130,6 +131,7 @@ public class MapsActivity extends BaseActivity {
                             }
                         });
 
+                        // setting camera
                         CameraPosition cameraPosition = new CameraPosition.Builder().target(
                                 new LatLng(latitudeUser, longitudeUser)).zoom(10).build();
                         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
@@ -141,30 +143,34 @@ public class MapsActivity extends BaseActivity {
             e.printStackTrace();
         }
 
+        // when processbook being clicked, information from selected lapangan will be processed
         processBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
+                // getting subLapangan information from selected lapangan
                 myRef.child("lapangan").child(cabangOlahraga).child(tempatPilihan).child("sublapangan").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
                         subLapangan.clear();
 
+                        // set the subLapangan to array
                         for (DataSnapshot eventSnapshot : snapshot.getChildren()) {
                             for (DataSnapshot childEventSnapshot : eventSnapshot.getChildren()) {
-                                Log.d("TAGES", "GetChildren: "+childEventSnapshot.getKey() + childEventSnapshot.getValue());
+                                Log.d(TAG, "GetChildren: "+childEventSnapshot.getKey() + childEventSnapshot.getValue());
                             }
                             subLapangan.add(eventSnapshot.getKey());
                         }
 
                         for (int i = 0; i<subLapangan.size();i++)
-                            Log.d("TAGES", "sub: "+subLapangan.get(i));
+                            Log.d(TAG, "sub: "+subLapangan.get(i));
 
-                        Log.d("TAGES", "nama lapangan= "+ snapshot.getChildrenCount());
+                        Log.d(TAG, "nama lapangan= "+ snapshot.getChildrenCount());
 
                         //da.spinnerArrayAdapter.clear();
                         //spinnerArrayAdapter.clear();
                         //spinnerArrayAdapter.notifyDataSetChanged();
 
+                        // sending information for selected lapangan to dialogActivity
                         Intent intent =new Intent(MapsActivity.this, DialogActivity.class);
                         intent.putStringArrayListExtra("subLapangan", subLapangan);
                         intent.putExtra("cabangOlahraga", cabangOlahraga);
@@ -186,6 +192,6 @@ public class MapsActivity extends BaseActivity {
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(i);
-        Log.d("TAGES", "Maps: onbackpressed");
+        Log.d(TAG, "Maps: onbackpressed");
     }
 }
