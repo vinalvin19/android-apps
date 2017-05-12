@@ -7,15 +7,24 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.mikepenz.materialdrawer.AccountHeader;
+import com.mikepenz.materialdrawer.AccountHeaderBuilder;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -39,7 +48,8 @@ public class ConfirmBooking extends BaseActivity {
     TextView jadwalPesananTv;
     TextView lapanganPesananTv;
     TextView totalHargaTv;
-    Button finalProcess;
+    ImageButton finalProcess;
+    Toolbar toolbar;
 
     String namaUserPesan;
     String subLapangan;
@@ -52,6 +62,8 @@ public class ConfirmBooking extends BaseActivity {
     String jamLapanganTotal="";
 
     FragmentManager fm = getSupportFragmentManager();
+    private AccountHeader accountHeader;
+    private Drawer drawer = null;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     final DatabaseReference myRef = database.getReference();
@@ -65,12 +77,15 @@ public class ConfirmBooking extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirmation);
 
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         namaPemesanTv = (TextView) findViewById(R.id.namaPemesan);
         subLapanganPesananTv = (TextView) findViewById(R.id.subLapanganPesanan);
         jadwalPesananTv = (TextView) findViewById(R.id.jadwalPesanan);
         lapanganPesananTv = (TextView) findViewById(R.id.lapanganPesanan);
         totalHargaTv = (TextView) findViewById(R.id.totalHarga);
-        finalProcess = (Button) findViewById(R.id.finalProcess);
+        finalProcess = (ImageButton) findViewById(R.id.finalProcess);
 
         // get information in intent from dialogActivity
         Intent intent = getIntent();
@@ -84,11 +99,11 @@ public class ConfirmBooking extends BaseActivity {
 
         final String jamLapanganJoined = TextUtils.join(", ", jamLapanganPesanan);
 
-        namaPemesanTv.setText(":        " + namaUserPesan);
-        subLapanganPesananTv.setText(":        " + subLapangan);
-        jadwalPesananTv.setText(":        " + hariDipesan + " - " + jamLapanganJoined);
-        lapanganPesananTv.setText(":        " + lapangan);
-        totalHargaTv.setText(":        " + totalHarga);
+        namaPemesanTv.setText("  "+ namaUserPesan);
+        subLapanganPesananTv.setText("  "+ subLapangan);
+        jadwalPesananTv.setText("  "+ hariDipesan + " - " + jamLapanganJoined);
+        lapanganPesananTv.setText("  "+ lapangan);
+        totalHargaTv.setText("  "+ totalHarga);
 
         db = new DatabaseHandler(getApplicationContext());
 

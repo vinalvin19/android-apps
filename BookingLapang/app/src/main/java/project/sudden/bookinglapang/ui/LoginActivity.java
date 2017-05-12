@@ -7,6 +7,7 @@ import android.support.design.widget.TextInputEditText;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -24,7 +25,7 @@ public class LoginActivity extends BaseActivity {
 
     private String TAG = getClass().getSimpleName();
     private TextInputEditText emailAddressTIET, passwordTIET;
-    private Button signInButton, registerButton;
+    private ImageButton signInButton, registerButton;
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -73,8 +74,8 @@ public class LoginActivity extends BaseActivity {
 
         emailAddressTIET = (TextInputEditText) findViewById(R.id.email_addr_tiet_login);
         passwordTIET = (TextInputEditText) findViewById(R.id.password_tiet_login);
-        signInButton = (Button) findViewById(R.id.sign_in_btn_login);
-        registerButton = (Button) findViewById(R.id.register_btn_login);
+        signInButton = (ImageButton) findViewById(R.id.sign_in_btn_login);
+        registerButton = (ImageButton) findViewById(R.id.register_btn_login);
 
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override

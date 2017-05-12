@@ -15,6 +15,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.Toast;
@@ -32,6 +33,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.mikepenz.materialdrawer.AccountHeader;
+import com.mikepenz.materialdrawer.AccountHeaderBuilder;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -55,12 +63,14 @@ public class MapsActivity extends BaseActivity {
 
     private Toolbar toolbar;
     GoogleMap googleMap;
+    private AccountHeader accountHeader;
+    private Drawer drawer = null;
 
     Double latitudeUser=-6.799;
     Double longitudeUser=107.79;
     Double latitude;
     Double longitude;
-    Button processBook;
+    ImageButton processBook;
     String tempatPilihan;
     String cabangOlahraga;
     String namaPemesan;
@@ -76,7 +86,10 @@ public class MapsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        processBook = (Button) findViewById(R.id.processBook);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        processBook = (ImageButton) findViewById(R.id.processBook);
         processBook.setEnabled(false);
 
         // get information in intent from MainActivity
@@ -124,7 +137,6 @@ public class MapsActivity extends BaseActivity {
                             public boolean onMarkerClick(Marker arg0) {
                                 tempatPilihan = arg0.getTitle();
                                 Toast.makeText(MapsActivity.this, tempatPilihan+" "+cabangOlahraga, Toast.LENGTH_SHORT).show();// display toast
-                                processBook.setBackgroundColor(Color.parseColor("#FF33B5E5"));
                                 processBook.setEnabled(true);
                                 arg0.showInfoWindow();
                                 return true;
@@ -133,7 +145,7 @@ public class MapsActivity extends BaseActivity {
 
                         // setting camera
                         CameraPosition cameraPosition = new CameraPosition.Builder().target(
-                                new LatLng(latitudeUser, longitudeUser)).zoom(10).build();
+                                new LatLng(latitudeUser, longitudeUser)).zoom(14).build();
                         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
                     }

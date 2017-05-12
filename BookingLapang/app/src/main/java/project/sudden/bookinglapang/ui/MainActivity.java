@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -56,8 +57,8 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
     public int jarakTempuh = 0;
 
     private Spinner sportsSpinner;
-    private Button searchOnMapsButton;
-    private Button searchEachSpinner;
+    private ImageButton searchOnMapsButton;
+    private ImageButton searchEachSpinner;
     private AccountHeader accountHeader;
     private Drawer drawer = null;
     private Toolbar toolbar;
@@ -134,8 +135,8 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         sportsSpinner = (Spinner) findViewById(R.id.spinner_sports);
-        searchOnMapsButton = (Button) findViewById(R.id.buttonSearchAll);
-        searchEachSpinner = (Button) findViewById(R.id.buttonSearch);
+        searchOnMapsButton = (ImageButton) findViewById(R.id.buttonSearchAll);
+        searchEachSpinner = (ImageButton) findViewById(R.id.buttonSearch);
 
         sportsSpinner.setOnItemSelectedListener(this);
 
@@ -257,6 +258,8 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
                 intent.putExtra("longitudeLapangan", arrayLongitude);
                 intent.putExtra("latitudeUser", latitudeUser);
                 intent.putExtra("longitudeUser", longitudeUser);
+                intent.putExtra("cabangOlahraga", onSelected);
+                intent.putExtra("namaPemesan", namaUser);
                 startActivity(intent);
 
             }

@@ -1,16 +1,20 @@
 package project.sudden.bookinglapang.ui;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.RadialGradient;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -22,6 +26,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.mikepenz.materialdrawer.AccountHeader;
+import com.mikepenz.materialdrawer.AccountHeaderBuilder;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import org.w3c.dom.Text;
 
@@ -52,6 +63,9 @@ public class DialogActivity extends BaseActivity {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     final DatabaseReference myRef = database.getReference();
 
+    private AccountHeader accountHeader;
+    private Drawer drawer = null;
+    Toolbar toolbar;
     TextView data1, data2, data3, data4, data5, data6, data7, data8;
     TextView data9, data10, data11, data12, data13, data14, data15, data16;
     TextView total;
@@ -62,7 +76,7 @@ public class DialogActivity extends BaseActivity {
     TextView desc;
     TextView tanggal;
     Button besok;
-    Button processBook;
+    ImageButton processBook;
     String hari;
     Integer totalHarga = 0;
     String subLapanganFix;
@@ -89,6 +103,8 @@ public class DialogActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.book_fragment);
 
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         spinner = (Spinner) findViewById(R.id.spinner);
 
         TableLayout layout = (TableLayout) findViewById(R.id.tableLayout);
@@ -112,7 +128,7 @@ public class DialogActivity extends BaseActivity {
         data16 = (TextView) findViewById(R.id.data16);
         total = (TextView) findViewById(R.id.total);
         besok = (Button) findViewById(R.id.besok);
-        processBook = (Button) findViewById(R.id.processbook);
+        processBook = (ImageButton) findViewById(R.id.processbook);
         processBook.setEnabled(false);
 
         // get intent information and assign it to array
@@ -343,11 +359,9 @@ public class DialogActivity extends BaseActivity {
         }
         total.setText("jumlah: " + totalHarga);
         if (totalHarga > 0) {
-            processBook.setBackgroundColor(Color.parseColor("#FF33B5E5"));
             processBook.setEnabled(true);
         }
         else {
-            processBook.setBackgroundColor(Color.parseColor("#D3D3D3"));
             processBook.setEnabled(false);
         }
     }

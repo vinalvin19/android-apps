@@ -6,6 +6,7 @@ import android.support.design.widget.TextInputEditText;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -27,7 +28,7 @@ public class RegisterActivity extends BaseActivity {
     private String TAG = getClass().getSimpleName()+"TAGES";
     private TextInputEditText fullNameTIET, emailAddressTIET, userNameTIET,
             passwordTIET, confirmPasswordTIET;
-    private Button registerButton;
+    private ImageButton registerButton;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     final DatabaseReference myRef = database.getReference();
@@ -49,7 +50,7 @@ public class RegisterActivity extends BaseActivity {
         passwordTIET = (TextInputEditText) findViewById(R.id.password_tiet_reg);
         confirmPasswordTIET = (TextInputEditText) findViewById(R.id.conf_password_tiet_reg);
 
-        registerButton = (Button) findViewById(R.id.register_btn_reg);
+        registerButton = (ImageButton) findViewById(R.id.register_btn_reg);
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

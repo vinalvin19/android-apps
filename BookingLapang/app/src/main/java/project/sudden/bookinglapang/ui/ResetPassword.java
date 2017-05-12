@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -24,7 +25,7 @@ import project.sudden.bookinglapang.R;
 public class ResetPassword extends BaseActivity {
 
     EditText resetPassword;
-    Button savePassword;
+    ImageButton savePassword;
     String passwordBaru;
 
     FirebaseUser user;
@@ -37,7 +38,7 @@ public class ResetPassword extends BaseActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
 
         resetPassword = (EditText) findViewById(R.id.editPassword);
-        savePassword = (Button) findViewById(R.id.savePassword);
+        savePassword = (ImageButton) findViewById(R.id.savePassword);
 
         savePassword.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {

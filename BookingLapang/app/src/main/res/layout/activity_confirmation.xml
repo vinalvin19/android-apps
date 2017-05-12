@@ -1,31 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="#FEC200"
     android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:elevation="0dp">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar2"/>
+
+    </android.support.design.widget.AppBarLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:padding="20dp"
-        android:orientation="horizontal" >
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="70dp"
+        android:layout_marginLeft="70dp"
+        android:orientation="vertical" >
 
         <TextView
             android:id="@+id/textView1"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:text="Nama"
+            android:textSize="14dp"
+            android:textColor="#224D60"
+            android:text="Nama Pemesan"
             android:layout_gravity="left"/>
 
         <TextView
             android:id="@+id/namaPemesan"
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_height="30dp"
-            android:text="nama"
-            android:layout_gravity="right"/>
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:textColor="#224D60"
+            android:gravity="center_vertical|left"
+            android:background="#FFFFFF"
+            android:textSize="16dp" />
 
     </LinearLayout>
 
@@ -33,26 +50,29 @@
         android:id="@+id/linearLayout2"
         android:layout_below="@+id/linearLayout1"
         android:layout_width="fill_parent"
+        android:layout_marginTop="15dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:padding="20dp"
-        android:orientation="horizontal" >
+        android:layout_marginRight="70dp"
+        android:layout_marginLeft="70dp"
+        android:orientation="vertical" >
 
         <TextView
             android:id="@+id/textView2"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
             android:layout_height="30dp"
+            android:textSize="14dp"
+            android:textColor="#224D60"
             android:text="Lapangan"
             android:layout_gravity="left"/>
 
         <TextView
             android:id="@+id/subLapanganPesanan"
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_height="30dp"
-            android:text="nama"
-            android:layout_gravity="right"/>
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:textColor="#224D60"
+            android:background="#FFFFFF"
+            android:gravity="center_vertical|left"
+            android:textSize="16dp"/>
 
     </LinearLayout>
 
@@ -61,25 +81,28 @@
         android:layout_below="@+id/linearLayout2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:padding="20dp"
-        android:orientation="horizontal" >
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="70dp"
+        android:layout_marginLeft="70dp"
+        android:orientation="vertical" >
 
         <TextView
             android:id="@+id/textView3"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
             android:layout_height="30dp"
+            android:textSize="14dp"
+            android:textColor="#224D60"
             android:text="Jadwal"
             android:layout_gravity="left"/>
 
         <TextView
             android:id="@+id/jadwalPesanan"
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_height="30dp"
-            android:text="nama"
-            android:layout_gravity="right"/>
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:textColor="#224D60"
+            android:background="#FFFFFF"
+            android:textSize="16dp"
+            android:gravity="center_vertical|left"/>
 
     </LinearLayout>
 
@@ -88,25 +111,28 @@
         android:layout_below="@+id/linearLayout3"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:padding="20dp"
-        android:orientation="horizontal" >
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="70dp"
+        android:layout_marginLeft="70dp"
+        android:orientation="vertical" >
 
         <TextView
             android:id="@+id/textView4"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:text="Tempat"
+            android:textSize="14dp"
+            android:textColor="#224D60"
+            android:text="Lapangan"
             android:layout_gravity="left"/>
 
         <TextView
             android:id="@+id/lapanganPesanan"
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_height="30dp"
-            android:text="nama"
-            android:layout_gravity="right"/>
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:textColor="#224D60"
+            android:background="#FFFFFF"
+            android:textSize="16dp"
+            android:gravity="center_vertical|left"/>
 
     </LinearLayout>
 
@@ -115,35 +141,40 @@
         android:layout_below="@+id/linearLayout4"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:padding="20dp"
-        android:orientation="horizontal" >
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="70dp"
+        android:layout_marginLeft="70dp"
+        android:orientation="vertical" >
 
         <TextView
             android:id="@+id/textView5"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
             android:layout_height="30dp"
+            android:textSize="14dp"
+            android:textColor="#224D60"
             android:text="Total Harga"
             android:layout_gravity="left"/>
 
         <TextView
             android:id="@+id/totalHarga"
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_height="30dp"
-            android:text="nama"
-            android:layout_gravity="right"/>
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:textColor="#224D60"
+            android:background="#FFFFFF"
+            android:textSize="16dp"
+            android:gravity="center_vertical|left"/>
 
     </LinearLayout>
 
-    <Button
+    <ImageButton
         android:id="@+id/finalProcess"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/linearLayout5"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="42dp"
-        android:text="Confirm" />
+        android:layout_width="220dp"
+        android:layout_height="90dp"
+        android:layout_gravity="center"
+        android:scaleType="centerInside"
+        android:background="@null"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:src="@drawable/bayar" />
 
-</RelativeLayout>
+</LinearLayout>
