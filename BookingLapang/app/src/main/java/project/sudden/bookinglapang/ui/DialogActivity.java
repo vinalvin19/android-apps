@@ -55,10 +55,12 @@ import project.sudden.bookinglapang.model.Lapangan;
 public class DialogActivity extends BaseActivity {
 
     public Spinner spinner;
+    public Spinner spinnerDay;
     public ArrayList<String> subLapangan = new ArrayList<>();
     List<String> statusLapangan = new ArrayList<>();
     List<String> hargaLapangan = new ArrayList<>();
     ArrayList<String> jamLapangan= new ArrayList<>();
+    List<String> satuMinggu= new ArrayList<>();
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     final DatabaseReference myRef = database.getReference();
@@ -74,10 +76,9 @@ public class DialogActivity extends BaseActivity {
     String cabangOlahraga;
     String tempatPilihan;
     TextView desc;
-    TextView tanggal;
-    Button besok;
     ImageButton processBook;
     String hari;
+    String besokString;
     Integer totalHarga = 0;
     String subLapanganFix;
     String hariJadwal;
@@ -106,10 +107,10 @@ public class DialogActivity extends BaseActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         spinner = (Spinner) findViewById(R.id.spinner);
+        spinnerDay = (Spinner) findViewById(R.id.spinnerDay);
 
         TableLayout layout = (TableLayout) findViewById(R.id.tableLayout);
         desc = (TextView) findViewById(R.id.descText);
-        tanggal = (TextView) findViewById(R.id.tanggal);
         data1 = (TextView) findViewById(R.id.data1);
         data2 = (TextView) findViewById(R.id.data2);
         data3 = (TextView) findViewById(R.id.data3);
@@ -127,7 +128,6 @@ public class DialogActivity extends BaseActivity {
         data15 = (TextView) findViewById(R.id.data15);
         data16 = (TextView) findViewById(R.id.data16);
         total = (TextView) findViewById(R.id.total);
-        besok = (Button) findViewById(R.id.besok);
         processBook = (ImageButton) findViewById(R.id.processbook);
         processBook.setEnabled(false);
 
@@ -151,7 +151,20 @@ public class DialogActivity extends BaseActivity {
         dateFormat = new SimpleDateFormat("EEEE");
         dateFormat2 = new SimpleDateFormat("dd-MMM-yyyy");
         hari = dateFormat.format(today);
-        tanggal.setText(hari + " " + dateFormat2.format(today));
+
+        int i = 0;
+        while(i<6){
+            satuMinggu.add(dateFormat.format(today)+" "+dateFormat2.format(today));
+            calendar.add(Calendar.DAY_OF_YEAR, 1);
+            today = calendar.getTime();
+            Log.i(TAG, satuMinggu.get(i));
+            i++;
+        }
+
+        // displaying spiner for one week
+        ArrayAdapter<String> week_adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, satuMinggu);
+        week_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerDay.setAdapter(week_adapter);
 
         checkHarga();
 
@@ -169,7 +182,7 @@ public class DialogActivity extends BaseActivity {
                 press9 = 0; press10 = 0; press11 = 0; press12 = 0; press13 = 0; press14 = 0; press15 = 0; press16 = 0;
 
                 // to show jadwal besok located on right side
-                besok.setOnClickListener(new View.OnClickListener() {
+                /*besok.setOnClickListener(new View.OnClickListener() {
                      @Override
                      public void onClick(View arg0) {
 
@@ -187,7 +200,32 @@ public class DialogActivity extends BaseActivity {
                          checkDatabase(item, hari);
 
                      }
-                 });
+                 });*/
+
+                checkDatabase(item, hari);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
+        });
+
+        spinnerDay.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                statusLapangan.clear();
+                hargaLapangan.clear();
+                totalHarga = 0;
+                jamLapangan.clear();
+
+                hari = parentView.getItemAtPosition(position).toString().split(" ")[0];
+                totalHarga = 0;
+                total.setText("Total: " + totalHarga);
+                press1 = 0; press2 = 0; press3 = 0; press4 = 0; press5 = 0; press6 = 0; press7 = 0; press8 = 0;
+                press9 = 0; press10 = 0; press11 = 0; press12 = 0; press13 = 0; press14 = 0; press15 = 0; press16 = 0;
+                Log.d(TAG, hari);
 
                 checkDatabase(item, hari);
             }
@@ -357,7 +395,7 @@ public class DialogActivity extends BaseActivity {
             jamLapangan.remove(jam);
             tv.setBackgroundColor(Color.parseColor("#FFFFFF"));
         }
-        total.setText("jumlah: " + totalHarga);
+        total.setText("Total: " + totalHarga);
         if (totalHarga > 0) {
             processBook.setEnabled(true);
         }

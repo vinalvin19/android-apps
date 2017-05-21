@@ -1,15 +1,20 @@
 package project.sudden.bookinglapang.ui;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.nfc.Tag;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -118,7 +123,41 @@ public class ConfirmBooking extends BaseActivity {
         finalProcess.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
 
-                done = new HashMap<String, Object>();
+                AlertDialog.Builder builder = new AlertDialog.Builder(ConfirmBooking.this);
+                builder.setTitle("BookingLapang");
+                builder.setMessage("Are you sure?");
+
+                // Edited: Overriding onCreateView is not necessary in your case
+                LayoutInflater inflater = LayoutInflater.from(ConfirmBooking.this);
+                View newFileView = inflater.inflate(R.layout.confirm_fragment, null);
+                builder.setView(newFileView);
+
+                builder.setPositiveButton("OK",  new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.d(TAG, "orderoyy");
+                        // on success
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                //ConfirmFragment dFragment = new ConfirmFragment();
+                // Show DialogFragment
+                //dFragment.show(fm, "Dialog Fragment");
+
+                /*Dialog dl = dFragment.getDialog();
+                Button order = (Button) dl.findViewById(R.id.order);
+                order.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View arg0) {
+                        Log.d(TAG, "order oyy");
+                    }
+                });*/
+
+               /* done = new HashMap<String, Object>();
 
                 // to set database child, need to replace the "."
                 for (int i = 0; i<jamLapanganPesanan.size(); i++) {
@@ -138,7 +177,7 @@ public class ConfirmBooking extends BaseActivity {
 
                 // Asynctask method to process booking
                 RetreiveFeedTask task = new RetreiveFeedTask();
-                task.execute();
+                task.execute();*/
             }
         });
     }

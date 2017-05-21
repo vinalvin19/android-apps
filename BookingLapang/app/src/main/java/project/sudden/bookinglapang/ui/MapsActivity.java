@@ -58,7 +58,9 @@ public class MapsActivity extends BaseActivity {
     ArrayList<Double> arrayLatitude = new ArrayList<>();
     ArrayList<Double> arrayLongitude = new ArrayList<>();
     ArrayList<String> arrayName = new ArrayList<>();
+    ArrayList<String> arraySubLapangan = new ArrayList<>();
     private ArrayList<LatLng> latlngs = new ArrayList<>();
+    private ArrayList<String> subLapanganFinal = new ArrayList<>();
     private MarkerOptions options = new MarkerOptions();
 
     private Toolbar toolbar;
@@ -72,7 +74,7 @@ public class MapsActivity extends BaseActivity {
     Double longitude;
     ImageButton processBook;
     String tempatPilihan;
-    String cabangOlahraga;
+    private String cabangOlahraga;
     String namaPemesan;
 
     SupportMapFragment supportMapFragment;
@@ -100,6 +102,10 @@ public class MapsActivity extends BaseActivity {
         latitudeUser = intent.getDoubleExtra("latitudeUser", latitudeUser);
         longitudeUser = intent.getDoubleExtra("longitudeUser", longitudeUser);
         cabangOlahraga = intent.getStringExtra("cabangOlahraga");
+        if (cabangOlahraga == null) {
+            arraySubLapangan = (ArrayList<String>) getIntent().getSerializableExtra("cabangOlahraga");
+            Log.d(TAG, "cabang tet: " + arraySubLapangan.get(arraySubLapangan.size()-1));
+        }
         namaPemesan = intent.getStringExtra("namaPemesan");
 
         Log.d(TAG, String.valueOf(arrayLatitude.size()));
@@ -112,6 +118,7 @@ public class MapsActivity extends BaseActivity {
             longitude = arrayLongitude.get(i);
             Log.d(TAG, String.valueOf(latitude)+" "+ String.valueOf(longitude));
             latlngs.add(new LatLng(latitude, longitude));
+            //subLapanganFinal.add(arraySubLapangan.get(i));
 
         }
 
@@ -126,7 +133,9 @@ public class MapsActivity extends BaseActivity {
                         for (int z = 0; z<arrayName.size(); z++) {
                             options.position(latlngs.get(z));
                             options.title(arrayName.get(z));
-                            //options.snippet(arrayName.get(z));
+                            if (arraySubLapangan.size()>0)
+                                options.snippet(arraySubLapangan.get(z));
+                            //options.snippet(arraySubLapangan.get(z));
                             googleMap.addMarker(options);
                         }
 
@@ -136,8 +145,12 @@ public class MapsActivity extends BaseActivity {
                             @Override
                             public boolean onMarkerClick(Marker arg0) {
                                 tempatPilihan = arg0.getTitle();
+                                if (arraySubLapangan.size()>0)
+                                    cabangOlahraga = arg0.getSnippet();
                                 Toast.makeText(MapsActivity.this, tempatPilihan+" "+cabangOlahraga, Toast.LENGTH_SHORT).show();// display toast
                                 processBook.setEnabled(true);
+                                //cabangOlahraga = arg0.getSnippet().toString();
+
                                 arg0.showInfoWindow();
                                 return true;
                             }
@@ -159,6 +172,7 @@ public class MapsActivity extends BaseActivity {
         processBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
+                Log.d(TAG, cabangOlahraga + tempatPilihan);
                 // getting subLapangan information from selected lapangan
                 myRef.child("lapangan").child(cabangOlahraga).child(tempatPilihan).child("sublapangan").addValueEventListener(new ValueEventListener() {
                     @Override

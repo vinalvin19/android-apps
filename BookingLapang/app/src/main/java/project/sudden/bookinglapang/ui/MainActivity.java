@@ -69,6 +69,7 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
     ArrayList<Double> arrayLatitude = new ArrayList<>();
     ArrayList<Double> arrayLongitude = new ArrayList<>();
     ArrayList<String> arrayName = new ArrayList<>();
+    ArrayList<String> arraySubLapangan= new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -236,6 +237,11 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
 
+                for(int i = 0; i<dataSnapshot.getChildrenCount(); i++) {
+                    arraySubLapangan.add(dataSnapshot.getKey());
+                    Log.d(TAG, "ini: " + dataSnapshot.getKey() + i);
+                }
+
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Lapangan lapangan = snapshot.getValue(Lapangan.class);
                     Log.d(TAG, "ada: "+lapangan.getNamaLapangan() + " dengan latitude " + lapangan.getLatitude());
@@ -246,7 +252,7 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
                         if (!arrayName.contains(lapangan.getNamaLapangan())) {
                             arrayLatitude.add(lapangan.getLatitude());
                             arrayLongitude.add(lapangan.getLongitude());
-                            arrayName.add(lapangan.getNamaLapangan());
+                            arrayName.add(snapshot.getKey());
                             //arrayDistance.add(jarakTempuh);
                         }
                     }
@@ -258,7 +264,7 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
                 intent.putExtra("longitudeLapangan", arrayLongitude);
                 intent.putExtra("latitudeUser", latitudeUser);
                 intent.putExtra("longitudeUser", longitudeUser);
-                intent.putExtra("cabangOlahraga", onSelected);
+                intent.putExtra("cabangOlahraga", arraySubLapangan);
                 intent.putExtra("namaPemesan", namaUser);
                 startActivity(intent);
 
