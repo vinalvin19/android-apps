@@ -88,16 +88,8 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
         FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
         if (mUser != null) {
             currentUserEmail = mUser.getEmail().replace(".",",");
+            namaUser = mUser.getDisplayName();
             Log.d(TAG, "MainActivity.onAuthStateChanged:signed_in: " + currentUserEmail);
-            myRef.child("users").child(currentUserEmail).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot snapshot) {
-                    User user = snapshot.getValue(User.class);
-                    namaUser = user.getFullName();
-                    Log.d(TAG, "nama user= "+ user.getFullName());
-                }
-                @Override public void onCancelled(DatabaseError error) { }
-            });
 
             createDrawer();
 
@@ -384,8 +376,8 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
                 .withActivity(this)
                 .withHeaderBackground(R.drawable.header)
                 .addProfiles(
-                        new ProfileDrawerItem().withName(namaUser).withEmail(currentUserEmail)
-                                .withIcon(getResources().getDrawable(R.drawable.userpic))
+                        new ProfileDrawerItem().withName(namaUser).withEmail(currentUserEmail.replace(",","."))
+                                .withIcon(getResources().getDrawable(R.drawable.template))
                 )
                 .withSelectionListEnabledForSingleProfile(false)
                 .build();
@@ -395,11 +387,10 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
                 .withToolbar(toolbar)
                 .withAccountHeader(accountHeader)
                 .addDrawerItems(
-                        new PrimaryDrawerItem().withName("Profile"),
-                        new PrimaryDrawerItem().withName("Transaction History"),
-                        new PrimaryDrawerItem().withName("My Booking"),
-                        new PrimaryDrawerItem().withName("Setting"),
-                        new PrimaryDrawerItem().withName("Sign Out")
+                        new PrimaryDrawerItem().withName("Profile").withIcon(R.drawable.profile),
+                        new PrimaryDrawerItem().withName("Transaction History").withIcon(R.drawable.history),
+                        new PrimaryDrawerItem().withName("Setting").withIcon(R.drawable.setting),
+                        new PrimaryDrawerItem().withName("Sign Out").withIcon(R.drawable.signout)
                 )
                 .withOnDrawerItemClickListener(
                         new Drawer.OnDrawerItemClickListener() {
@@ -418,15 +409,11 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
                                         startActivity(intent);
                                         break;
                                     case 3:
-                                        //handle booking
-                                        Toast.makeText(getApplicationContext(), "My Booking", Toast.LENGTH_SHORT).show();
-                                        break;
-                                    case 4:
                                         //handle setting
                                         intent = new Intent(MainActivity.this, ResetPassword.class);
                                         startActivity(intent);
                                         break;
-                                    case 5:
+                                    case 4:
                                         //handle sign out
                                         mAuth.signOut();
                                         goToLogin();

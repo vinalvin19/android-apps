@@ -49,16 +49,17 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if (mUser != null) {
-                    // User is signed in
-                    Log.d("TAGES", "onAuthStateChanged:signed_in:" + mUser.getUid());
+                    if (mUser.isEmailVerified()) {
+                        // User is signed in
+                        Log.d(TAG, "onAuthStateChanged:signed_in:" + mUser.getUid());
 
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
                 } else {
                     // User is signed out
-                    Log.d("TAGES", "onAuthStateChanged:signed_out");
+                    Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
                 // ...
             }
@@ -104,12 +105,13 @@ public class LoginActivity extends BaseActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+
                         Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
 
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
-                        if (!task.isSuccessful()) {
+                        if (!task.isSuccessful() || !mUser.isEmailVerified()) {
                             Log.w(TAG, "signInWithEmail:failed", task.getException());
                             Toast.makeText(LoginActivity.this, "Auth Failed",
                                     Toast.LENGTH_SHORT).show();

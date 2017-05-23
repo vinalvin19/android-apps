@@ -1,23 +1,11 @@
 package project.sudden.bookinglapang.ui;
 
-import android.app.Activity;
-import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Point;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -33,21 +21,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.mikepenz.materialdrawer.AccountHeader;
-import com.mikepenz.materialdrawer.AccountHeaderBuilder;
-import com.mikepenz.materialdrawer.Drawer;
-import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 import project.sudden.bookinglapang.BaseActivity;
 import project.sudden.bookinglapang.R;
-import project.sudden.bookinglapang.model.Lapangan;
-import project.sudden.bookinglapang.model.User;
 
 /**
  * Created by Lotus on 08/04/2017.
@@ -65,8 +43,6 @@ public class MapsActivity extends BaseActivity {
 
     private Toolbar toolbar;
     GoogleMap googleMap;
-    private AccountHeader accountHeader;
-    private Drawer drawer = null;
 
     Double latitudeUser=-6.799;
     Double longitudeUser=107.79;

@@ -1,5 +1,6 @@
 package project.sudden.bookinglapang.ui;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
@@ -68,7 +69,13 @@ public class RegisterActivity extends BaseActivity {
     private void createAccount(String name, String email, String password) {
         Log.d(TAG, "createAccount:" + name+ " " + email);
 
-        showProgressDialog();
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage("Signing up...");
+            mProgressDialog.setIndeterminate(true);
+        }
+
+        mProgressDialog.show();
 
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -88,9 +95,9 @@ public class RegisterActivity extends BaseActivity {
                             onAuthSuccess(task.getResult().getUser());
                         }
 
-                        // ...
-                        hideProgressDialog();
-
+                        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+                            mProgressDialog.dismiss();
+                        }
                     }
                 });
 
@@ -100,6 +107,20 @@ public class RegisterActivity extends BaseActivity {
         //createNewUser(encodeEmail(user.getEmail()));
         createNewUser();
         updateUserData(user);
+        user.sendEmailVerification().addOnCompleteListener(this, new OnCompleteListener() {
+            @Override
+            public void onComplete(@NonNull Task task) {
+                // Re-enable button
+                if (task.isSuccessful()) {
+                    Toast.makeText(RegisterActivity.this,
+                            "Verification email sent", Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.e(TAG, "sendEmailVerification", task.getException());
+                    Toast.makeText(RegisterActivity.this,
+                            "Failed to send verification email.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         goToLogin();
     }
 
