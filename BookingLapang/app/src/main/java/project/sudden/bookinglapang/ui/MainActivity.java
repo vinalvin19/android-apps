@@ -388,7 +388,7 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
                 .withAccountHeader(accountHeader)
                 .addDrawerItems(
                         new PrimaryDrawerItem().withName("Profile").withIcon(R.drawable.profile),
-                        new PrimaryDrawerItem().withName("Transaction History").withIcon(R.drawable.history),
+                        new PrimaryDrawerItem().withName("My Transaction").withIcon(R.drawable.history),
                         new PrimaryDrawerItem().withName("Setting").withIcon(R.drawable.setting),
                         new PrimaryDrawerItem().withName("Sign Out").withIcon(R.drawable.signout)
                 )

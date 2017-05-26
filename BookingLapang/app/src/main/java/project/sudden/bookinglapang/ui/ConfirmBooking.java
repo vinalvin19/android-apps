@@ -56,6 +56,7 @@ public class ConfirmBooking extends BaseActivity {
     final DatabaseReference myRef = database.getReference();
 
     Map<String, Object> done;
+    Map<String, Object> confirmation;
     ProgressDialog pdialog;
     DatabaseHandler db;
 
@@ -115,6 +116,7 @@ public class ConfirmBooking extends BaseActivity {
                                 Log.d(TAG, "yes");
 
                                 done = new HashMap<String, Object>();
+                                confirmation = new HashMap<String, Object>();
                                 // to set database child, need to replace the "."
                                 for (int i = 0; i<jamLapanganPesanan.size(); i++) {
                                     if (jamLapanganPesanan.get(i).equals("06.00") || jamLapanganPesanan.get(i).equals("07.00")
@@ -140,7 +142,7 @@ public class ConfirmBooking extends BaseActivity {
                 };
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(ConfirmBooking.this);
-                builder.setMessage("Confirm order? \n\nHarap transfer sesuai total pesanan ke:\nBNI 0282633780 a.n Alvin")
+                builder.setMessage("Confirm order?")
                         .setPositiveButton("Yes", dialogClickListener)
                         .setNegativeButton("No", dialogClickListener).show();
             }
@@ -158,6 +160,15 @@ public class ConfirmBooking extends BaseActivity {
                 myRef.child("lapangan").child(cabangOlahraga).child(lapangan).child("sublapangan")
                         .child(subLapangan).child(hariDipesan).updateChildren(done);
 
+                confirmation.put("nama",namaUserPesan);
+                confirmation.put("waktuPesan",formattedDate);
+                confirmation.put("lapangan",lapangan);
+                confirmation.put("subLapangan",subLapangan);
+                confirmation.put("jadwal",hariDipesan +", "+ jamLapanganTotal);
+                confirmation.put("harga",totalHarga);
+
+                myRef.child("konfirmasi").child(lapangan).child(namaUserPesan+formattedDate).setValue(confirmation);
+
                 // updating local database
                 db.addLapangan(new Lapangan(hariDipesan +", "+ jamLapanganTotal, formattedDate, lapangan + " - " + subLapangan));
 
@@ -170,6 +181,10 @@ public class ConfirmBooking extends BaseActivity {
 
         @Override
         protected void onPostExecute(String result) {
+            Intent i = new Intent(ConfirmBooking.this, SummaryOrder.class);
+            i.putExtra("namaLapangan", lapangan);
+            i.putExtra("tanggal", formattedDate);
+            startActivity(i);
             pdialog.dismiss();
             finish();
         }

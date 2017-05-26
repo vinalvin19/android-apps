@@ -8,7 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,6 +32,8 @@ public class HistoryLapangan extends BaseActivity {
     ArrayList<Lapangan> sites = new ArrayList<Lapangan>();
     ListView listView;
     Toolbar toolbar;
+    ArrayList tanggal = new ArrayList();
+    ArrayList namaLapangan = new ArrayList();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,15 +48,28 @@ public class HistoryLapangan extends BaseActivity {
         // getting data from local database (sqLite_
         DatabaseHandler db = new DatabaseHandler(this);
 
+        getApplicationContext().deleteDatabase("lapanganList");
         List<Lapangan> contacts = db.getAllSite();
 
         for (Lapangan cn : contacts) {
-            String log = " ,Name: " + cn.getNamaLapangan() + " ,status: " + cn.getPilihanLapangan();
+            String log = " ,Name: " + cn.getDate() + " ,status: " + cn.getPilihanLapangan();
             Log.d(TAG, log);
+            namaLapangan.add(cn.getDate().split(" - ")[0]);
+            tanggal.add(cn.getPilihanLapangan());
             sites.add(new Lapangan(cn.getNamaLapangan(), cn.getPilihanLapangan(), cn.getDate()));
         }
 
         CustomListAdapterHistory historySiteAdapter =new CustomListAdapterHistory(HistoryLapangan.this, sites);
         listView.setAdapter(historySiteAdapter);
+
+        listView.setOnItemClickListener(new ListView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> a, View v, int position, long l) {
+                Intent i = new Intent(HistoryLapangan.this, SummaryOrder.class);
+                i.putExtra("namaLapangan", namaLapangan.get(position).toString());
+                i.putExtra("tanggal", tanggal.get(position).toString());
+                startActivity(i);
+            }
+        });
     }
 }
