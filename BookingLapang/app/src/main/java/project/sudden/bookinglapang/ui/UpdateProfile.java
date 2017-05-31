@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,59 +16,62 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 import project.sudden.bookinglapang.BaseActivity;
 import project.sudden.bookinglapang.R;
 
 /**
- * Created by Lotus on 10/05/2017.
+ * Created by Lotus on 31/05/2017.
  */
 
-public class ResetPassword extends BaseActivity {
-
-    TextView judulTv;
-    EditText resetPassword;
-    Button savePassword;
-    String passwordBaru;
-    Toolbar toolbar;
+public class UpdateProfile extends BaseActivity{
 
     FirebaseUser user;
+
+    TextView judulTv;
+    EditText resetName;
+    Button save;
+
+    String namaBaru;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.reset_password);
+        setContentView(R.layout.update_profile);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
+
+        judulTv = (TextView) findViewById(R.id.textView9);
+        resetName = (EditText) findViewById(R.id.editNama);
+        save = (Button) findViewById(R.id.saveNama);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        judulTv = (TextView) findViewById(R.id.textView9);
-        resetPassword = (EditText) findViewById(R.id.editPassword);
-        savePassword = (Button) findViewById(R.id.savePassword);
-
         Typeface face= Typeface.createFromAsset(getApplicationContext().getAssets(), "futura.ttf");
-        judulTv.setText("Password Baru");
+        judulTv.setText("Nama Pengguna Baru");
         judulTv.setTypeface(face);
-        savePassword.setText("SIMPAN");
-        savePassword.setTypeface(face);
+        save.setText("SIMPAN");
+        save.setTypeface(face);
 
-        savePassword.setOnClickListener(new View.OnClickListener() {
+        save.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
-                passwordBaru = resetPassword.getText().toString();
-                Log.d("TAGES", passwordBaru);
+                namaBaru = resetName.getText().toString();
+                Log.d(TAG, namaBaru);
 
-                // updating password
-                user.updatePassword(passwordBaru).addOnCompleteListener(new OnCompleteListener<Void>() {
+                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                    .setDisplayName(namaBaru)
+                    .build();
+
+                user.updateProfile(profileUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(ResetPassword.this,"Update password success", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(ResetPassword.this, MainActivity.class);
+                            Toast.makeText(getApplicationContext(), "User profile updated.", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(UpdateProfile.this, MainActivity.class);
                             startActivity(intent);
                         }
-                        else
-                            Toast.makeText(getApplicationContext(),"Update password failed", Toast.LENGTH_SHORT).show();
                     }
                 });
             }

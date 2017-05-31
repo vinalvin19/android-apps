@@ -3,6 +3,7 @@ package project.sudden.bookinglapang.ui;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -11,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -34,12 +36,17 @@ import project.sudden.bookinglapang.model.Lapangan;
 
 public class ConfirmBooking extends BaseActivity {
 
+    TextView namaPemesanTvJudul;
+    TextView tempatTvJudul;
+    TextView jadwalTvJudul;
+    TextView lapanganTvJudul;
+    TextView hargaTvJudul;
     TextView namaPemesanTv;
     TextView subLapanganPesananTv;
     TextView jadwalPesananTv;
     TextView lapanganPesananTv;
     TextView totalHargaTv;
-    ImageButton finalProcess;
+    Button finalProcess;
     Toolbar toolbar;
 
     String namaUserPesan;
@@ -60,6 +67,8 @@ public class ConfirmBooking extends BaseActivity {
     ProgressDialog pdialog;
     DatabaseHandler db;
 
+    Typeface face;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,12 +77,30 @@ public class ConfirmBooking extends BaseActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+        namaPemesanTvJudul = (TextView) findViewById(R.id.textView1);
+        tempatTvJudul = (TextView) findViewById(R.id.textView2);
+        jadwalTvJudul = (TextView) findViewById(R.id.textView3);
+        lapanganTvJudul = (TextView) findViewById(R.id.textView4);
+        hargaTvJudul = (TextView) findViewById(R.id.textView5);
         namaPemesanTv = (TextView) findViewById(R.id.namaPemesan);
         subLapanganPesananTv = (TextView) findViewById(R.id.subLapanganPesanan);
         jadwalPesananTv = (TextView) findViewById(R.id.jadwalPesanan);
         lapanganPesananTv = (TextView) findViewById(R.id.lapanganPesanan);
         totalHargaTv = (TextView) findViewById(R.id.totalHarga);
-        finalProcess = (ImageButton) findViewById(R.id.finalProcess);
+        finalProcess = (Button) findViewById(R.id.finalProcess);
+
+        face = Typeface.createFromAsset(getApplicationContext().getAssets(), "futura.ttf");
+        namaPemesanTvJudul.setText("Nama Pemesan");
+        tempatTvJudul.setText("Tempat");
+        jadwalTvJudul.setText("Jadwal");
+        lapanganTvJudul.setText("Lapangan");
+        hargaTvJudul.setText("Total Harga");
+        namaPemesanTvJudul.setTypeface(face);
+        tempatTvJudul.setTypeface(face);
+        jadwalTvJudul.setTypeface(face);
+        lapanganTvJudul.setTypeface(face);
+        hargaTvJudul.setTypeface(face);
 
         // get information in intent from dialogActivity
         Intent intent = getIntent();
@@ -92,6 +119,13 @@ public class ConfirmBooking extends BaseActivity {
         jadwalPesananTv.setText("  "+ hariDipesan + " - " + jamLapanganJoined);
         lapanganPesananTv.setText("  "+ lapangan);
         totalHargaTv.setText("  "+ totalHarga);
+
+        namaPemesanTv.setTypeface(face);
+        subLapanganPesananTv.setTypeface(face);
+        jadwalPesananTv.setTypeface(face);
+        lapanganPesananTv.setTypeface(face);
+        totalHargaTv.setTypeface(face);
+
 
         db = new DatabaseHandler(getApplicationContext());
 
@@ -167,7 +201,7 @@ public class ConfirmBooking extends BaseActivity {
                 confirmation.put("jadwal",hariDipesan +", "+ jamLapanganTotal);
                 confirmation.put("harga",totalHarga);
 
-                myRef.child("konfirmasi").child(lapangan).child(namaUserPesan+formattedDate).setValue(confirmation);
+                myRef.child("konfirmasi").child(lapangan.replace(" ","")).child(namaUserPesan+formattedDate.replace(" ","")).setValue(confirmation);
 
                 // updating local database
                 db.addLapangan(new Lapangan(hariDipesan +", "+ jamLapanganTotal, formattedDate, lapangan + " - " + subLapangan));

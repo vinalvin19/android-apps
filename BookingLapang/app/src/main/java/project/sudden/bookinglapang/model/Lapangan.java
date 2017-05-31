@@ -10,8 +10,8 @@ public class Lapangan {
 
     public String nama;
     public String alamat;
-    public Double latitude;
-    public Double longitude;
+    public String latitude;
+    public String longitude;
     private HashMap<String, Object> subLapangan;
     public String harga;
     public String pilihanLapangan;
@@ -19,7 +19,7 @@ public class Lapangan {
 
     public Lapangan() {}
 
-    public Lapangan(String namaLapangan, String alamatLapangan, Double latitude, Double longitude) {
+    public Lapangan(String namaLapangan, String alamatLapangan, String latitude, String longitude) {
         this.nama= namaLapangan;
         this.alamat = alamatLapangan;
         this.latitude= latitude;
@@ -41,11 +41,11 @@ public class Lapangan {
     }
 
 
-    public Double getLatitude() {
+    public String getLatitude() {
         return latitude;
     }
 
-    public Double getLongitude() {
+    public String getLongitude() {
         return longitude;
     }
 

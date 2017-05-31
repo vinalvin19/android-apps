@@ -1,10 +1,12 @@
 package project.sudden.bookinglapang.ui;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -12,6 +14,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -40,6 +43,7 @@ public class MapsActivity extends BaseActivity {
     private ArrayList<LatLng> latlngs = new ArrayList<>();
     private ArrayList<String> subLapanganFinal = new ArrayList<>();
     private MarkerOptions options = new MarkerOptions();
+    private MarkerOptions optionsUser = new MarkerOptions();
 
     private Toolbar toolbar;
     GoogleMap googleMap;
@@ -48,7 +52,7 @@ public class MapsActivity extends BaseActivity {
     Double longitudeUser=107.79;
     Double latitude;
     Double longitude;
-    ImageButton processBook;
+    Button processBook;
     String tempatPilihan;
     private String cabangOlahraga;
     String namaPemesan;
@@ -67,8 +71,11 @@ public class MapsActivity extends BaseActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        processBook = (ImageButton) findViewById(R.id.processBook);
+        processBook = (Button) findViewById(R.id.processBook);
         processBook.setEnabled(false);
+        Typeface face= Typeface.createFromAsset(getApplicationContext().getAssets(), "futura.ttf");
+        processBook.setText("PILIH");
+        processBook.setTypeface(face);
 
         // get information in intent from MainActivity
         Intent intent = getIntent();
@@ -98,6 +105,8 @@ public class MapsActivity extends BaseActivity {
 
         }
 
+        final LatLng locationUser = new LatLng(latitudeUser, longitudeUser);
+
         try {
             if (googleMap == null) {
                 supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -105,10 +114,17 @@ public class MapsActivity extends BaseActivity {
                     @Override
                     public void onMapReady(GoogleMap googleMap) {
 
+                        optionsUser.position(locationUser);
+                        optionsUser.title("You");
+                        optionsUser.snippet("You are here");
+                        optionsUser.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+                        googleMap.addMarker(optionsUser);
+
                         // add marker in googlemaps
                         for (int z = 0; z<arrayName.size(); z++) {
                             options.position(latlngs.get(z));
                             options.title(arrayName.get(z));
+                            options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
                             if (arraySubLapangan.size()>0)
                                 options.snippet(arraySubLapangan.get(z));
                             //options.snippet(arraySubLapangan.get(z));
@@ -120,15 +136,19 @@ public class MapsActivity extends BaseActivity {
                         {
                             @Override
                             public boolean onMarkerClick(Marker arg0) {
+                            if(!arg0.getTitle().contains("You"))
+                            {
                                 tempatPilihan = arg0.getTitle();
-                                if (arraySubLapangan.size()>0)
+
+                                if (arraySubLapangan.size() > 0)
                                     cabangOlahraga = arg0.getSnippet();
-                                Toast.makeText(MapsActivity.this, tempatPilihan+" "+cabangOlahraga, Toast.LENGTH_SHORT).show();// display toast
                                 processBook.setEnabled(true);
                                 //cabangOlahraga = arg0.getSnippet().toString();
 
                                 arg0.showInfoWindow();
                                 return true;
+                            }
+                            return false;
                             }
                         });
 

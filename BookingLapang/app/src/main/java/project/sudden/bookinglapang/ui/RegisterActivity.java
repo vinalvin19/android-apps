@@ -1,6 +1,7 @@
 package project.sudden.bookinglapang.ui;
 
 import android.app.ProgressDialog;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
@@ -29,7 +30,7 @@ public class RegisterActivity extends BaseActivity {
     private String TAG = getClass().getSimpleName()+"TAGES";
     private TextInputEditText fullNameTIET, emailAddressTIET, userNameTIET,
             passwordTIET, confirmPasswordTIET;
-    private ImageButton registerButton;
+    private Button registerButton;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     final DatabaseReference myRef = database.getReference();
@@ -50,8 +51,14 @@ public class RegisterActivity extends BaseActivity {
         userNameTIET = (TextInputEditText) findViewById(R.id.user_name_tiet_reg);
         passwordTIET = (TextInputEditText) findViewById(R.id.password_tiet_reg);
         confirmPasswordTIET = (TextInputEditText) findViewById(R.id.conf_password_tiet_reg);
+        Typeface face = Typeface.createFromAsset(getApplicationContext().getAssets(), "futura.ttf");
+        fullNameTIET.setTypeface(face);
+        emailAddressTIET.setTypeface(face);
+        userNameTIET.setTypeface(face);
 
-        registerButton = (ImageButton) findViewById(R.id.register_btn_reg);
+        registerButton = (Button) findViewById(R.id.register_btn_reg);
+        registerButton.setText("SIGN UP");
+        registerButton.setTypeface(face);
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -145,7 +152,7 @@ public class RegisterActivity extends BaseActivity {
     private void updateUserData(FirebaseUser user) {
 
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                .setDisplayName(fullNameTIET.getText().toString())
+                .setDisplayName(fullNameTIET.getText().toString().replace(" ",""))
                 .build();
 
         user.updateProfile(profileUpdates)

@@ -2,12 +2,14 @@ package project.sudden.bookinglapang.ui;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TableLayout;
@@ -56,7 +58,7 @@ public class DialogActivity extends BaseActivity {
     String cabangOlahraga;
     String tempatPilihan;
     TextView desc;
-    ImageButton processBook;
+    Button processBook;
     String hari;
     String besokString;
     Integer totalHarga = 0;
@@ -79,6 +81,8 @@ public class DialogActivity extends BaseActivity {
     DateFormat dateFormat2;
     int tambahHari;
 
+    Typeface face;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +92,13 @@ public class DialogActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         spinner = (Spinner) findViewById(R.id.spinner);
         spinnerDay = (Spinner) findViewById(R.id.spinnerDay);
+        TextView pilihanlapanganTv = (TextView) findViewById(R.id.name);
+        TextView descriptionTv = (TextView) findViewById(R.id.textView2);
+        face= Typeface.createFromAsset(getApplicationContext().getAssets(), "futura.ttf");
+        pilihanlapanganTv.setText("Pilihan Lapangan");
+        pilihanlapanganTv.setTypeface(face);
+        descriptionTv.setText("Description");
+        descriptionTv.setTypeface(face);
 
         TableLayout layout = (TableLayout) findViewById(R.id.tableLayout);
         desc = (TextView) findViewById(R.id.descText);
@@ -108,7 +119,7 @@ public class DialogActivity extends BaseActivity {
         data15 = (TextView) findViewById(R.id.data15);
         data16 = (TextView) findViewById(R.id.data16);
         total = (TextView) findViewById(R.id.total);
-        processBook = (ImageButton) findViewById(R.id.processbook);
+        processBook = (Button) findViewById(R.id.processbook);
         processBook.setEnabled(false);
 
         // get intent information and assign it to array
@@ -153,34 +164,15 @@ public class DialogActivity extends BaseActivity {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 item = parentView.getItemAtPosition(position).toString();
-                Toast.makeText(getApplicationContext(), item, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), item, Toast.LENGTH_SHORT).show();
                 statusLapangan.clear();
                 hargaLapangan.clear();
                 totalHarga = 0;
                 total.setText("jumlah: " + totalHarga);
+                total.setTypeface(face);
+
                 press1 = 0; press2 = 0; press3 = 0; press4 = 0; press5 = 0; press6 = 0; press7 = 0; press8 = 0;
                 press9 = 0; press10 = 0; press11 = 0; press12 = 0; press13 = 0; press14 = 0; press15 = 0; press16 = 0;
-
-                // to show jadwal besok located on right side
-                /*besok.setOnClickListener(new View.OnClickListener() {
-                     @Override
-                     public void onClick(View arg0) {
-
-                         totalHarga = 0;
-                         total.setText("jumlah: " + totalHarga);
-                         press1 = 0; press2 = 0; press3 = 0; press4 = 0; press5 = 0; press6 = 0; press7 = 0; press8 = 0;
-                         press9 = 0; press10 = 0; press11 = 0; press12 = 0; press13 = 0; press14 = 0; press15 = 0; press16 = 0;
-                         jamLapangan.clear();
-                         calendar.add(Calendar.DAY_OF_YEAR, 1);
-                         tomorrow = calendar.getTime();
-                         hari = dateFormat.format(tomorrow);
-                         Log.d(TAG, hari + " " + dateFormat2.format(tomorrow));
-                         tanggal.setText(hari + " " + dateFormat2.format(tomorrow));
-
-                         checkDatabase(item, hari);
-
-                     }
-                 });*/
 
                 checkDatabase(item, hari);
             }
@@ -202,7 +194,9 @@ public class DialogActivity extends BaseActivity {
 
                 hari = parentView.getItemAtPosition(position).toString().split(" ")[0];
                 totalHarga = 0;
+                Typeface face= Typeface.createFromAsset(getApplicationContext().getAssets(), "futura.ttf");
                 total.setText("Total: " + totalHarga);
+                total.setTypeface(face);
                 press1 = 0; press2 = 0; press3 = 0; press4 = 0; press5 = 0; press6 = 0; press7 = 0; press8 = 0;
                 press9 = 0; press10 = 0; press11 = 0; press12 = 0; press13 = 0; press14 = 0; press15 = 0; press16 = 0;
                 Log.d(TAG, hari);
@@ -245,7 +239,9 @@ public class DialogActivity extends BaseActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot eventSnapshot : dataSnapshot.getChildren()) {
                     //Log.d("TAGES", "GetChildren: "+ eventSnapshot.getKey() +" "+ eventSnapshot.getValue());
+                    Typeface face= Typeface.createFromAsset(getApplicationContext().getAssets(), "futura.ttf");
                     desc.setText(eventSnapshot.getValue().toString());
+                    desc.setTypeface(face);
                 }
             }
 
@@ -375,7 +371,9 @@ public class DialogActivity extends BaseActivity {
             jamLapangan.remove(jam);
             tv.setBackgroundColor(Color.parseColor("#FFFFFF"));
         }
+        Typeface face= Typeface.createFromAsset(getApplicationContext().getAssets(), "futura.ttf");
         total.setText("Total: " + totalHarga);
+        total.setTypeface(face);
         if (totalHarga > 0) {
             processBook.setEnabled(true);
         }

@@ -285,11 +285,14 @@
             android:rotation="180"
             android:layout_height="220dp" />-->
 
-    <ImageButton
-        android:layout_width="250dp"
-        android:layout_height="70dp"
+    <Button
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:textColor="#224D60"
+        android:textSize="20dp"
+        android:background="@drawable/roundedbutton"
+        android:text="PILIH"
         android:scaleType="centerInside"
-        android:background="@null"
         android:padding="10dp"
         android:src="@drawable/pilih"
         android:id="@+id/processbook"

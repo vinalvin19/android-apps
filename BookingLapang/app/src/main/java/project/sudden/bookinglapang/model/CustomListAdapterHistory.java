@@ -3,6 +3,7 @@ package project.sudden.bookinglapang.model;
 import android.content.Context;
 import android.database.DataSetObservable;
 import android.database.DataSetObserver;
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -51,6 +52,10 @@ public class CustomListAdapterHistory extends AppCompatActivity implements ListA
             holder.nama = (TextView) v.findViewById(R.id.historyOrder);
             holder.status = (TextView) v.findViewById(R.id.historyDateLapangan);
             holder.date = (TextView) v.findViewById(R.id.historyLapangan);
+            Typeface face= Typeface.createFromAsset(context.getAssets(), "futura.ttf");
+            holder.nama.setTypeface(face);
+            holder.status.setTypeface(face);
+            holder.date.setTypeface(face);
             v.setTag(holder);
         } else {
             holder = (CustomListAdapterHistory.SiteHolder) v.getTag();

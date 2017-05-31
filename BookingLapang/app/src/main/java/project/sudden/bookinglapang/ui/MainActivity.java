@@ -3,6 +3,8 @@ package project.sudden.bookinglapang.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -57,8 +59,8 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
     public int jarakTempuh = 0;
 
     private Spinner sportsSpinner;
-    private ImageButton searchOnMapsButton;
-    private ImageButton searchEachSpinner;
+    private Button searchOnMapsButton;
+    private Button searchEachSpinner;
     private AccountHeader accountHeader;
     private Drawer drawer = null;
     private Toolbar toolbar;
@@ -128,8 +130,14 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         sportsSpinner = (Spinner) findViewById(R.id.spinner_sports);
-        searchOnMapsButton = (ImageButton) findViewById(R.id.buttonSearchAll);
-        searchEachSpinner = (ImageButton) findViewById(R.id.buttonSearch);
+        searchOnMapsButton = (Button) findViewById(R.id.buttonSearchAll);
+        searchEachSpinner = (Button) findViewById(R.id.buttonSearch);
+
+        Typeface face= Typeface.createFromAsset(getApplicationContext().getAssets(), "futura.ttf");
+        searchOnMapsButton.setText("CARI DI PETA");
+        searchOnMapsButton.setTypeface(face);
+        searchEachSpinner.setText("CARI LAPANG");
+        searchEachSpinner.setTypeface(face);
 
         sportsSpinner.setOnItemSelectedListener(this);
 
@@ -138,6 +146,7 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
                 R.array.sports_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sportsSpinner.setAdapter(adapter);
+        sportsSpinner.setBackgroundColor(Color.parseColor("#FFFFFF"));
 
         // button search atas onclick
         searchEachSpinner.setOnClickListener(new View.OnClickListener(){
@@ -181,14 +190,14 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
                 Lapangan lapangan= dataSnapshot.getValue(Lapangan.class);
 
                 // counting the nearest lapangan
-                jarakTempuh = distance(latitudeUser, longitudeUser, lapangan.getLatitude(), lapangan.getLongitude());
+                jarakTempuh = distance(latitudeUser, longitudeUser, Double.parseDouble(lapangan.getLatitude()), Double.parseDouble(lapangan.getLongitude()));
                 Log.d(TAG, "(geofence) ada " + lapangan.getNamaLapangan() + " dengan jarak " + jarakTempuh);
                 if (jarakTempuh < 100) {
 
                     // set every lapangan information to arrayLatitude, arrayLongitude, arrayName for future use
                     if (!arrayName.contains(lapangan.getNamaLapangan())) {
-                        arrayLatitude.add(lapangan.getLatitude());
-                        arrayLongitude.add(lapangan.getLongitude());
+                        arrayLatitude.add(Double.parseDouble(lapangan.getLatitude()));
+                        arrayLongitude.add(Double.parseDouble(lapangan.getLongitude()));
                         arrayName.add(dataSnapshot.getKey());
                         //arrayDistance.add(jarakTempuh);
                     }
@@ -238,12 +247,12 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
                     Lapangan lapangan = snapshot.getValue(Lapangan.class);
                     Log.d(TAG, "ada: "+lapangan.getNamaLapangan() + " dengan latitude " + lapangan.getLatitude());
 
-                    jarakTempuh = distance(latitudeUser, longitudeUser, lapangan.getLatitude(), lapangan.getLongitude());
+                    jarakTempuh = distance(latitudeUser, longitudeUser, Double.parseDouble(lapangan.getLatitude()), Double.parseDouble(lapangan.getLongitude()));
                     if (jarakTempuh < 100) {
 
                         if (!arrayName.contains(lapangan.getNamaLapangan())) {
-                            arrayLatitude.add(lapangan.getLatitude());
-                            arrayLongitude.add(lapangan.getLongitude());
+                            arrayLatitude.add(Double.parseDouble(lapangan.getLatitude()));
+                            arrayLongitude.add(Double.parseDouble(lapangan.getLongitude()));
                             arrayName.add(snapshot.getKey());
                             //arrayDistance.add(jarakTempuh);
                         }
@@ -401,7 +410,8 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
                                 switch (position) {
                                     case 1:
                                         //handle profile
-                                        Toast.makeText(getApplicationContext(), "Profile", Toast.LENGTH_SHORT).show();
+                                        intent = new Intent(MainActivity.this, UpdateProfile.class);
+                                        startActivity(intent);
                                         break;
                                     case 2:
                                         //handle transaction

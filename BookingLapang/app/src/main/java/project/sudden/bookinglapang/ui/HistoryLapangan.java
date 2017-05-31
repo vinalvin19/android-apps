@@ -48,7 +48,7 @@ public class HistoryLapangan extends BaseActivity {
         // getting data from local database (sqLite_
         DatabaseHandler db = new DatabaseHandler(this);
 
-        getApplicationContext().deleteDatabase("lapanganList");
+        //getApplicationContext().deleteDatabase("lapanganList");
         List<Lapangan> contacts = db.getAllSite();
 
         for (Lapangan cn : contacts) {

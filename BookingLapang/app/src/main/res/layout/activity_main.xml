@@ -53,40 +53,33 @@
             android:layout_below="@+id/imageView"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="35dp"
-            android:background="#FFFFFF"
             android:textAlignment="center"
+            android:background="#FFFFFF"
             android:popupBackground="#FFFFFF" />
 
-        <ImageButton
+        <Button
             android:id="@+id/buttonSearch"
-            android:layout_width="220dp"
-            android:layout_marginTop="20dp"
-            android:layout_height="80dp"
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="50dp"
             android:layout_below="@id/spinner_sports"
-            android:layout_centerHorizontal="true"
-            android:background="@null"
-            android:padding="10dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/carilapang" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/buttonSearch"
-            android:text="atau"
             android:layout_centerHorizontal="true"
             android:textSize="20dp"
             android:textColor="#224D60"
-            android:id="@+id/atau"
-            />
+            android:background="@drawable/roundedbutton"
+            android:padding="10dp"
+            android:text="CARI LAPANG"/>
 
-        <ImageButton
+        <Button
             android:id="@+id/buttonSearchAll"
-            android:layout_width="220dp"
-            android:layout_height="80dp"
-            android:layout_below="@id/atau"
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:textColor="#224D60"
+            android:background="@drawable/roundedbutton"
+            android:layout_below="@id/buttonSearch"
+            android:layout_marginTop="30dp"
             android:layout_centerHorizontal="true"
-            android:background="@null"
+            android:textSize="20dp"
             android:padding="10dp"
             android:scaleType="centerInside"
             android:src="@drawable/caridipeta"

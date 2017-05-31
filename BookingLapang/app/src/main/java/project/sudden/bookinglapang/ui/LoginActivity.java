@@ -1,6 +1,7 @@
 package project.sudden.bookinglapang.ui;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
@@ -25,12 +26,14 @@ public class LoginActivity extends BaseActivity {
 
     private String TAG = getClass().getSimpleName();
     private TextInputEditText emailAddressTIET, passwordTIET;
-    private ImageButton signInButton, registerButton;
+    private Button signInButton, registerButton;
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseUser mUser;
     private DatabaseReference mFirebaseDatabaseReference;
+
+    Typeface face;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,8 +78,14 @@ public class LoginActivity extends BaseActivity {
 
         emailAddressTIET = (TextInputEditText) findViewById(R.id.email_addr_tiet_login);
         passwordTIET = (TextInputEditText) findViewById(R.id.password_tiet_login);
-        signInButton = (ImageButton) findViewById(R.id.sign_in_btn_login);
-        registerButton = (ImageButton) findViewById(R.id.register_btn_login);
+        signInButton = (Button) findViewById(R.id.sign_in_btn_login);
+        registerButton = (Button) findViewById(R.id.register_btn_login);
+        face = Typeface.createFromAsset(getApplicationContext().getAssets(), "futura.ttf");
+        signInButton.setText("LOGIN");
+        registerButton.setText("SIGN UP");
+        emailAddressTIET.setTypeface(face);
+        signInButton.setTypeface(face);
+        registerButton.setTypeface(face);
 
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,24 +109,29 @@ public class LoginActivity extends BaseActivity {
         String passwordString = passwordTIET.getText().toString();
 
         showProgressDialog();
-
         mAuth.signInWithEmailAndPassword(emailAddressString, passwordString)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
                         Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
-
+                        mUser = mAuth.getCurrentUser();
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
-                        if (!task.isSuccessful() || !mUser.isEmailVerified()) {
+                        if (task.isSuccessful() && mUser.isEmailVerified())
+                            goToMainActivity();
+                        else
+                        {
                             Log.w(TAG, "signInWithEmail:failed", task.getException());
-                            Toast.makeText(LoginActivity.this, "Auth Failed",
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Auth Failed",Toast.LENGTH_SHORT).show();
+                        }
+                        /*if (!task.isSuccessful() || mUser.isEmailVerified()) {
+                            Log.w(TAG, "signInWithEmail:failed", task.getException());
+                            Toast.makeText(LoginActivity.this, "Auth Failed",Toast.LENGTH_SHORT).show();
                         } else {
                             goToMainActivity();
-                        }
+                        }*/
 
                         // ...
                         hideProgressDialog();

@@ -32,10 +32,10 @@
         android:id="@+id/lv0"
         android:layout_width="match_parent"
         android:layout_below="@+id/textView"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
         android:orientation="horizontal"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="60dp"
         android:layout_height="wrap_content">
 
         <TextView
@@ -62,8 +62,8 @@
         android:id="@+id/lv1"
         android:layout_width="match_parent"
         android:layout_below="@+id/lv0"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
         android:orientation="horizontal"
         android:layout_marginTop="20dp"
         android:layout_height="wrap_content">
@@ -92,8 +92,8 @@
         android:id="@+id/lv2"
         android:layout_width="match_parent"
         android:layout_below="@+id/lv1"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
         android:orientation="horizontal"
         android:layout_marginTop="20dp"
         android:layout_height="wrap_content">
@@ -122,8 +122,8 @@
         android:id="@+id/lv3"
         android:layout_width="match_parent"
         android:layout_below="@+id/lv2"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
         android:orientation="horizontal"
         android:layout_marginTop="20dp"
         android:layout_height="wrap_content">
@@ -153,8 +153,8 @@
         android:id="@+id/lv4"
         android:layout_width="match_parent"
         android:layout_below="@+id/lv3"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
         android:orientation="horizontal"
         android:layout_marginTop="20dp"
         android:layout_height="wrap_content">
@@ -183,8 +183,8 @@
         android:id="@+id/lv5"
         android:layout_width="match_parent"
         android:layout_below="@+id/lv4"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
         android:orientation="horizontal"
         android:layout_marginTop="20dp"
         android:layout_height="wrap_content">
@@ -213,8 +213,8 @@
         android:id="@+id/lv6"
         android:layout_width="match_parent"
         android:layout_below="@+id/lv5"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
         android:orientation="horizontal"
         android:layout_marginTop="20dp"
         android:layout_height="wrap_content">

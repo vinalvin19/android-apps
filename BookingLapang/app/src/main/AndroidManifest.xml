@@ -33,14 +33,15 @@
         </activity>
         <activity android:name=".ui.RegisterActivity"
             android:windowSoftInputMode="adjustResize"/>
-        <activity android:name=".ui.MainActivity"
-            android:noHistory="true"/>
+        <activity android:name=".ui.MainActivity"/>
         <activity android:name=".ui.MapsActivity"/>
-        <activity android:name=".ui.DialogActivity"/>
+        <activity android:name=".ui.DialogActivity"
+            android:noHistory="true"/>
         <activity android:name=".ui.ConfirmBooking"/>
         <activity android:name=".ui.HistoryLapangan"/>
         <activity android:name=".ui.ResetPassword"/>
         <activity android:name=".ui.SummaryOrder" />
+        <activity android:name=".ui.UpdateProfile" />
     </application>
 
 </manifest>
