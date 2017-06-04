@@ -47,6 +47,8 @@ public class SummaryOrder extends BaseActivity{
     TextView waktuBooking;
     TextView totalHarga;
     TextView descriptionFooter;
+    TextView statusTv;
+    TextView statusPemesanan;
 
     String namaLapangan;
     String tanggal;
@@ -56,6 +58,7 @@ public class SummaryOrder extends BaseActivity{
     String nama;
     String subLapangan;
     String waktuPesan;
+    String status;
     Toolbar toolbar;
 
     ArrayList order = new ArrayList();
@@ -80,12 +83,14 @@ public class SummaryOrder extends BaseActivity{
         waktuBookingTv = (TextView) findViewById(R.id.waktuBooking);
         totalHargaTv = (TextView) findViewById(R.id.totalHarga);
         waktuValid = (TextView) findViewById(R.id.waktuValid);
+        statusTv = (TextView) findViewById(R.id.statusTv);
         namaPemesan = (TextView) findViewById(R.id.namaPemesan2);
         waktuPemesanan = (TextView) findViewById(R.id.waktuPemesanan2);
         tempatPesanan = (TextView) findViewById(R.id.tempatPesanan2);
         lapanganPesanan = (TextView) findViewById(R.id.lapanganPesanan2);
         waktuBooking = (TextView) findViewById(R.id.waktuBooking2);
         totalHarga = (TextView) findViewById(R.id.totalHarga2);
+        statusPemesanan = (TextView) findViewById(R.id.statusPemesanan2);
         descriptionFooter = (TextView) findViewById(R.id.textView15);
         face = Typeface.createFromAsset(getApplicationContext().getAssets(), "futura.ttf");
         judulTv.setText("Summary Order");
@@ -96,6 +101,7 @@ public class SummaryOrder extends BaseActivity{
         lapanganPesananTv.setText("Lapangan");
         waktuBookingTv.setText("Jam");
         totalHargaTv.setText("Total Harga");
+        statusTv.setText("Status Pemesanan");
         descriptionFooter.setText("Order Anda sudah kami terima"+System.getProperty("line.separator")+"Harap transfer sesuai tagihan Anda ke"+System.getProperty("line.separator")+"dadaadaada");
         judulTv.setTypeface(face);
         validTv.setTypeface(face);
@@ -106,6 +112,8 @@ public class SummaryOrder extends BaseActivity{
         waktuBookingTv.setTypeface(face);
         totalHargaTv.setTypeface(face);
         descriptionFooter.setTypeface(face);
+        statusTv.setTypeface(face);
+        statusPemesanan.setTypeface(face);
 
         mUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -131,7 +139,7 @@ public class SummaryOrder extends BaseActivity{
             public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
                 order.add(dataSnapshot.getValue().toString());
 
-                if (order.size() == 6)
+                if (order.size() == 7)
                     setView();
                 /*for (int i = 0; i<order.size(); i++) {
                     Log.d(TAG, order.get(i).toString());
@@ -161,15 +169,16 @@ public class SummaryOrder extends BaseActivity{
         jadwal = order.get(1).toString();
         lapangan = order.get(2).toString();
         nama = order.get(3).toString();
-        subLapangan = order.get(4).toString();
-        waktuPesan = order.get(5).toString();
+        status = order.get(4).toString();
+        subLapangan = order.get(5).toString();
+        waktuPesan = order.get(6).toString();
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date convertedDate = new Date();
         Date convertedDatePlus = new Date();
         try {
             convertedDate = dateFormat.parse(waktuPesan);
-            convertedDatePlus.setTime(convertedDate.getTime()+7_200_200);
+            convertedDatePlus.setTime(convertedDate.getTime()+3_600_000);
         } catch (ParseException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -186,6 +195,7 @@ public class SummaryOrder extends BaseActivity{
         lapanganPesanan.setText(":  "+subLapangan);
         waktuBooking.setText(":  "+jadwal);
         totalHarga.setText(":  "+harga);
+        statusPemesanan.setText(":  "+status);
 
         waktuValid.setTypeface(face);
         waktuValid.setTypeface(null, Typeface.BOLD);

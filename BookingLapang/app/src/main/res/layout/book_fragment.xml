@@ -37,6 +37,9 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_width="match_parent"
+        android:padding="5dp"
+        android:background="#FFFFFF"
+        android:popupBackground="#FFFFFF"
         android:layout_height="wrap_content" />
 
     <TextView
@@ -44,7 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="16dp"
         android:textSize="16dp"
         android:textColor="#224D60"
@@ -68,7 +71,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
         <Spinner
@@ -76,7 +79,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
+            android:background="#FFFFFF"
+            android:popupBackground="#FFFFFF"
             android:textAlignment="textStart"
+            android:padding="5dp"
             android:textColor="#224D60"
             android:textSize="16dp"
             android:layout_weight="0.75"/>
@@ -103,7 +109,7 @@
             android:layout_marginBottom="20dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="16dp">
 
             <TableRow
                 android:layout_width="match_parent"

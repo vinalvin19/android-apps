@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Booking Lapang</string>
+    <string name="app_name">BookingLapang</string>
     <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login -->

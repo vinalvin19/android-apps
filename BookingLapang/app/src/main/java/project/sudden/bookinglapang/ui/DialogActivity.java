@@ -1,9 +1,11 @@
 package project.sudden.bookinglapang.ui;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -27,6 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import project.sudden.bookinglapang.BaseActivity;
@@ -88,8 +91,6 @@ public class DialogActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.book_fragment);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         spinner = (Spinner) findViewById(R.id.spinner);
         spinnerDay = (Spinner) findViewById(R.id.spinnerDay);
         TextView pilihanlapanganTv = (TextView) findViewById(R.id.name);
@@ -127,6 +128,10 @@ public class DialogActivity extends BaseActivity {
         cabangOlahraga = this.getIntent().getStringExtra("cabangOlahraga");
         tempatPilihan = this.getIntent().getStringExtra("tempatPilihan");
         namaPemesan = this.getIntent().getStringExtra("namaPemesan");
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(tempatPilihan.toUpperCase());
+        setSupportActionBar(toolbar);
 
         // displaying spinner for subLapangan
         spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, subLapangan);
@@ -216,17 +221,40 @@ public class DialogActivity extends BaseActivity {
             @Override
             public void onClick(View arg0) {
 
-                Intent intent =new Intent(DialogActivity.this, ConfirmBooking.class);
-                intent.putExtra("namaPemesan", namaPemesan);
-                intent.putExtra("subLapangan", subLapanganFix);
-                intent.putStringArrayListExtra("jadwalPesanan", jamLapangan);
-                intent.putExtra("lapanganPesanan", tempatPilihan);
-                intent.putExtra("totalHarga", String.valueOf(totalHarga));
-                intent.putExtra("hariDipesan", hari);
-                intent.putExtra("cabangOlahraga", cabangOlahraga);
-                startActivity(intent);
+                Date date = new Date();
+                Calendar cal = Calendar.getInstance();
+                int hours = cal.get(Calendar.HOUR_OF_DAY);
+                Log.d(TAG, String.valueOf(hours));
+                SimpleDateFormat dateFormat = new SimpleDateFormat("kk");
+                String dateforrow = dateFormat.format(cal.getTime());
 
-                finish();
+                Log.d(TAG, dateforrow);
+
+                if(Integer.parseInt(dateforrow) > 21 || Integer.parseInt(dateforrow) < 9) {
+                    Log.d(TAG, String.valueOf(hours));
+                    AlertDialog.Builder builder = new AlertDialog.Builder(DialogActivity.this);
+                    builder.setMessage("Mohon maaf atas ketidaknyamanannya. " +
+                            "\n\nUntuk versi aplikasi saat ini, jam operasional kami dari jam 09.00-21.00 WIB. " +
+                            "\n\nTerimakasih")
+                    .setNegativeButton("Saya Mengerti",new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog,int id) {
+                            dialog.cancel();
+                    }});
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                }
+                else {
+                    Intent intent = new Intent(DialogActivity.this, ConfirmBooking.class);
+                    intent.putExtra("namaPemesan", namaPemesan);
+                    intent.putExtra("subLapangan", subLapanganFix);
+                    intent.putStringArrayListExtra("jadwalPesanan", jamLapangan);
+                    intent.putExtra("lapanganPesanan", tempatPilihan);
+                    intent.putExtra("totalHarga", String.valueOf(totalHarga));
+                    intent.putExtra("hariDipesan", hari);
+                    intent.putExtra("cabangOlahraga", cabangOlahraga);
+                    startActivity(intent);
+                    finish();
+                }
             }
         });
     }

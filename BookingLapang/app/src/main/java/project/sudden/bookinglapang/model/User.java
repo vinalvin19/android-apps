@@ -7,7 +7,8 @@ public class User {
 
     public String fullName;
     public String emailAddress;
-    public String userName;
+    //public String userName;
+    public String nomor;
     public String avatarLink;
     public long createdAt;
 
@@ -16,7 +17,7 @@ public class User {
     public User(String fullName, String emailAddress, String userName, String avatarLink, long createdAt) {
         this.fullName = fullName;
         this.emailAddress = emailAddress;
-        this.userName = userName;
+        this.nomor = userName;
         this.avatarLink = avatarLink;
         this.createdAt = createdAt;
     }
@@ -29,8 +30,8 @@ public class User {
         return emailAddress;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getNomor() {
+        return nomor;
     }
 
     public String getAvatarLink() {

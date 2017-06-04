@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import project.sudden.bookinglapang.BaseActivity;
 import project.sudden.bookinglapang.R;
@@ -54,6 +55,7 @@ public class ConfirmBooking extends BaseActivity {
     ArrayList<String> jamLapanganPesanan = new ArrayList<>();
     String lapangan;
     String totalHarga;
+    String totalHargaA;
     String hariDipesan;
     String cabangOlahraga;
     String formattedDate;
@@ -108,17 +110,22 @@ public class ConfirmBooking extends BaseActivity {
         subLapangan = intent.getStringExtra("subLapangan");
         jamLapanganPesanan = intent.getStringArrayListExtra("jadwalPesanan");
         lapangan = intent.getStringExtra("lapanganPesanan");
-        totalHarga = intent.getStringExtra("totalHarga");
+        totalHargaA = intent.getStringExtra("totalHarga");
         hariDipesan = intent.getStringExtra("hariDipesan");
         cabangOlahraga = intent.getStringExtra("cabangOlahraga");
 
         final String jamLapanganJoined = TextUtils.join(", ", jamLapanganPesanan);
 
+        Random r = new Random();
+        int i1 = r.nextInt(99 - 01) + 01;
+
         namaPemesanTv.setText("  "+ namaUserPesan);
         subLapanganPesananTv.setText("  "+ subLapangan);
         jadwalPesananTv.setText("  "+ hariDipesan + " - " + jamLapanganJoined);
         lapanganPesananTv.setText("  "+ lapangan);
-        totalHargaTv.setText("  "+ totalHarga);
+        totalHarga = totalHargaA.substring(0, totalHargaA.length()-2)+i1;
+        totalHargaTv.setText(totalHarga);
+
 
         namaPemesanTv.setTypeface(face);
         subLapanganPesananTv.setTypeface(face);
@@ -200,6 +207,7 @@ public class ConfirmBooking extends BaseActivity {
                 confirmation.put("subLapangan",subLapangan);
                 confirmation.put("jadwal",hariDipesan +", "+ jamLapanganTotal);
                 confirmation.put("harga",totalHarga);
+                confirmation.put("status","Waiting Confirmation");
 
                 myRef.child("konfirmasi").child(lapangan.replace(" ","")).child(namaUserPesan+formattedDate.replace(" ","")).setValue(confirmation);
 

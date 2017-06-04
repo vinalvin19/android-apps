@@ -99,6 +99,8 @@ public class RegisterActivity extends BaseActivity {
                         } else {
                             Toast.makeText(RegisterActivity.this, "Register Success!",
                                     Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterActivity.this, "Kode Verifikasi telah dikirim ke email Anda",
+                                    Toast.LENGTH_LONG).show();
                             onAuthSuccess(task.getResult().getUser());
                         }
 
@@ -177,7 +179,7 @@ public class RegisterActivity extends BaseActivity {
             emailAddressTIET.setError("Email Address Needed");
             emailAddressTIET.setFocusable(true);
         } else if (userNameTIET.getText().toString().equals("")) {
-            userNameTIET.setError("User Name Needed");
+            userNameTIET.setError("Phone Number Needed");
             userNameTIET.setFocusable(true);
         } else if (passwordTIET.getText().toString().equals("")) {
             passwordTIET.setError("Password Needed");
