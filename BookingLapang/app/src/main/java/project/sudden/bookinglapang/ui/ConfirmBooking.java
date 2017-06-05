@@ -124,8 +124,7 @@ public class ConfirmBooking extends BaseActivity {
         jadwalPesananTv.setText("  "+ hariDipesan + " - " + jamLapanganJoined);
         lapanganPesananTv.setText("  "+ lapangan);
         totalHarga = totalHargaA.substring(0, totalHargaA.length()-2)+i1;
-        totalHargaTv.setText(totalHarga);
-
+        totalHargaTv.setText("  "+ totalHarga);
 
         namaPemesanTv.setTypeface(face);
         subLapanganPesananTv.setTypeface(face);

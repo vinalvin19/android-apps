@@ -196,6 +196,7 @@ public class SummaryOrder extends BaseActivity{
         waktuBooking.setText(":  "+jadwal);
         totalHarga.setText(":  "+harga);
         statusPemesanan.setText(":  "+status);
+        statusPemesanan.setTypeface(null, Typeface.BOLD);
 
         waktuValid.setTypeface(face);
         waktuValid.setTypeface(null, Typeface.BOLD);

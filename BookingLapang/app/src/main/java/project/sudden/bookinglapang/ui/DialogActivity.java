@@ -149,7 +149,7 @@ public class DialogActivity extends BaseActivity {
         hari = dateFormat.format(today);
 
         int i = 0;
-        while(i<6){
+        while(i<7){
             satuMinggu.add(dateFormat.format(today)+" "+dateFormat2.format(today));
             calendar.add(Calendar.DAY_OF_YEAR, 1);
             today = calendar.getTime();
@@ -358,12 +358,28 @@ public class DialogActivity extends BaseActivity {
             public void onCancelled(DatabaseError error) {
             }
         };
+
+        Log.d(TAG, "ini hari: " + hari);
         // getting database information
         myRef.child("lapangan").child(cabangOlahraga).child(tempatPilihan).child("sublapangan").child(sublapangan).child(hariJadwal).addValueEventListener(searchSubLapangan);
         myRef.child("lapangan").child(cabangOlahraga).child(tempatPilihan).child("sublapangan").child(sublapangan).orderByKey().
                 startAt("description").endAt("description").limitToLast(1).addValueEventListener(searchDescription);
-        myRef.child("lapangan").child(cabangOlahraga).child(tempatPilihan).child("sublapangan").child(sublapangan).orderByKey().
-                startAt("6").endAt("21").limitToLast(16).addValueEventListener(searchPrice);
+
+        if (hari.equals("Saturday")){
+            Log.d(TAG, "hari sabtu");
+            myRef.child("lapangan").child(cabangOlahraga).child(tempatPilihan).child("sublapangan").child(sublapangan)
+                    .child("Sabtu").addValueEventListener(searchPrice);
+        }
+        else if (hari.equals("Sunday")) {
+            Log.d(TAG, "hari minggu");
+            myRef.child("lapangan").child(cabangOlahraga).child(tempatPilihan).child("sublapangan").child(sublapangan)
+                    .child("Minggu").addValueEventListener(searchPrice);
+        }
+        else {
+            Log.d(TAG, "hari biasa");
+            myRef.child("lapangan").child(cabangOlahraga).child(tempatPilihan).child("sublapangan").child(sublapangan).orderByKey().
+                    startAt("6").endAt("21").limitToLast(16).addValueEventListener(searchPrice);
+        }
         //myRef.removeEventListener(aaa);
     }
 
