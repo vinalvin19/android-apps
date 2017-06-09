@@ -1,5 +1,6 @@
 package project.sudden.bookinglapang.ui;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -56,6 +57,7 @@ public class MapsActivity extends BaseActivity {
     String tempatPilihan;
     private String cabangOlahraga;
     String namaPemesan;
+    String gambarLapangan;
 
     SupportMapFragment supportMapFragment;
     public FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -71,6 +73,13 @@ public class MapsActivity extends BaseActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage("Loading...");
+            mProgressDialog.setIndeterminate(true);
+        }
+
+        mProgressDialog.show();
         processBook = (Button) findViewById(R.id.processBook);
         processBook.setEnabled(false);
         Typeface face= Typeface.createFromAsset(getApplicationContext().getAssets(), "futura.ttf");
@@ -164,6 +173,10 @@ public class MapsActivity extends BaseActivity {
             e.printStackTrace();
         }
 
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
+
         // when processbook being clicked, information from selected lapangan will be processed
         processBook.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -198,6 +211,7 @@ public class MapsActivity extends BaseActivity {
                         intent.putExtra("cabangOlahraga", cabangOlahraga);
                         intent.putExtra("tempatPilihan", tempatPilihan);
                         intent.putExtra("namaPemesan", namaPemesan);
+                        //intent.putExtra("gambarLapangan", gambarLapangan);
                         startActivity(intent);
 
                     }

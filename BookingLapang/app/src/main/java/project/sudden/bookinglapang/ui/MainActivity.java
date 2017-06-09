@@ -1,5 +1,6 @@
 package project.sudden.bookinglapang.ui;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -21,6 +22,9 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -141,6 +145,14 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
 
         sportsSpinner.setOnItemSelectedListener(this);
 
+        MobileAds.initialize(this, "ca-app-pub-1594284244924018~5570828484");
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+
+        AdRequest adRequest = new AdRequest.Builder()
+                .build();
+
+        mAdView.loadAd(adRequest);
+
         // set spinner from sports_array adapter
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.sports_array, android.R.layout.simple_spinner_item);
@@ -180,12 +192,22 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
     // when search button pressed, start to check lapangan based on spinner item
     public void checkLapangan()
     {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage("Loading...");
+            mProgressDialog.setIndeterminate(true);
+        }
+
+        mProgressDialog.show();
         Log.d(TAG, "masuk cek lapangan");
 
         // get lapangan from firebase
         myRef.child("lapangan").child(onSelected).addChildEventListener(new ChildEventListener(){
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+
+                Log.d(TAG, "ini kunci: "+dataSnapshot.getKey());
+
 
                 Lapangan lapangan= dataSnapshot.getValue(Lapangan.class);
 
@@ -202,6 +224,10 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
                         //arrayDistance.add(jarakTempuh);
                     }
 
+                    if (mProgressDialog != null && mProgressDialog.isShowing()) {
+                        mProgressDialog.dismiss();
+                    }
+
                     // sending the information to MapsActivity
                     Intent intent =new Intent(MainActivity.this, MapsActivity.class);
                     intent.putStringArrayListExtra("namaLapangan", arrayName);
@@ -212,6 +238,8 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
                     intent.putExtra("cabangOlahraga", onSelected);
                     intent.putExtra("namaPemesan", namaUser);
                     startActivity(intent);
+
+
                 }
             }
 
@@ -228,11 +256,21 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
             @Override
             public void onCancelled(DatabaseError databaseError) {}
         });
+
+
     }
 
     // when search button bawah pressed (masih belom)
     public void checkLapanganSemua() {
         Log.d(TAG, "masuk cek lapangan semua");
+
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage("Loading...");
+            mProgressDialog.setIndeterminate(true);
+        }
+
+        mProgressDialog.show();
 
         myRef.child("lapangan").addChildEventListener(new ChildEventListener() {
             @Override
@@ -257,6 +295,10 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
                             //arrayDistance.add(jarakTempuh);
                         }
                     }
+                }
+
+                if (mProgressDialog != null && mProgressDialog.isShowing()) {
+                    mProgressDialog.dismiss();
                 }
 
                 Intent intent =new Intent(MainActivity.this, MapsActivity.class);

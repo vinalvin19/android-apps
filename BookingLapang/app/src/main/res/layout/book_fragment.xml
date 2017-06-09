@@ -19,6 +19,21 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:id="@+id/gambarLapangan"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"    />
+
     <TextView
         android:id="@+id/name"
         android:layout_width="match_parent"
@@ -303,6 +318,9 @@
         android:src="@drawable/pilih"
         android:id="@+id/processbook"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp"/>
 
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

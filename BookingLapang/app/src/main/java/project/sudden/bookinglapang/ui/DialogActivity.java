@@ -2,8 +2,11 @@ package project.sudden.bookinglapang.ui;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
@@ -13,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TextView;
@@ -24,6 +28,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -68,6 +76,8 @@ public class DialogActivity extends BaseActivity {
     String subLapanganFix;
     String hariJadwal;
     String namaPemesan;
+    ImageView gambarLapangan;
+    String pathGambar;
 
     int press1 = 0, press2 = 0, press3 = 0, press4 = 0, press5 = 0, press6 = 0, press7 = 0, press8 = 0;
     int press9 = 0, press10 = 0, press11 = 0, press12 = 0, press13 = 0, press14 = 0, press15 = 0, press16 = 0;
@@ -121,6 +131,7 @@ public class DialogActivity extends BaseActivity {
         data16 = (TextView) findViewById(R.id.data16);
         total = (TextView) findViewById(R.id.total);
         processBook = (Button) findViewById(R.id.processbook);
+        gambarLapangan = (ImageView) findViewById(R.id.gambarLapangan);
         processBook.setEnabled(false);
 
         // get intent information and assign it to array
@@ -157,6 +168,9 @@ public class DialogActivity extends BaseActivity {
             i++;
         }
 
+        Log.d(TAG, "Selected: " + spinner.getSelectedItem().toString());
+
+
         // displaying spiner for one week
         ArrayAdapter<String> week_adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, satuMinggu);
         week_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -172,12 +186,26 @@ public class DialogActivity extends BaseActivity {
                 //Toast.makeText(getApplicationContext(), item, Toast.LENGTH_SHORT).show();
                 statusLapangan.clear();
                 hargaLapangan.clear();
+                jamLapangan.clear();
                 totalHarga = 0;
                 total.setText("jumlah: " + totalHarga);
                 total.setTypeface(face);
+                processBook.setEnabled(false);
 
                 press1 = 0; press2 = 0; press3 = 0; press4 = 0; press5 = 0; press6 = 0; press7 = 0; press8 = 0;
                 press9 = 0; press10 = 0; press11 = 0; press12 = 0; press13 = 0; press14 = 0; press15 = 0; press16 = 0;
+
+                myRef.child("lapangan").child(cabangOlahraga).child(tempatPilihan).child("sublapangan").child(item)
+                    .child("image").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    pathGambar = snapshot.getValue().toString();
+                    Log.d(TAG, "Gambar: " + pathGambar);
+
+                    new DownLoadImageTask(gambarLapangan).execute(pathGambar);
+                }
+                @Override public void onCancelled(DatabaseError error) { }
+                });
 
                 checkDatabase(item, hari);
             }
@@ -196,6 +224,7 @@ public class DialogActivity extends BaseActivity {
                 hargaLapangan.clear();
                 totalHarga = 0;
                 jamLapangan.clear();
+                processBook.setEnabled(false);
 
                 hari = parentView.getItemAtPosition(position).toString().split(" ")[0];
                 totalHarga = 0;
@@ -525,4 +554,41 @@ public class DialogActivity extends BaseActivity {
                 hitungHarga (press16, hargaLapangan.get(15), "21.00", data16);
             }});
     }
+
+    private class DownLoadImageTask extends AsyncTask<String,Void,Bitmap> {
+        ImageView imageView;
+
+        public DownLoadImageTask(ImageView imageView){
+            this.imageView = imageView;
+        }
+
+        /*
+            doInBackground(Params... params)
+                Override this method to perform a computation on a background thread.
+         */
+        protected Bitmap doInBackground(String...urls){
+            String urlOfImage = urls[0];
+            Bitmap logo = null;
+            try{
+                InputStream is = new URL(urlOfImage).openStream();
+                /*
+                    decodeStream(InputStream is)
+                        Decode an input stream into a bitmap.
+                 */
+                logo = BitmapFactory.decodeStream(is);
+            }catch(Exception e){ // Catch the download exception
+                e.printStackTrace();
+            }
+            return logo;
+        }
+
+        /*
+            onPostExecute(Result result)
+                Runs on the UI thread after doInBackground(Params...).
+         */
+        protected void onPostExecute(Bitmap result){
+            imageView.setImageBitmap(result);
+        }
+    }
 }
+

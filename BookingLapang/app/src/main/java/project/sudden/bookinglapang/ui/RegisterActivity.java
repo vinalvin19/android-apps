@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -46,6 +47,7 @@ public class RegisterActivity extends BaseActivity {
 
     public void registerUI() {
 
+        //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         fullNameTIET = (TextInputEditText) findViewById(R.id.full_name_tiet_reg);
         emailAddressTIET = (TextInputEditText) findViewById(R.id.email_addr_tiet_reg);
         userNameTIET = (TextInputEditText) findViewById(R.id.user_name_tiet_reg);

@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -76,6 +77,7 @@ public class LoginActivity extends BaseActivity {
 
     private void registerUI() {
 
+        //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         emailAddressTIET = (TextInputEditText) findViewById(R.id.email_addr_tiet_login);
         passwordTIET = (TextInputEditText) findViewById(R.id.password_tiet_login);
         signInButton = (Button) findViewById(R.id.sign_in_btn_login);

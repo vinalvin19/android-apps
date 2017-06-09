@@ -182,7 +182,10 @@ public class ConfirmBooking extends BaseActivity {
                 };
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(ConfirmBooking.this);
-                builder.setMessage("Confirm order?")
+                builder.setMessage("-Metode pembayaran ini hanya untuk pembayaran melalui ATM transfer\n" +
+                        "\n-Pembayaran harus dilakukan maksimal 30 menit\n" +
+                        "\n-Untuk menjaga sistem mobile apps, apabila dilakukan tiga kali pemesanan tanpa pembayaran maka akun Anda " +
+                        "akan di-block. Untuk mengaktifkannya kembali dapat menghubungi official line account BookingLapang")
                         .setPositiveButton("Yes", dialogClickListener)
                         .setNegativeButton("No", dialogClickListener).show();
             }
