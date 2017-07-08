@@ -1,183 +1,226 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
+<ScrollView android:layout_width="match_parent"
     android:background="#FEC200"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <android.support.design.widget.AppBarLayout
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:elevation="0dp">
+        android:layout_height="match_parent">
 
-        <include
-            android:id="@+id/toolbar"
-            layout="@layout/toolbar2"/>
-
-    </android.support.design.widget.AppBarLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="70dp"
-        android:layout_marginLeft="70dp"
-        android:orientation="vertical" >
-
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:textSize="14dp"
-            android:textColor="#224D60"
-            android:text="Nama Pemesan"
-            android:layout_gravity="left"/>
-
-        <TextView
-            android:id="@+id/namaPemesan"
+        <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
+            app:elevation="0dp">
+
+            <include
+                android:id="@+id/toolbar"
+                layout="@layout/toolbar2"/>
+
+        </android.support.design.widget.AppBarLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="70dp"
+            android:layout_marginLeft="70dp"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:textSize="14dp"
+                android:textColor="#224D60"
+                android:text="Nama Pemesan"
+                android:layout_gravity="left"/>
+
+            <TextView
+                android:id="@+id/namaPemesan"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="-7dp"
+                android:textColor="#224D60"
+                android:gravity="center_vertical|left"
+                android:background="#FFFFFF"
+                android:textSize="16dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_below="@+id/linearLayout1"
+            android:layout_width="fill_parent"
+            android:layout_marginTop="12dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="70dp"
+            android:layout_marginLeft="70dp"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:textSize="14dp"
+                android:textColor="#224D60"
+                android:text="Tempat"
+                android:layout_gravity="left"/>
+
+            <TextView
+                android:id="@+id/subLapanganPesanan"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="-7dp"
+                android:textColor="#224D60"
+                android:background="#FFFFFF"
+                android:gravity="center_vertical|left"
+                android:textSize="16dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_below="@+id/linearLayout2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginRight="70dp"
+            android:layout_marginLeft="70dp"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:textSize="14dp"
+                android:textColor="#224D60"
+                android:text="Jadwal"
+                android:layout_gravity="left"/>
+
+            <TextView
+                android:id="@+id/jadwalPesanan"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="-7dp"
+                android:textColor="#224D60"
+                android:background="#FFFFFF"
+                android:textSize="16dp"
+                android:gravity="center_vertical|left"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout4"
+            android:layout_below="@+id/linearLayout3"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginRight="70dp"
+            android:layout_marginLeft="70dp"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:textSize="14dp"
+                android:textColor="#224D60"
+                android:text="Lapangan"
+                android:layout_gravity="left"/>
+
+            <TextView
+                android:id="@+id/lapanganPesanan"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="-7dp"
+                android:textColor="#224D60"
+                android:background="#FFFFFF"
+                android:textSize="16dp"
+                android:gravity="center_vertical|left"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout6"
+            android:layout_below="@+id/linearLayout3"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginRight="70dp"
+            android:layout_marginLeft="70dp"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:textSize="14dp"
+                android:textColor="#224D60"
+                android:text="Biaya Admin"
+                android:layout_gravity="left"/>
+
+            <TextView
+                android:id="@+id/biayaAdmin"
+                android:layout_width="match_parent"
+                android:layout_marginTop="-7dp"
+                android:layout_height="40dp"
+                android:textColor="#224D60"
+                android:background="#FFFFFF"
+                android:textSize="16dp"
+                android:gravity="center_vertical|left"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout5"
+            android:layout_below="@+id/linearLayout4"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginRight="70dp"
+            android:layout_marginLeft="70dp"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:textSize="14dp"
+                android:textColor="#224D60"
+                android:text="Total Harga"
+                android:layout_gravity="left"/>
+
+            <TextView
+                android:id="@+id/totalHarga"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:textColor="#224D60"
+                android:background="#FFFFFF"
+                android:textSize="16dp"
+                android:layout_marginTop="-7dp"
+                android:gravity="center_vertical|left"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/finalProcess"
+            android:layout_width="200dp"
+            android:layout_height="60dp"
             android:textColor="#224D60"
-            android:gravity="center_vertical|left"
-            android:background="#FFFFFF"
-            android:textSize="16dp" />
+            android:textSize="20dp"
+            android:background="@drawable/roundedbutton"
+            android:text="BAYAR"
+            android:layout_gravity="center"
+            android:scaleType="centerInside"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:padding="10dp"
+            android:src="@drawable/bayar" />
 
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_below="@+id/linearLayout1"
-        android:layout_width="fill_parent"
-        android:layout_marginTop="15dp"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="70dp"
-        android:layout_marginLeft="70dp"
-        android:orientation="vertical" >
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:textSize="14dp"
-            android:textColor="#224D60"
-            android:text="Tempat"
-            android:layout_gravity="left"/>
-
-        <TextView
-            android:id="@+id/subLapanganPesanan"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:textColor="#224D60"
-            android:background="#FFFFFF"
-            android:gravity="center_vertical|left"
-            android:textSize="16dp"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:layout_below="@+id/linearLayout2"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginRight="70dp"
-        android:layout_marginLeft="70dp"
-        android:orientation="vertical" >
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:textSize="14dp"
-            android:textColor="#224D60"
-            android:text="Jadwal"
-            android:layout_gravity="left"/>
-
-        <TextView
-            android:id="@+id/jadwalPesanan"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:textColor="#224D60"
-            android:background="#FFFFFF"
-            android:textSize="16dp"
-            android:gravity="center_vertical|left"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout4"
-        android:layout_below="@+id/linearLayout3"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginRight="70dp"
-        android:layout_marginLeft="70dp"
-        android:orientation="vertical" >
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:textSize="14dp"
-            android:textColor="#224D60"
-            android:text="Lapangan"
-            android:layout_gravity="left"/>
-
-        <TextView
-            android:id="@+id/lapanganPesanan"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:textColor="#224D60"
-            android:background="#FFFFFF"
-            android:textSize="16dp"
-            android:gravity="center_vertical|left"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout5"
-        android:layout_below="@+id/linearLayout4"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginRight="70dp"
-        android:layout_marginLeft="70dp"
-        android:orientation="vertical" >
-
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:textSize="14dp"
-            android:textColor="#224D60"
-            android:text="Total Harga"
-            android:layout_gravity="left"/>
-
-        <TextView
-            android:id="@+id/totalHarga"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:textColor="#224D60"
-            android:background="#FFFFFF"
-            android:textSize="16dp"
-            android:gravity="center_vertical|left"/>
-
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/finalProcess"
-        android:layout_width="200dp"
-        android:layout_height="60dp"
-        android:textColor="#224D60"
-        android:textSize="20dp"
-        android:background="@drawable/roundedbutton"
-        android:text="BAYAR"
-        android:layout_gravity="center"
-        android:scaleType="centerInside"
-        android:layout_marginTop="25dp"
-        android:padding="10dp"
-        android:src="@drawable/bayar" />
-
-</LinearLayout>
+</ScrollView>

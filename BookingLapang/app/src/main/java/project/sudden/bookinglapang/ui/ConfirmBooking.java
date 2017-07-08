@@ -46,7 +46,9 @@ public class ConfirmBooking extends BaseActivity {
     TextView subLapanganPesananTv;
     TextView jadwalPesananTv;
     TextView lapanganPesananTv;
+    TextView biayaAdminTv;
     TextView totalHargaTv;
+    TextView biayaAdmin;
     Button finalProcess;
     Toolbar toolbar;
 
@@ -85,11 +87,13 @@ public class ConfirmBooking extends BaseActivity {
         jadwalTvJudul = (TextView) findViewById(R.id.textView3);
         lapanganTvJudul = (TextView) findViewById(R.id.textView4);
         hargaTvJudul = (TextView) findViewById(R.id.textView5);
+        biayaAdminTv = (TextView) findViewById(R.id.textView6);
         namaPemesanTv = (TextView) findViewById(R.id.namaPemesan);
         subLapanganPesananTv = (TextView) findViewById(R.id.subLapanganPesanan);
         jadwalPesananTv = (TextView) findViewById(R.id.jadwalPesanan);
         lapanganPesananTv = (TextView) findViewById(R.id.lapanganPesanan);
         totalHargaTv = (TextView) findViewById(R.id.totalHarga);
+        biayaAdmin = (TextView) findViewById(R.id.biayaAdmin);
         finalProcess = (Button) findViewById(R.id.finalProcess);
 
         face = Typeface.createFromAsset(getApplicationContext().getAssets(), "futura.ttf");
@@ -98,9 +102,11 @@ public class ConfirmBooking extends BaseActivity {
         jadwalTvJudul.setText("Jadwal");
         lapanganTvJudul.setText("Lapangan");
         hargaTvJudul.setText("Total Harga");
+        biayaAdminTv.setText("Biaya Admin");
         namaPemesanTvJudul.setTypeface(face);
         tempatTvJudul.setTypeface(face);
         jadwalTvJudul.setTypeface(face);
+        biayaAdminTv.setTypeface(face);
         lapanganTvJudul.setTypeface(face);
         hargaTvJudul.setTypeface(face);
 
@@ -123,7 +129,8 @@ public class ConfirmBooking extends BaseActivity {
         subLapanganPesananTv.setText("  "+ subLapangan);
         jadwalPesananTv.setText("  "+ hariDipesan + " - " + jamLapanganJoined);
         lapanganPesananTv.setText("  "+ lapangan);
-        totalHarga = totalHargaA.substring(0, totalHargaA.length()-2)+i1;
+        biayaAdmin.setText("  50xx (xx: kode unik)");
+        totalHarga = String.valueOf(Integer.valueOf(totalHargaA)+5000).substring(0, totalHargaA.length()-2)+i1;
         totalHargaTv.setText("  "+ totalHarga);
 
         namaPemesanTv.setTypeface(face);
@@ -183,7 +190,7 @@ public class ConfirmBooking extends BaseActivity {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(ConfirmBooking.this);
                 builder.setMessage("-Metode pembayaran ini hanya untuk pembayaran melalui ATM transfer\n" +
-                        "\n-Pembayaran harus dilakukan maksimal 30 menit\n" +
+                        "\n-Pembayaran harus dilakukan maksimal 15 menit\n" +
                         "\n-Untuk menjaga sistem mobile apps, apabila dilakukan tiga kali pemesanan tanpa pembayaran maka akun Anda " +
                         "akan di-block. Untuk mengaktifkannya kembali dapat menghubungi official line account BookingLapang")
                         .setPositiveButton("Yes", dialogClickListener)
@@ -228,6 +235,7 @@ public class ConfirmBooking extends BaseActivity {
             Intent i = new Intent(ConfirmBooking.this, SummaryOrder.class);
             i.putExtra("namaLapangan", lapangan);
             i.putExtra("tanggal", formattedDate);
+            i.putExtra("dari", "confirmBooking");
             startActivity(i);
             pdialog.dismiss();
             finish();

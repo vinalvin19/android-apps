@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateUtils;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,7 +32,7 @@ import project.sudden.bookinglapang.R;
 
 public class SummaryOrder extends BaseActivity{
 
-    TextView judulTv;
+    //TextView judulTv;
     TextView validTv;
     TextView namaPemesanTv;
     TextView waktuPemesananTv;
@@ -39,6 +40,8 @@ public class SummaryOrder extends BaseActivity{
     TextView lapanganPesananTv;
     TextView waktuBookingTv;
     TextView totalHargaTv;
+    TextView hargaTambahTv;
+    TextView hargaAdminTv;
     TextView waktuValid;
     TextView namaPemesan;
     TextView waktuPemesanan;
@@ -46,9 +49,12 @@ public class SummaryOrder extends BaseActivity{
     TextView lapanganPesanan;
     TextView waktuBooking;
     TextView totalHarga;
+    TextView totalHargaTambah;
     TextView descriptionFooter;
     TextView statusTv;
     TextView statusPemesanan;
+    TextView hargaAdmin;
+    ImageView statusImage;
 
     String namaLapangan;
     String tanggal;
@@ -59,8 +65,10 @@ public class SummaryOrder extends BaseActivity{
     String subLapangan;
     String waktuPesan;
     String status;
+    String dari;
     Toolbar toolbar;
 
+    Intent intent;
     ArrayList order = new ArrayList();
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -74,7 +82,6 @@ public class SummaryOrder extends BaseActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.summary_confirmation);
 
-        judulTv = (TextView) findViewById(R.id.textView);
         validTv = (TextView) findViewById(R.id.valid);
         namaPemesanTv = (TextView) findViewById(R.id.namaPemesan);
         waktuPemesananTv = (TextView) findViewById(R.id.waktuPemesanan);
@@ -82,6 +89,8 @@ public class SummaryOrder extends BaseActivity{
         lapanganPesananTv = (TextView) findViewById(R.id.lapanganPesanan);
         waktuBookingTv = (TextView) findViewById(R.id.waktuBooking);
         totalHargaTv = (TextView) findViewById(R.id.totalHarga);
+        hargaTambahTv = (TextView) findViewById(R.id.hargaTambahTv);
+        hargaAdminTv = (TextView) findViewById(R.id.hargaAdminTv);
         waktuValid = (TextView) findViewById(R.id.waktuValid);
         statusTv = (TextView) findViewById(R.id.statusTv);
         namaPemesan = (TextView) findViewById(R.id.namaPemesan2);
@@ -90,20 +99,26 @@ public class SummaryOrder extends BaseActivity{
         lapanganPesanan = (TextView) findViewById(R.id.lapanganPesanan2);
         waktuBooking = (TextView) findViewById(R.id.waktuBooking2);
         totalHarga = (TextView) findViewById(R.id.totalHarga2);
+        totalHargaTambah = (TextView) findViewById(R.id.hargaTambah);
+        hargaAdmin = (TextView) findViewById(R.id.hargaAdmin);
         statusPemesanan = (TextView) findViewById(R.id.statusPemesanan2);
         descriptionFooter = (TextView) findViewById(R.id.textView15);
+        statusImage = (ImageView) findViewById(R.id.textView);
         face = Typeface.createFromAsset(getApplicationContext().getAssets(), "futura.ttf");
-        judulTv.setText("Summary Order");
+        //judulTv.setText("Summary Order");
         validTv.setText("Batas Pembayaran");
         namaPemesanTv.setText("Nama");
         waktuPemesananTv.setText("Waktu Booking");
         tempatPesananTv.setText("Tempat");
         lapanganPesananTv.setText("Lapangan");
         waktuBookingTv.setText("Jam");
-        totalHargaTv.setText("Total Harga");
+        totalHargaTv.setText("Harga Lapangan");
+        hargaAdminTv.setText("Biaya Admin");
+        hargaTambahTv.setText("Total Harga");
         statusTv.setText("Status Pemesanan");
-        descriptionFooter.setText("Order Anda sudah kami terima"+System.getProperty("line.separator")+"Harap transfer sesuai tagihan Anda ke"+System.getProperty("line.separator")+"dadaadaada");
-        judulTv.setTypeface(face);
+        descriptionFooter.setText("Order Anda sudah kami terima"+System.getProperty("line.separator")+"" +
+                "Harap transfer sesuai tagihan Anda ke"+System.getProperty("line.separator")+"0563059758 (BNI) A.N. Randi Nayaka P.");
+        //judulTv.setTypeface(face);
         validTv.setTypeface(face);
         namaPemesanTv.setTypeface(face);
         waktuPemesananTv.setTypeface(face);
@@ -111,16 +126,19 @@ public class SummaryOrder extends BaseActivity{
         lapanganPesananTv.setTypeface(face);
         waktuBookingTv.setTypeface(face);
         totalHargaTv.setTypeface(face);
+        hargaAdminTv.setTypeface(face);
         descriptionFooter.setTypeface(face);
         statusTv.setTypeface(face);
+        hargaTambahTv.setTypeface(face);
         statusPemesanan.setTypeface(face);
 
         mUser = FirebaseAuth.getInstance().getCurrentUser();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setTitle("Summary Order");
 
-        Intent intent = getIntent();
+        intent = getIntent();
         namaLapangan= intent.getStringExtra("namaLapangan");
         tanggal= intent.getStringExtra("tanggal");
 
@@ -163,6 +181,20 @@ public class SummaryOrder extends BaseActivity{
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        if(intent.getStringExtra("dari") == null) {
+            super.onBackPressed();
+        }
+        else
+        {
+            Intent startMain = new Intent(SummaryOrder.this, MainActivity.class);
+            startActivity(startMain);
+            finish();
+        }
+
+    }
+
     public void setView()
     {
         harga = order.get(0).toString();
@@ -173,12 +205,21 @@ public class SummaryOrder extends BaseActivity{
         subLapangan = order.get(5).toString();
         waktuPesan = order.get(6).toString();
 
+        if(status.equals("Accepted"))
+            statusImage.setImageResource(R.drawable.accepted);
+        else if (status.equals("Waiting Confirmation"))
+            statusImage.setImageResource(R.drawable.waiting);
+        else if (status.equals("Declined"))
+            statusImage.setImageResource(R.drawable.declined);
+        else
+            statusImage.setImageResource(R.drawable.weird);
+
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date convertedDate = new Date();
         Date convertedDatePlus = new Date();
         try {
             convertedDate = dateFormat.parse(waktuPesan);
-            convertedDatePlus.setTime(convertedDate.getTime()+3_600_000);
+            convertedDatePlus.setTime(convertedDate.getTime()+ 900_000);
         } catch (ParseException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -188,14 +229,16 @@ public class SummaryOrder extends BaseActivity{
             mProgressDialog.dismiss();
         }
 
-        waktuValid.setText(":  "+dateFormat.format(convertedDatePlus));
+        waktuValid.setText(":   "+dateFormat.format(convertedDatePlus));
         namaPemesan.setText(":  "+nama);
         waktuPemesanan.setText(":  "+waktuPesan);
         tempatPesanan.setText(":  "+lapangan);
         lapanganPesanan.setText(":  "+subLapangan);
         waktuBooking.setText(":  "+jadwal);
-        totalHarga.setText(":  "+harga);
-        statusPemesanan.setText(":  "+status);
+        totalHarga.setText(":  "+ String.valueOf(Integer.valueOf(harga)-5000).substring(0, harga.length()-2)+"00");
+        hargaAdmin.setText(":   50xx (xx: kode unik)");
+        totalHargaTambah.setText(":  "+harga);
+        statusPemesanan.setText(":   "+status);
         statusPemesanan.setTypeface(null, Typeface.BOLD);
 
         waktuValid.setTypeface(face);
@@ -206,5 +249,6 @@ public class SummaryOrder extends BaseActivity{
         lapanganPesanan.setTypeface(face);
         waktuBooking.setTypeface(face);
         totalHarga.setTypeface(face);
+        totalHargaTambah.setTypeface(face);
     }
 }

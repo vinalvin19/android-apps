@@ -48,6 +48,8 @@ public class MapsActivity extends BaseActivity {
 
     private Toolbar toolbar;
     GoogleMap googleMap;
+    CameraPosition cameraPosition;
+    LatLng locationUser;
 
     Double latitudeUser=-6.799;
     Double longitudeUser=107.79;
@@ -88,7 +90,7 @@ public class MapsActivity extends BaseActivity {
 
         // get information in intent from MainActivity
         Intent intent = getIntent();
-        arrayName = this.getIntent().getStringArrayListExtra("namaLapangan");
+        arrayName = getIntent().getStringArrayListExtra("namaLapangan");
         arrayLatitude = (ArrayList<Double>) getIntent().getSerializableExtra("latitudeLapangan");
         arrayLongitude = (ArrayList<Double>) getIntent().getSerializableExtra("longitudeLapangan");
         latitudeUser = intent.getDoubleExtra("latitudeUser", latitudeUser);
@@ -111,14 +113,15 @@ public class MapsActivity extends BaseActivity {
             Log.d(TAG, String.valueOf(latitude)+" "+ String.valueOf(longitude));
             latlngs.add(new LatLng(latitude, longitude));
             //subLapanganFinal.add(arraySubLapangan.get(i));
-
         }
 
-        final LatLng locationUser = new LatLng(latitudeUser, longitudeUser);
+        locationUser = new LatLng(latitudeUser, longitudeUser);
+
+        supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
 
         try {
             if (googleMap == null) {
-                supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+
                 supportMapFragment.getMapAsync(new OnMapReadyCallback() {
                     @Override
                     public void onMapReady(GoogleMap googleMap) {
@@ -162,13 +165,14 @@ public class MapsActivity extends BaseActivity {
                         });
 
                         // setting camera
-                        CameraPosition cameraPosition = new CameraPosition.Builder().target(
+                        cameraPosition = new CameraPosition.Builder().target(
                                 new LatLng(latitudeUser, longitudeUser)).zoom(14).build();
                         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
                     }
                 });
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -201,17 +205,12 @@ public class MapsActivity extends BaseActivity {
 
                         Log.d(TAG, "nama lapangan= "+ snapshot.getChildrenCount());
 
-                        //da.spinnerArrayAdapter.clear();
-                        //spinnerArrayAdapter.clear();
-                        //spinnerArrayAdapter.notifyDataSetChanged();
-
                         // sending information for selected lapangan to dialogActivity
                         Intent intent =new Intent(MapsActivity.this, DialogActivity.class);
                         intent.putStringArrayListExtra("subLapangan", subLapangan);
                         intent.putExtra("cabangOlahraga", cabangOlahraga);
                         intent.putExtra("tempatPilihan", tempatPilihan);
                         intent.putExtra("namaPemesan", namaPemesan);
-                        //intent.putExtra("gambarLapangan", gambarLapangan);
                         startActivity(intent);
 
                     }
@@ -225,9 +224,9 @@ public class MapsActivity extends BaseActivity {
     public void onBackPressed() {
         super.onBackPressed();
         Intent i=new Intent(this,MainActivity.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY );
         startActivity(i);
         Log.d(TAG, "Maps: onbackpressed");
+        finish();
     }
 }

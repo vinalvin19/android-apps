@@ -17,7 +17,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <TextView
+ <!--   <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -26,7 +26,16 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="80dp"
         android:textSize="30dp"
-        android:text="Summary Order" />
+        android:text="Summary Order" />-->
+
+   <ImageView
+        android:id="@+id/textView"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        />
 
     <LinearLayout
         android:id="@+id/lv0"
@@ -35,7 +44,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:orientation="horizontal"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:layout_height="wrap_content">
 
         <TextView
@@ -65,7 +74,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:orientation="horizontal"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="17dp"
         android:layout_height="wrap_content">
 
         <TextView
@@ -95,7 +104,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:orientation="horizontal"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="17dp"
         android:layout_height="wrap_content">
 
         <TextView
@@ -125,7 +134,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:orientation="horizontal"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="17dp"
         android:layout_height="wrap_content">
 
         <TextView
@@ -156,7 +165,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:orientation="horizontal"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="17dp"
         android:layout_height="wrap_content">
 
         <TextView
@@ -186,7 +195,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:orientation="horizontal"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="17dp"
         android:layout_height="wrap_content">
 
         <TextView
@@ -216,7 +225,7 @@
     android:layout_marginStart="30dp"
     android:layout_marginEnd="30dp"
     android:orientation="horizontal"
-    android:layout_marginTop="20dp"
+    android:layout_marginTop="17dp"
     android:layout_height="wrap_content">
 
     <TextView
@@ -226,7 +235,7 @@
         android:layout_below="@+id/textView"
         android:textColor="#224D60"
         android:layout_weight="0.45"
-        android:text="Total Harga" />
+        android:text="Harga Lapangan" />
 
     <TextView
         android:id="@+id/totalHarga2"
@@ -240,13 +249,73 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/lv7"
+        android:id="@+id/lv9"
         android:layout_width="match_parent"
         android:layout_below="@+id/lv6"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:orientation="horizontal"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="17dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/hargaAdminTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView"
+            android:textColor="#224D60"
+            android:layout_weight="0.45"
+            android:text="Harga Admin" />
+
+        <TextView
+            android:id="@+id/hargaAdmin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView"
+            android:textColor="#224D60"
+            android:layout_weight="0.55"
+            android:text="TextView" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lv8"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/lv9"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="17dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/hargaTambahTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView"
+            android:textColor="#224D60"
+            android:layout_weight="0.45"
+            android:text="Total Harga" />
+
+        <TextView
+            android:id="@+id/hargaTambah"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView"
+            android:textColor="#224D60"
+            android:layout_weight="0.55"
+            android:text="TextView" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lv7"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/lv8"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="17dp"
         android:layout_height="wrap_content">
 
         <TextView
@@ -274,7 +343,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="30dp"
         android:textSize="18dp"
         android:textColor="#224D60"
         android:lines="3"

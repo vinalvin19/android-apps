@@ -2,6 +2,7 @@ package project.sudden.bookinglapang.ui;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -12,6 +13,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -68,6 +70,8 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
     private AccountHeader accountHeader;
     private Drawer drawer = null;
     private Toolbar toolbar;
+    Intent intent;
+    int j = 0;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     final DatabaseReference myRef = database.getReference();
@@ -208,15 +212,15 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
 
                 Log.d(TAG, "ini kunci: "+dataSnapshot.getKey());
 
-
                 Lapangan lapangan= dataSnapshot.getValue(Lapangan.class);
+                Log.d(TAG, "count: " + String.valueOf(j++));
 
                 // counting the nearest lapangan
                 jarakTempuh = distance(latitudeUser, longitudeUser, Double.parseDouble(lapangan.getLatitude()), Double.parseDouble(lapangan.getLongitude()));
-                Log.d(TAG, "(geofence) ada " + lapangan.getNamaLapangan() + " dengan jarak " + jarakTempuh);
-                if (jarakTempuh < 100) {
+                if (jarakTempuh < 100 && jarakTempuh >= 0) {
 
                     // set every lapangan information to arrayLatitude, arrayLongitude, arrayName for future use
+                    Log.d(TAG, "(geofence) ada " + lapangan.getNamaLapangan() + " dengan jarak " + jarakTempuh);
                     if (!arrayName.contains(lapangan.getNamaLapangan())) {
                         arrayLatitude.add(Double.parseDouble(lapangan.getLatitude()));
                         arrayLongitude.add(Double.parseDouble(lapangan.getLongitude()));
@@ -228,8 +232,8 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
                         mProgressDialog.dismiss();
                     }
 
-                    // sending the information to MapsActivity
-                    Intent intent =new Intent(MainActivity.this, MapsActivity.class);
+                    Log.d(TAG, "child finished");
+                    intent = new Intent(MainActivity.this, MapsActivity.class);
                     intent.putStringArrayListExtra("namaLapangan", arrayName);
                     intent.putExtra("latitudeLapangan", arrayLatitude);
                     intent.putExtra("longitudeLapangan", arrayLongitude);
@@ -238,26 +242,31 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
                     intent.putExtra("cabangOlahraga", onSelected);
                     intent.putExtra("namaPemesan", namaUser);
                     startActivity(intent);
-
-
                 }
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {
+                Log.d(TAG, "child changed");
             }
 
             @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {}
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                Log.d(TAG, "child removed");
+            }
 
             @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String prevChildKey) {}
+            public void onChildMoved(DataSnapshot dataSnapshot, String prevChildKey) {
+                Log.d(TAG, "child moved");
+            }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {}
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d(TAG, "child cancelled");
+            }
         });
 
-
+        Log.d(TAG, "child done");
     }
 
     // when search button bawah pressed (masih belom)
@@ -294,23 +303,22 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
                             arrayName.add(snapshot.getKey());
                             //arrayDistance.add(jarakTempuh);
                         }
+
+                        Intent intent =new Intent(MainActivity.this, MapsActivity.class);
+                        intent.putStringArrayListExtra("namaLapangan", arrayName);
+                        intent.putExtra("latitudeLapangan", arrayLatitude);
+                        intent.putExtra("longitudeLapangan", arrayLongitude);
+                        intent.putExtra("latitudeUser", latitudeUser);
+                        intent.putExtra("longitudeUser", longitudeUser);
+                        intent.putExtra("cabangOlahraga", arraySubLapangan);
+                        intent.putExtra("namaPemesan", namaUser);
+                        startActivity(intent);
                     }
                 }
 
                 if (mProgressDialog != null && mProgressDialog.isShowing()) {
                     mProgressDialog.dismiss();
                 }
-
-                Intent intent =new Intent(MainActivity.this, MapsActivity.class);
-                intent.putStringArrayListExtra("namaLapangan", arrayName);
-                intent.putExtra("latitudeLapangan", arrayLatitude);
-                intent.putExtra("longitudeLapangan", arrayLongitude);
-                intent.putExtra("latitudeUser", latitudeUser);
-                intent.putExtra("longitudeUser", longitudeUser);
-                intent.putExtra("cabangOlahraga", arraySubLapangan);
-                intent.putExtra("namaPemesan", namaUser);
-                startActivity(intent);
-
             }
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {
@@ -482,11 +490,26 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        Intent startMain = new Intent(Intent.ACTION_MAIN);
-        startMain.addCategory(Intent.CATEGORY_HOME);
-        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(startMain);
-        finish();
+        //super.onBackPressed();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Apakah Anda ingin keluar?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent startMain = new Intent(Intent.ACTION_MAIN);
+                        startMain.addCategory(Intent.CATEGORY_HOME);
+                        startMain.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(startMain);
+                        finishAffinity();
+                        finish();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 }

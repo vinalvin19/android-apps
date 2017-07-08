@@ -422,7 +422,7 @@ public class DialogActivity extends BaseActivity {
             tv.setBackgroundColor(Color.parseColor("#FFFF00"));
             tv.setClickable(false);
         }
-        else if (status.equals("booked")) {
+        else if (status.equals("booked") || status.equals("bookedVendor")) {
             tv.setBackgroundColor(Color.parseColor("#FF0000"));
             tv.setClickable(false);
         }
