@@ -407,7 +407,7 @@ public class DialogActivity extends BaseActivity {
         else {
             Log.d(TAG, "hari biasa");
             myRef.child("lapangan").child(cabangOlahraga).child(tempatPilihan).child("sublapangan").child(sublapangan).orderByKey().
-                    startAt("6").endAt("21").limitToLast(16).addValueEventListener(searchPrice);
+                    startAt("8").endAt("23").limitToLast(16).addValueEventListener(searchPrice);
         }
         //myRef.removeEventListener(aaa);
     }
@@ -461,97 +461,97 @@ public class DialogActivity extends BaseActivity {
             @Override
             public void onClick(View arg0) {
                 press1++;
-                hitungHarga (press1, hargaLapangan.get(0), "06.00", data1);
+                hitungHarga (press1, hargaLapangan.get(0), "08.00", data1);
             }});
         data2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 press2++;
-                hitungHarga (press2, hargaLapangan.get(1), "07.00", data2);
+                hitungHarga (press2, hargaLapangan.get(1), "09.00", data2);
             }});
         data3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 press3++;
-                hitungHarga (press3, hargaLapangan.get(2), "08.00", data3);
+                hitungHarga (press3, hargaLapangan.get(2), "10.00", data3);
             }});
         data4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 press4++;
-                hitungHarga (press4, hargaLapangan.get(3), "09.00", data4);
+                hitungHarga (press4, hargaLapangan.get(3), "11.00", data4);
             }});
         data5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 press5++;
-                hitungHarga (press5, hargaLapangan.get(4), "10.00", data5);
+                hitungHarga (press5, hargaLapangan.get(4), "12.00", data5);
             }});
         data6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 press6++;
-                hitungHarga (press6, hargaLapangan.get(5), "11.00", data6);
+                hitungHarga (press6, hargaLapangan.get(5), "13.00", data6);
             }});
         data7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 press7++;
-                hitungHarga (press7, hargaLapangan.get(6), "12.00", data7);
+                hitungHarga (press7, hargaLapangan.get(6), "14.00", data7);
             }});
         data8.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 press8++;
-                hitungHarga (press8, hargaLapangan.get(7), "13.00", data8);
+                hitungHarga (press8, hargaLapangan.get(7), "15.00", data8);
             }});
         data9.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 press9++;
-                hitungHarga (press9, hargaLapangan.get(8), "14.00", data9);
+                hitungHarga (press9, hargaLapangan.get(8), "16.00", data9);
             }});
         data10.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 press10++;
-                hitungHarga (press10, hargaLapangan.get(9), "15.00", data10);
+                hitungHarga (press10, hargaLapangan.get(9), "17.00", data10);
             }});
         data11.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 press11++;
-                hitungHarga (press11, hargaLapangan.get(10), "16.00", data11);
+                hitungHarga (press11, hargaLapangan.get(10), "18.00", data11);
             }});
         data12.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 press12++;
-                hitungHarga (press12, hargaLapangan.get(11), "17.00", data12);
+                hitungHarga (press12, hargaLapangan.get(11), "19.00", data12);
             }});
         data13.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 press13++;
-                hitungHarga (press13, hargaLapangan.get(12), "18.00", data13);
+                hitungHarga (press13, hargaLapangan.get(12), "20.00", data13);
             }});
         data14.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 press14++;
-                hitungHarga (press14, hargaLapangan.get(13), "19.00", data14);
+                hitungHarga (press14, hargaLapangan.get(13), "21.00", data14);
             }});
         data15.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 press15++;
-                hitungHarga (press15, hargaLapangan.get(14), "20.00", data15);
+                hitungHarga (press15, hargaLapangan.get(14), "22.00", data15);
             }});
         data16.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 press16++;
-                hitungHarga (press16, hargaLapangan.get(15), "21.00", data16);
+                hitungHarga (press16, hargaLapangan.get(15), "23.00", data16);
             }});
     }
 

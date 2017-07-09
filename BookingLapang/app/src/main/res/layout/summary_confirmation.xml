@@ -1,257 +1,232 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
+<ScrollView android:layout_width="match_parent"
     android:background="#FEC200"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <android.support.design.widget.AppBarLayout
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:elevation="0dp">
+        android:background="#FEC200"
+        android:layout_height="match_parent">
 
-        <include
-            android:id="@+id/toolbar"
-            layout="@layout/toolbar2"/>
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:elevation="0dp">
 
-    </android.support.design.widget.AppBarLayout>
+            <include
+                android:id="@+id/toolbar"
+                layout="@layout/toolbar2"/>
 
- <!--   <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:textColor="#224D60"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="80dp"
-        android:textSize="30dp"
-        android:text="Summary Order" />-->
+        </android.support.design.widget.AppBarLayout>
 
-   <ImageView
-        android:id="@+id/textView"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="80dp"
-        />
+     <!--   <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:textColor="#224D60"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="80dp"
+            android:textSize="30dp"
+            android:text="Summary Order" />-->
 
-    <LinearLayout
-        android:id="@+id/lv0"
+       <ImageView
+            android:id="@+id/textView"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="25dp"
+            />
+
+        <LinearLayout
+            android:id="@+id/lv0"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/textView"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="30dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/valid"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView"
+                android:textColor="#224D60"
+                android:layout_weight="0.45"
+                android:text="Batas Pembayaran" />
+
+            <TextView
+                android:id="@+id/waktuValid"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView"
+                android:textColor="#224D60"
+                android:layout_weight="0.55"
+                android:text="TextView" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lv1"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/lv0"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="17dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/namaPemesan"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView"
+                android:textColor="#224D60"
+                android:layout_weight="0.45"
+                android:text="Nama" />
+
+            <TextView
+                android:id="@+id/namaPemesan2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView"
+                android:textColor="#224D60"
+                android:layout_weight="0.55"
+                android:text="TextView" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lv2"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/lv1"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="17dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/waktuPemesanan"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView"
+                android:textColor="#224D60"
+                android:layout_weight="0.45"
+                android:text="Waktu Booking" />
+
+            <TextView
+                android:id="@+id/waktuPemesanan2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView"
+                android:textColor="#224D60"
+                android:layout_weight="0.55"
+                android:text="TextView" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lv3"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/lv2"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="17dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tempatPesanan"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView"
+                android:textColor="#224D60"
+                android:layout_weight="0.45"
+                android:text="Tempat" />
+
+            <TextView
+                android:id="@+id/tempatPesanan2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView"
+                android:textColor="#224D60"
+                android:layout_weight="0.55"
+                android:text="TextView" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/lv4"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/lv3"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="17dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/lapanganPesanan"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView"
+                android:textColor="#224D60"
+                android:layout_weight="0.45"
+                android:text="Lapangan" />
+
+            <TextView
+                android:id="@+id/lapanganPesanan2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView"
+                android:textColor="#224D60"
+                android:layout_weight="0.55"
+                android:text="TextView" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lv5"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/lv4"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="17dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/waktuBooking"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView"
+                android:textColor="#224D60"
+                android:layout_weight="0.45"
+                android:text="Jam" />
+
+            <TextView
+                android:id="@+id/waktuBooking2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView"
+                android:textColor="#224D60"
+                android:layout_weight="0.55"
+                android:text="TextView" />
+
+        </LinearLayout>
+
+        <LinearLayout
+        android:id="@+id/lv6"
         android:layout_width="match_parent"
-        android:layout_below="@+id/textView"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:orientation="horizontal"
-        android:layout_marginTop="20dp"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/valid"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textView"
-            android:textColor="#224D60"
-            android:layout_weight="0.45"
-            android:text="Batas Pembayaran" />
-
-        <TextView
-            android:id="@+id/waktuValid"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textView"
-            android:textColor="#224D60"
-            android:layout_weight="0.55"
-            android:text="TextView" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/lv1"
-        android:layout_width="match_parent"
-        android:layout_below="@+id/lv0"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:orientation="horizontal"
-        android:layout_marginTop="17dp"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/namaPemesan"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textView"
-            android:textColor="#224D60"
-            android:layout_weight="0.45"
-            android:text="Nama" />
-
-        <TextView
-            android:id="@+id/namaPemesan2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textView"
-            android:textColor="#224D60"
-            android:layout_weight="0.55"
-            android:text="TextView" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/lv2"
-        android:layout_width="match_parent"
-        android:layout_below="@+id/lv1"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:orientation="horizontal"
-        android:layout_marginTop="17dp"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/waktuPemesanan"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textView"
-            android:textColor="#224D60"
-            android:layout_weight="0.45"
-            android:text="Waktu Booking" />
-
-        <TextView
-            android:id="@+id/waktuPemesanan2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textView"
-            android:textColor="#224D60"
-            android:layout_weight="0.55"
-            android:text="TextView" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/lv3"
-        android:layout_width="match_parent"
-        android:layout_below="@+id/lv2"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:orientation="horizontal"
-        android:layout_marginTop="17dp"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/tempatPesanan"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textView"
-            android:textColor="#224D60"
-            android:layout_weight="0.45"
-            android:text="Tempat" />
-
-        <TextView
-            android:id="@+id/tempatPesanan2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textView"
-            android:textColor="#224D60"
-            android:layout_weight="0.55"
-            android:text="TextView" />
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/lv4"
-        android:layout_width="match_parent"
-        android:layout_below="@+id/lv3"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:orientation="horizontal"
-        android:layout_marginTop="17dp"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/lapanganPesanan"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textView"
-            android:textColor="#224D60"
-            android:layout_weight="0.45"
-            android:text="Lapangan" />
-
-        <TextView
-            android:id="@+id/lapanganPesanan2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textView"
-            android:textColor="#224D60"
-            android:layout_weight="0.55"
-            android:text="TextView" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/lv5"
-        android:layout_width="match_parent"
-        android:layout_below="@+id/lv4"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:orientation="horizontal"
-        android:layout_marginTop="17dp"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/waktuBooking"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textView"
-            android:textColor="#224D60"
-            android:layout_weight="0.45"
-            android:text="Jam" />
-
-        <TextView
-            android:id="@+id/waktuBooking2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textView"
-            android:textColor="#224D60"
-            android:layout_weight="0.55"
-            android:text="TextView" />
-
-    </LinearLayout>
-
-    <LinearLayout
-    android:id="@+id/lv6"
-    android:layout_width="match_parent"
-    android:layout_below="@+id/lv5"
-    android:layout_marginStart="30dp"
-    android:layout_marginEnd="30dp"
-    android:orientation="horizontal"
-    android:layout_marginTop="17dp"
-    android:layout_height="wrap_content">
-
-    <TextView
-        android:id="@+id/totalHarga"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView"
-        android:textColor="#224D60"
-        android:layout_weight="0.45"
-        android:text="Harga Lapangan" />
-
-    <TextView
-        android:id="@+id/totalHarga2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView"
-        android:textColor="#224D60"
-        android:layout_weight="0.55"
-        android:text="TextView" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/lv9"
-        android:layout_width="match_parent"
-        android:layout_below="@+id/lv6"
+        android:layout_below="@+id/lv5"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:orientation="horizontal"
@@ -259,16 +234,16 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/hargaAdminTv"
+            android:id="@+id/totalHarga"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textView"
             android:textColor="#224D60"
             android:layout_weight="0.45"
-            android:text="Harga Admin" />
+            android:text="Harga Lapangan" />
 
         <TextView
-            android:id="@+id/hargaAdmin"
+            android:id="@+id/totalHarga2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textView"
@@ -276,79 +251,110 @@
             android:layout_weight="0.55"
             android:text="TextView" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lv9"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/lv6"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="17dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/hargaAdminTv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView"
+                android:textColor="#224D60"
+                android:layout_weight="0.45"
+                android:text="Harga Admin" />
+
+            <TextView
+                android:id="@+id/hargaAdmin"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView"
+                android:textColor="#224D60"
+                android:layout_weight="0.55"
+                android:text="TextView" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lv8"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/lv9"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="17dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/hargaTambahTv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView"
+                android:textColor="#224D60"
+                android:layout_weight="0.45"
+                android:text="Total Harga" />
+
+            <TextView
+                android:id="@+id/hargaTambah"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView"
+                android:textColor="#224D60"
+                android:layout_weight="0.55"
+                android:text="TextView" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lv7"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/lv8"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="17dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/statusTv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView"
+                android:textColor="#224D60"
+                android:layout_weight="0.45"
+                android:text="Total Harga" />
+
+            <TextView
+                android:id="@+id/statusPemesanan2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView"
+                android:textColor="#224D60"
+                android:layout_weight="0.55"
+                android:text="TextView" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textSize="18dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="10dp"
+            android:textColor="#224D60"
+            android:lines="3"
+            android:textAlignment="center"
+            android:text="Order Anda sudah kami terima\nHarap transfer sesuai tagihan Anda ke\n dadaadaada" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/lv8"
-        android:layout_width="match_parent"
-        android:layout_below="@+id/lv9"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:orientation="horizontal"
-        android:layout_marginTop="17dp"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/hargaTambahTv"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textView"
-            android:textColor="#224D60"
-            android:layout_weight="0.45"
-            android:text="Total Harga" />
-
-        <TextView
-            android:id="@+id/hargaTambah"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textView"
-            android:textColor="#224D60"
-            android:layout_weight="0.55"
-            android:text="TextView" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/lv7"
-        android:layout_width="match_parent"
-        android:layout_below="@+id/lv8"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:orientation="horizontal"
-        android:layout_marginTop="17dp"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/statusTv"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textView"
-            android:textColor="#224D60"
-            android:layout_weight="0.45"
-            android:text="Total Harga" />
-
-        <TextView
-            android:id="@+id/statusPemesanan2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textView"
-            android:textColor="#224D60"
-            android:layout_weight="0.55"
-            android:text="TextView" />
-
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/textView15"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="30dp"
-        android:textSize="18dp"
-        android:textColor="#224D60"
-        android:lines="3"
-        android:layout_centerHorizontal="true"
-        android:textAlignment="center"
-        android:text="Order Anda sudah kami terima\nHarap transfer sesuai tagihan Anda ke\n dadaadaada" />
-</RelativeLayout>
-
+</ScrollView>

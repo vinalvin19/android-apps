@@ -123,14 +123,17 @@ public class ConfirmBooking extends BaseActivity {
         final String jamLapanganJoined = TextUtils.join(", ", jamLapanganPesanan);
 
         Random r = new Random();
-        int i1 = r.nextInt(99 - 01) + 01;
+        int i1 = r.nextInt(89 - 01) + 11;
+
 
         namaPemesanTv.setText("  "+ namaUserPesan);
         subLapanganPesananTv.setText("  "+ subLapangan);
         jadwalPesananTv.setText("  "+ hariDipesan + " - " + jamLapanganJoined);
         lapanganPesananTv.setText("  "+ lapangan);
         biayaAdmin.setText("  50xx (xx: kode unik)");
-        totalHarga = String.valueOf(Integer.valueOf(totalHargaA)+5000).substring(0, totalHargaA.length()-2)+i1;
+        Log.d(TAG, String.valueOf(Integer.valueOf(totalHargaA)+5000));
+        Log.d(TAG, String.valueOf(Integer.valueOf(totalHargaA)+5000).substring(0, totalHargaA.length()-2));
+        totalHarga = String.valueOf(Integer.valueOf(totalHargaA)+5000).substring(0, totalHargaA.length()-2)+String.valueOf(i1);
         totalHargaTv.setText("  "+ totalHarga);
 
         namaPemesanTv.setTypeface(face);
@@ -166,8 +169,7 @@ public class ConfirmBooking extends BaseActivity {
                                 confirmation = new HashMap<String, Object>();
                                 // to set database child, need to replace the "."
                                 for (int i = 0; i<jamLapanganPesanan.size(); i++) {
-                                    if (jamLapanganPesanan.get(i).equals("06.00") || jamLapanganPesanan.get(i).equals("07.00")
-                                            ||jamLapanganPesanan.get(i).equals("08.00") || jamLapanganPesanan.get(i).equals("09.00")){
+                                    if (jamLapanganPesanan.get(i).equals("08.00") || jamLapanganPesanan.get(i).equals("09.00")){
                                         done.put(jamLapanganPesanan.get(i).replace("0","").replace(".",""), "process");
                                     }
                                     else
