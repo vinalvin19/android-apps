@@ -23,19 +23,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // Creating Tables
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_TODO + "("
+        String CREATE_TABLE = "CREATE TABLE " + TABLE_TODO + "("
                 + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT"
                 + ")";
-        db.execSQL(CREATE_CONTACTS_TABLE);
+        db.execSQL(CREATE_TABLE);
     }
 
     // Upgrading database
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TODO);
-
-        // Create tables again
         onCreate(db);
     }
 
@@ -50,52 +47,28 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    // code to get the single contact
-    String getToDo(int id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        Cursor cursor = db.query(TABLE_TODO, new String[] { KEY_ID,
-                        KEY_NAME }, KEY_ID + "=?",
-                new String[] { String.valueOf(id) }, null, null, null, null);
-        if (cursor != null)
-            cursor.moveToFirst();
-
-        /*Contact contact = new Contact(Integer.parseInt(cursor.getString(0)),
-                cursor.getString(1), cursor.getString(2));*/
-        // return contact
-        return cursor.getString(1);
-    }
-
     // code to get all contacts in a list view
-    public List<String> getAllContacts() {
-        List<String> contactList = new ArrayList<String>();
-        // Select All Query
+    public List<String> getAllToDos() {
+        List<String> toDoList = new ArrayList<String>();
         String selectQuery = "SELECT  * FROM " + TABLE_TODO;
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
-        // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                /*String contact = new String();
-                contact.setID(Integer.parseInt(cursor.getString(0)));
-                contact.setName(cursor.getString(1));
-                contact.setPhoneNumber(cursor.getString(2));*/
-                // Adding contact to list
-                contactList.add(cursor.getString(1));
+                toDoList.add(cursor.getString(1));
             } while (cursor.moveToNext());
         }
 
-        // return contact list
-        return contactList;
+        return toDoList;
     }
 
     // Deleting single contact
-    public void deleteContact(String todo) {
+    public void deleteToDo(String todo) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_TODO, KEY_ID + " = ?",
-                new String[] { String.valueOf(todo) });
+        db.delete(TABLE_TODO, KEY_NAME + " = ?",
+                new String[] { todo });
         db.close();
     }
 
