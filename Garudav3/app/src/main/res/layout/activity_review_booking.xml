@@ -1,0 +1,634 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.lotus.garudav3.SearchResult">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar_layout"
+        android:layout_width="match_parent"
+        app:elevation="0dp"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="#519cde"
+            android:contentInsetStart="0dp"
+            app:layout_collapseMode="pin"
+            app:popupTheme="@style/AppTheme.PopupOverlay" >
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/ActionBarWrapper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Review Booking"
+                    android:layout_gravity="left"
+                    android:textSize="20dp"
+                    android:textColor="#ffffff"
+                    android:textAlignment="gravity"
+                    />
+            </LinearLayout>
+        </android.support.v7.widget.Toolbar>
+        <!--</android.support.design.widget.CollapsingToolbarLayout>-->
+    </android.support.design.widget.AppBarLayout>
+
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:id="@+id/top_section"
+                android:focusableInTouchMode="true"
+                android:background="@drawable/img_lima"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:id="@+id/list_route"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+                        android:layout_marginTop="14dp"
+                        android:text="ID 209725917"
+                        android:textColor="#ffffff"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ECONOMY"
+                        android:textStyle="bold"
+                        android:textColor="#0065b3"
+                        android:layout_marginStart="30dp"
+                        android:layout_marginTop="30dp"/>
+
+                    <TextView
+                        android:id="@+id/departure"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:layout_marginStart="30dp"
+                        android:layout_marginTop="60dp"
+                        android:textColor="#ffffff"
+                        android:text="Departure"
+                        />
+
+                    <TextView
+                        android:id="@+id/departure_port"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignStart="@+id/departure"
+                        android:layout_below="@+id/departure"
+                        android:textSize="48sp"
+                        android:layout_marginTop="2dp"
+                        android:text="CGK"
+                        android:textStyle="bold"
+                        android:textColor="#ffffff"/>
+
+                    <ImageView
+                        android:layout_width="110dp"
+                        android:layout_height="15dp"
+                        android:src="@drawable/combined_shape"
+                        android:layout_marginTop="105dp"
+                        android:layout_centerHorizontal="true" />
+
+                    <TextView
+                        android:id="@+id/arrival"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:layout_marginEnd="30dp"
+                        android:layout_marginTop="60dp"
+                        android:layout_alignParentEnd="true"
+                        android:textColor="#ffffff"
+                        android:text="Arrival"
+                        />
+
+                    <TextView
+                        android:id="@+id/arrival_port"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignEnd="@+id/arrival"
+                        android:layout_below="@+id/arrival"
+                        android:textSize="48sp"
+                        android:layout_marginTop="2dp"
+                        android:textStyle="bold"
+                        android:text="DXB"
+                        android:textColor="#ffffff"/>
+
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/summary_book"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:layout_below="@+id/list_route"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="30dp"
+                    android:paddingBottom="15dp"
+                    android:lines="2"
+                    android:textColor="#ffffff"
+                    android:text="Soekarno Hatta\nInternational Airport"
+                    />
+
+            </RelativeLayout>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/top_card"
+                android:layout_width="344dp"
+                android:layout_centerHorizontal="true"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-480dp"
+                android:layout_below="@id/top_section"
+                android:background="#ffffff">
+
+                <RelativeLayout
+                    android:id="@+id/book_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/flight_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <android.support.v7.widget.CardView
+                            android:layout_width="172dp"
+                            app:cardBackgroundColor="#ffffff"
+                            android:layout_height="100dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="30dp"
+                                android:text="3 Oct"
+                                android:textSize="14sp"
+                                android:textColor="#383838"
+                                android:layout_marginTop="26dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="30dp"
+                                android:text="3:30pm"
+                                android:textSize="20sp"
+                                android:textColor="#383838"
+                                android:textStyle="bold"
+                                android:layout_marginTop="45dp" />
+
+                        </android.support.v7.widget.CardView>
+
+                        <android.support.v7.widget.CardView
+                            android:layout_width="172dp"
+                            app:cardBackgroundColor="#ffffff"
+                            android:layout_height="100dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="30dp"
+                                android:text="4 Oct"
+                                android:textSize="14sp"
+                                android:textColor="#383838"
+                                android:layout_marginTop="26dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="30dp"
+                                android:text="9:25pm"
+                                android:textSize="20sp"
+                                android:textColor="#383838"
+                                android:textStyle="bold"
+                                android:layout_marginTop="45dp" />
+
+                        </android.support.v7.widget.CardView>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/boarding_date"
+                        android:layout_below="@id/flight_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <android.support.v7.widget.CardView
+                            android:layout_width="172dp"
+                            app:cardBackgroundColor="#148c99"
+                            android:layout_height="100dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="30dp"
+                                android:text="Boarding Time"
+                                android:textSize="14sp"
+                                android:textColor="#ffffff"
+                                android:layout_marginTop="26dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="30dp"
+                                android:text="3:00pm"
+                                android:textSize="20sp"
+                                android:textColor="#ffffff"
+                                android:textStyle="bold"
+                                android:layout_marginTop="45dp" />
+
+
+                        </android.support.v7.widget.CardView>
+
+                        <android.support.v7.widget.CardView
+                            android:layout_width="172dp"
+                            app:cardBackgroundColor="#1d98a5"
+                            android:layout_height="100dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="30dp"
+                                android:text="Remaining"
+                                android:textSize="14sp"
+                                android:textColor="#ffffff"
+                                android:layout_marginTop="26dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="30dp"
+                                android:text="1:32:45"
+                                android:textSize="20sp"
+                                android:textColor="#ffffff"
+                                android:textStyle="bold"
+                                android:layout_marginTop="45dp" />
+
+                        </android.support.v7.widget.CardView>
+
+                    </LinearLayout>
+
+
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/middle_card"
+                        android:layout_below="@id/boarding_date"
+                        android:layout_width="344dp"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:orientation="vertical"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Refund Policy"
+                                android:paddingLeft="20dp"
+                                android:layout_marginTop="20dp"
+                                android:textColor="#383838"
+                                android:textSize="14sp" />
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_marginTop="5dp"
+                                android:paddingLeft="20dp"
+                                android:paddingEnd="20dp"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="#0065b3"
+                                    android:text="Refundable"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:textColor="#0065b3"
+                                    android:text="INFO"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold" />
+
+                            </RelativeLayout>
+
+                            <View
+                                android:id="@+id/top_border"
+                                android:layout_width="match_parent"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginEnd="20dp"
+                                android:layout_height="1dp"
+                                android:layout_below="@+id/bottom_section"
+                                android:layout_marginTop="20dp"
+                                android:background="#d8d8d8" />
+
+                            <LinearLayout
+                                android:id="@+id/book_profile"
+                                android:layout_width="match_parent"
+                                android:layout_below="@+id/top_border"
+                                android:layout_marginTop="20dp"
+                                android:layout_marginBottom="20dp"
+                                android:paddingLeft="20dp"
+                                android:paddingEnd="20dp"
+                                android:orientation="vertical"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/refund_availability"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif"
+                                    android:text="Passenger"
+                                    android:textColor="#383838"
+                                    android:textSize="14sp" />
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_height="wrap_content">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#383838"
+                                        android:text="MR. KARIMUL MAKHTIDI"
+                                        android:textSize="14sp"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_marginTop="5dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentEnd="true"
+                                        android:textColor="#0065b3"
+                                        android:text="INFO"
+                                        android:textSize="14sp"
+                                        android:textStyle="bold" />
+
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_marginTop="8dp"
+                                    android:layout_height="wrap_content">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#8d9298"
+                                        android:text="Baggage YYZ - DXB"
+                                        android:textSize="14sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentEnd="true"
+                                        android:textColor="#8d9298"
+                                        android:text="20 kg"
+                                        android:textSize="14sp" />
+
+                                </RelativeLayout>
+
+                            </LinearLayout>
+                        </LinearLayout>
+                    </android.support.v7.widget.CardView>
+
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/bottom_card"
+                        android:layout_width="match_parent"
+                        android:background="#2f3565"
+                        android:layout_below="@+id/middle_card"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:background="#2f3565"
+                            android:paddingLeft="20dp"
+                            android:paddingEnd="20dp"
+                            android:paddingBottom="20dp"
+                            android:paddingTop="16dp"
+                            android:orientation="vertical"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="14sp"
+                                android:paddingTop="10dp"
+                                android:textColor="#ffffff"
+                                android:text="Price Details" />
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_marginTop="20dp"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="#ffffff"
+                                    android:layout_marginTop="5dp"
+                                    android:text="GARUDA"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/price"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:textColor="#ffffff"
+                                    android:textAlignment="textEnd"
+                                    android:text="Rp 401.500"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold" />
+
+                            </RelativeLayout>
+
+                            <TextView
+                                android:id="@+id/passenger_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:textColor="#ffffff"
+                                android:text="1 Adult"
+                                android:textSize="14sp"/>
+
+                            <View
+                                android:id="@+id/purple_top_border"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginTop="20dp"
+                                android:background="#d8d8d8" />
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_marginTop="20dp"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="#ffffff"
+                                    android:text="BAGGAGE YYZ-BXB"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:textColor="#ffffff"
+                                    android:textAlignment="textEnd"
+                                    android:text="Rp 0"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold" />
+
+                            </RelativeLayout>
+
+                            <View
+                                android:id="@+id/purple_second_border"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginTop="20dp"
+                                android:background="#d8d8d8" />
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_marginTop="20dp"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="#32dcff"
+                                    android:text="UNIQUE CODE"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:textColor="#ffffff"
+                                    android:textAlignment="textEnd"
+                                    android:text="Rp 303"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold" />
+
+                            </RelativeLayout>
+
+                            <View
+                                android:id="@+id/purple_third_border"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginTop="20dp"
+                                android:background="#d8d8d8" />
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_marginTop="20dp"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="#ffffff"
+                                    android:text="Total"
+                                    android:textSize="14sp"/>
+
+                                <TextView
+                                    android:id="@+id/price_total"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:textColor="#ffffff"
+                                    android:textAlignment="textEnd"
+                                    android:text="Rp 401.500"
+                                    android:textSize="20sp"
+                                    android:textStyle="bold" />
+
+                            </RelativeLayout>
+
+                            <TextView
+                                android:id="@+id/this_account"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="20dp"
+                                android:lines="2"
+                                android:textColor="#ffffff"
+                                android:textSize="16sp"
+                                android:text="This account (tedy.kwg@gmail.com)\nwill earn 20 Points"/>
+
+                        </LinearLayout>
+                    </android.support.v7.widget.CardView>
+
+                    <TextView
+                        android:id="@+id/information"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:paddingTop="20dp"
+                        android:fontFamily="sans-serif"
+                        android:textStyle="normal"
+                        android:textColor="#8d9298"
+                        android:lineSpacingExtra="10sp"
+                        android:lines="2"
+                        android:layout_below="@+id/bottom_card"
+                        android:text="The price has been confirmed by the airline. Please check your booking again before continuing to payment"
+                        />
+
+                    <Button
+                        android:id="@+id/continue_book"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="20dp"
+                        android:layout_width="344dp"
+                        android:layout_height="52dp"
+                        android:layout_below="@id/information"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="#ffffff"
+                        android:background="@drawable/button_continue"
+                        android:layout_marginBottom="12dp"
+                        android:text="Continue"
+                        android:textAllCaps="false"
+                        />
+
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+        </RelativeLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+</android.support.design.widget.CoordinatorLayout>

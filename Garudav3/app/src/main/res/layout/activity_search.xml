@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.lotus.garudav3.SearchResult">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar_layout"
+        android:layout_width="match_parent"
+        app:elevation="0dp"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <!--<android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">-->
+
+        <!--<ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_collapseMode="parallax"
+            android:src="@drawable/cloud"/>-->
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="#4c9fe2"
+            android:contentInsetStart="0dp"
+            app:layout_collapseMode="pin"
+            app:popupTheme="@style/AppTheme.PopupOverlay" >
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/ActionBarWrapper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Search Result"
+                    android:layout_gravity="left"
+                    android:textSize="20dp"
+                    android:textColor="#ffffff"
+                    android:textAlignment="gravity"
+                    />
+            </LinearLayout>
+        </android.support.v7.widget.Toolbar>
+        <!--</android.support.design.widget.CollapsingToolbarLayout>-->
+    </android.support.design.widget.AppBarLayout>
+
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:id="@+id/top_section"
+                android:focusableInTouchMode="true"
+                android:background="@drawable/cloud"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:id="@+id/list_route"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true">
+
+                    <TextView
+                        android:id="@+id/departure"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:layout_marginStart="30dp"
+                        android:layout_marginTop="30dp"
+                        android:textColor="#ffffff"
+                        android:text="Departure"
+                        />
+
+                    <TextView
+                        android:id="@+id/departure_port"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignStart="@+id/departure"
+                        android:layout_below="@+id/departure"
+                        android:textSize="48sp"
+                        android:layout_marginTop="2dp"
+                        android:text="CGK"
+                        android:textStyle="bold"
+                        android:textColor="#ffffff"/>
+
+                    <ImageView
+                        android:layout_width="110dp"
+                        android:layout_height="15dp"
+                        android:src="@drawable/combined_shape"
+                        android:layout_marginTop="70dp"
+                        android:layout_centerHorizontal="true" />
+
+                    <TextView
+                        android:id="@+id/arrival"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:layout_marginEnd="30dp"
+                        android:layout_marginTop="30dp"
+                        android:layout_alignParentEnd="true"
+                        android:textColor="#ffffff"
+                        android:text="Arrival"
+                        />
+
+                    <TextView
+                        android:id="@+id/arrival_port"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignEnd="@+id/arrival"
+                        android:layout_below="@+id/arrival"
+                        android:textSize="48sp"
+                        android:layout_marginTop="2dp"
+                        android:textStyle="bold"
+                        android:text="DXB"
+                        android:textColor="#ffffff"/>
+
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/summary_book"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:layout_below="@+id/list_route"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="30dp"
+                    android:paddingBottom="15dp"
+                    android:textColor="#ffffff"
+                    android:text="Sat, 3 Oct, 1 pax, Economy"/>
+
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_route"
+                android:layout_width="match_parent"
+                android:layout_marginTop="-200dp"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:layout_below="@+id/top_section">
+
+            </android.support.v7.widget.RecyclerView>
+
+        </RelativeLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+</android.support.design.widget.CoordinatorLayout>
